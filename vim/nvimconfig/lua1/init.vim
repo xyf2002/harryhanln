@@ -4,11 +4,11 @@
 :filetype on
 let mapleader = " "
 
-"let g:copilot_filetypes={ 
-"	\'cpp': v:false,
-"	\ }
+let g:copilot_filetypes={ 
+	\'cpp': v:false,
+	\ }
 
-let g:copilot_enable = 0 
+"let g:copilot_enable = 0 
 
 :map <F5> <Esc>:Copilot disable<CR>
 :map \<F5> <Esc>:Copilot enable<CR> 
@@ -20,7 +20,8 @@ let g:copilot_enable = 0
 :map <C-Down> <C-d>
 :map <C-Up> <C-u>
 :map ppp <Esc>:w<CR>:!python3 <C-R>%<CR>
-
+:imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
+let g:copilot_no_tab_map = v:true
 lua <<EOF
 --print("Let us be productive!")
 print("Gaudeamus igitur, iuvenes dum sumus!")
