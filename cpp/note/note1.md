@@ -1,6 +1,10 @@
 # Note for Cpp 
 Based on the *C++ Programming Language* by Bjarne.
 
+## Compiler and Linkers
+Cpp files are compiled and linked to form machine code.
+Header files (extention `.h`) are special. Each	`#include` statement are replaced by the content of the header file before compilation and linking. 
+
 ## Part I: Introductory Material
 
 ### The Basics
@@ -20,4 +24,6 @@ exceptions throws error at run time, not compile time.
 
 ### Abstractions Mechanisms
 
+## Part II: Basics Facilities
 
+### Pointers, Arrays, and Reference
