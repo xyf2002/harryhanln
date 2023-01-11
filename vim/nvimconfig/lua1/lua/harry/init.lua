@@ -1,8 +1,47 @@
+--require('~/.config/nvim/lua/harry/pluginsetup.lua')
 require('harry.pluginsetup')
 require('harry.plugins.telescope')
 require('harry.plugins.treesitter')
 require('harry.plugins.nvim-tree')
 require('harry.plugins.lsp')
+
+
+if vim.o.filetype == "lua" then
+	print("ss")
+end
+print(vim.o.filetype)
+
+print("Gaudeamus igitur, iuvenes dum sumus!")
+print("Post iucundam iuventutem, post molestam senectutem, nos habebit humus.")
+print("Ubi sunt qui ante nos in mundo fuere?")
+print("Vadite ad superos, transite ad inferos, ubi iam fuere?")
+print("Vita nostra brevis est, brevi finietur.")
+print("Venit mors velociter, rapit nos atrociter, nemini parcetur.")
+print("Vivat academia, vivant professores, semper sint in flore!")
+print("Vivant omnes virgines. faciles, formosae, vivant et mulieres, tenerae, amabiles!")
+print("Vivat et respublica, et qui illam regit. Vivat nostra civitas, Maecenatum caritas, quae nos hic protegit!")
+print("Alma Mater floreat, quae nos educavit, caros et commilitones, dissitas in regiones, sparsos congregavit!")
+print("Gwen is so beautiful!")
+print("Tatiana is so gorgeous!")
+print("Huari is so handsome!")
+print("I love you, my dear!")
+print("I wish you all have courage and strength to face the difficulties in your life!")
+print("It was the best of the times, it was the worst of the times.")
+print("It was the age of wisdom, it was the age of foolishness.")
+print("It was the epoch of belief, it was the epoch of incredulity.")
+print("It was the season of Light, it was the season of Darkness.")
+print("It was the spring of hope, it was the winter of despair.")
+print("We had everything before us, we had nothing before us.")
+print("We were all going direct to Heaven, we were all going direct the other way.")
+print("In short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only.")
+
+vim.wo.number = true;
+vim.wo.relativenumber = true;
+vim.g.mapleader = ' ' -- set leader key to space
+
+vim.cmd[[let g:copilot_filetypes={
+\'cpp': v:false,
+\}]]
 
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
@@ -25,10 +64,20 @@ vim.o.breakindent = true -- wrap text with indent
 vim.o.undofile = true -- enable undo
 vim.o.mouse = 'a' -- enable mouse
 
+vim.keymap.set('n', '<F5>',	':Copilot disable<CR>', {noremap = true, silent = false}) -- disable copilot
+vim.keymap.set('n', '\\<F5>',':Copilot enable<CR>', {noremap = true, silent = false})
+vim.keymap.set('n', '<leader>e',':NvimTreeToggle <CR>', {noremap = true, silent = false})
+vim.keymap.set('n', '<F1>',':w <CR>', {noremap = true, silent = false})
+vim.keymap.set('i', '<F1>','<Esc>:w<CR>a', {noremap = true, silent = false})
+
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { noremap = true, silent = true })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>l', vim.diagnostic.open_float, { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>l', vim.diagnostic.open_float, { noremap = true, silent = true })
+
+vim.g.copilot_no_tab_map =true
+vim.api.nvim_set_keymap("i", "<F2>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
 
 -- See :help lualine.txt
 -- dependent on lualine plugin
