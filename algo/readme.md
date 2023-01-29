@@ -1,0 +1,1 @@
+algo stands for algorithm
