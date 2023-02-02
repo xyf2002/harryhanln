@@ -14,7 +14,7 @@ int main (){
 		++counter;
 	}
 	fclose(fp);
-	for(int i=0; i<100000; ++i){
+	for(int i=0; i<100; ++i){
 		printf("%i: %d\n",i , lists[i]);
 	}
 	return 0;

@@ -35,6 +35,7 @@ Now the `<shortname>` can be used in lieu of the whole URL.
 `git remote rename <oldname> <newname>`
 `git remote remove <remotename>`
 `git branch -vv` (This will show the local branched and their remote counterparts.)
+
 #### Pushing to Remote
 
 It is most easy and straighforward to have the same number of branches all with the same names in the remote and local depositories. 
@@ -50,4 +51,7 @@ Starting from cloning only the main branch from the remote to the local, here is
 `git branch -u origin/dev`
 
 
+#### Modifying Remote 
 
+`git remote set-url <remote> <newurl>` will change the URL of the remote. 
+`git remote set-url --push --add <remote> <newurl>` will add a new URL for pushing to the remote. Multiple URL for pushes can be added, and all remote will be updated when using `git push` commend.
