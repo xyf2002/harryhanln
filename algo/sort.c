@@ -20,6 +20,37 @@ int readfile(){
 	return 0;
 }
 
+int testsort(){
+	int number;
+	int com[2] = {0};
+	int * fir = com;
+	int * sec = fir+1;
+	int temp;
+	int res = 1;
+	int counter = 0;
+	
+
+	FILE *fp = fopen("sorted.txt", "r");
+	if (!fp) {printf("File can not be read! \n"); return -1;}
+
+	while (fscanf(fp, "%d", &number)==1){
+		if(counter==0) *sec=number;
+		else{ 
+			*fir = *sec; *sec = number;	
+			if (*sec<*fir){
+				res = 0;
+				break;
+			}
+		}
+		++counter;
+
+	}
+	fclose(fp);
+	if(res) printf("All sorted right!\n");
+	else printf("Sorting failed!\n");
+	return 0;
+}
+
 void cpblist(){
 	int * pli = lists;
 	int * pbli = blist;
@@ -78,7 +109,8 @@ void gemin(int * li, int len, int init, int * res){
 	return;
 	
 }
-void mysort(){ //This algorithm takes ~18 sec for the given data set. Moreover, it does not work for repeated value.
+
+void mysort(){ //This algorithm takes ~18 sec (unoptimized, ¬6 for -O3 optimization) for the given data set. Moreover, it does not work for repeated value.
 	cpblist(); //blist is  the list with entries; Length 1000000
 	int * pt = rlist;
 	int temp=0;
@@ -106,10 +138,6 @@ int main (){
 	// }
 	
 	int tmin = min();
-	int lstr [5] = {-4, -10, 2 ,4 ,6};
-	int min;
-	gemin(blist,100000,60,&min);
-	printf("minimum is: %d \n", min);
 	printf("minimum is :%d \n", tmin);
 	int tmax = max();
 	printf("max is: %d \n", tmax);
@@ -127,5 +155,6 @@ int main (){
 	}
 	fclose(fp);
 
+	testsort();
 	return 0;
 }

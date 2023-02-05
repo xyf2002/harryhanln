@@ -21,7 +21,7 @@ end
 --})
 
 require('nvim-treesitter.configs').setup{
-	eusure_installed = {'c', 'cpp', 'go', 'lua', 'python', 'rust', 'help', 'vim', 'tex', 'java'},
+	eusure_installed = {'c', 'cpp', 'go', 'lua', 'python', 'rust', 'help', 'vim', 'java'},
 	highlight = {enable = true},
 	indent = {enable = true, disable = {'python'}},
 	incremental_selection = {
