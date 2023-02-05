@@ -17,12 +17,16 @@ return require('packer').startup(function(use)
 	use "tpope/vim-fugitive"
 	use "tpope/vim-rhubarb"
 	use "lewis6991/gitsigns.nvim"
+	use "airblade/vim-gitgutter"
 
+	-- Colorschemes
 	use "navarasu/onedark.nvim"
 	use "morhetz/gruvbox"
+	use "shaunsingh/nord.nvim"
+
 	use "nvim-lualine/lualine.nvim"
 	use "lukas-reineke/indent-blankline.nvim"
-	use "tpope/vim-surround" 
+	use "tpope/vim-surround"
 	use {
 		"nvim-tree/nvim-tree.lua",
 		requires = {
@@ -32,21 +36,26 @@ return require('packer').startup(function(use)
 
 
 	-- LSP Related Plugins
-	use{
-		"neovim/nvim-lspconfig",
-		requires = {
-			'williamboman/mason.nvim',
-			'williamboman/mason-lspconfig.nvim',
-
-			'j-hui/fidget.nvim',
-
-			'folke/neodev.nvim',
-		}
-	}
-	
 	use { -- Autocompletion
 		'hrsh7th/nvim-cmp',
-		requires = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
+		requires = { 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
 	}
+	use 'hrsh7th/cmp-buffer'
+	use 'hrsh7th/cmp-path'
+	use 'hrsh7th/cmp-cmdline'
+--	use { -- Autocompletion
+--		'hrsh7th/nvim-cmp',
+--		requires = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
+--	}
+	use "lervag/vimtex"
+--	use "SirVer/ultisnips"
+	
+--  Commenting
+	use {
+    'numToStr/Comment.nvim',
+    config = function()
+        require('Comment').setup()
+    end
+}	
 end)
 

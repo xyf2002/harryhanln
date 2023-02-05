@@ -1,9 +1,12 @@
---require('~/.config/nvim/lua/harry/pluginsetup.lua')
 require('harry.pluginsetup')
 require('harry.plugins.telescope')
 require('harry.plugins.treesitter')
 require('harry.plugins.nvim-tree')
-require('harry.plugins.lsp')
+require('harry.plugins.luasnip')
+require("luasnip.loaders.from_lua").lazy_load({paths = "~/.config/nvim/LuaSnip/"})
+require("harry.plugins.cmp")
+require("Comment").setup()
+--require('harry.plugins.lsp')
 
 
 if vim.o.filetype == "lua" then
@@ -11,6 +14,7 @@ if vim.o.filetype == "lua" then
 end
 print(vim.o.filetype)
 
+print("I LOVE CHEMISTRY")
 print("Gaudeamus igitur, iuvenes dum sumus!")
 print("Post iucundam iuventutem, post molestam senectutem, nos habebit humus.")
 print("Ubi sunt qui ante nos in mundo fuere?")
@@ -41,6 +45,10 @@ vim.g.mapleader = ' ' -- set leader key to space
 
 vim.cmd[[let g:copilot_filetypes={
 \'cpp': v:false,
+\'py': v:true,
+\'markdown': v:true,
+\'txt': v:true,
+\'c': v:false,
 \}]]
 
 vim.opt.tabstop = 4
@@ -57,18 +65,26 @@ vim.opt.iskeyword:append('_') --consider string_string as a word
 vim.opt.iskeyword:append('.') --consider string/string as a word
 
 vim.o.termguicolors = true -- enable 24-bit RGB colors
-vim.cmd [[let g:gruvbox_contrast_dark = 'hard']] -- vim.cmd [[ ]] will run vim code in lua file.
-vim.cmd [[colorscheme gruvbox]] -- set colorscheme, gruvbox is from morhetz/gruvbox
+
 
 vim.o.breakindent = true -- wrap text with indent
 vim.o.undofile = true -- enable undo
 vim.o.mouse = 'a' -- enable mouse
 
+-- genearl keymaps
 vim.keymap.set('n', '<F5>',	':Copilot disable<CR>', {noremap = true, silent = false}) -- disable copilot
 vim.keymap.set('n', '\\<F5>',':Copilot enable<CR>', {noremap = true, silent = false})
 vim.keymap.set('n', '<leader>e',':NvimTreeToggle <CR>', {noremap = true, silent = false})
 vim.keymap.set('n', '<F1>',':w <CR>', {noremap = true, silent = false})
+vim.keymap.set('n', '\\<F1>',':wq <CR>', {noremap = true, silent = false})
 vim.keymap.set('i', '<F1>','<Esc>:w<CR>a', {noremap = true, silent = false})
+vim.keymap.set('n', '<F4>', ':!bash bash.sh<CR>', {noremap = true, silent = false})
+
+-- find/replace keymaps
+vim.keymap.set('n', '<leader>no', ':noh<CR>', {noremap = true, silent = false})
+-- Editor keymaps
+vim.keymap.set('i', '<C-o>', '{<Esc>o}<Esc>ko', {noremap = true, silent = false})
+vim.keymap.set('n', '<leader><C-o>', 'a{<Esc>o}<Esc>ko', {noremap = true, silent = false})
 
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { noremap = true, silent = true })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { noremap = true, silent = true })
@@ -78,6 +94,30 @@ vim.keymap.set('n', '<leader>l', vim.diagnostic.open_float, { noremap = true, si
 
 vim.g.copilot_no_tab_map =true
 vim.api.nvim_set_keymap("i", "<F2>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
+
+local builtin = require('telescope.builtin')
+pcall(require('telescope').load_extension, 'fzf')
+vim.keymap.set('n', '<leader>?', builtin.oldfiles, {desc = '[?] Find old files'})
+vim.keymap.set('n', '<leader><space>', builtin.buffers, {desc = '[?] Find Existing buffers'})
+vim.keymap.set('n',  '<leader>/', function()
+	builtin.current_buffer_fuzzy_find (
+	require('telescope.themes').get_dropdown {
+		winblend = 10,
+		previewer = false,
+		})
+end, {desc = '[/] Fuzzily search in current buffer'})
+
+vim.keymap.set('n', '<leader>ff', builtin.find_files, {desc = '[F]ind [F]iles'})
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, {desc = '[F]ind [G]rep'})
+vim.keymap.set('n', '<leader>fb', builtin.buffers, {desc = '[F]ind [B]uffers'})
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, {desc = '[F]ind [H]elp'})
+
+
+
+--colorscheme
+--Available colorschemes: gruvbox, nord, 
+vim.cmd [[let g:gruvbox_contrast_dark = 'hard']] -- vim.cmd [[ ]] will run vim code in lua file.
+vim.cmd [[colorscheme gruvbox]] -- set colorscheme, gruvbox is from morhetz/gruvbox
 
 -- See :help lualine.txt
 -- dependent on lualine plugin
@@ -95,12 +135,14 @@ require('indent_blankline').setup {
 	show_trailing_blankline_indent = false,
 }
 
-require("mason").setup({
-    ui = {
-        icons = {
-            package_installed = "✓",
-            package_pending = "➜",
-            package_uninstalled = "✗"
-        }
-    }
-})
+--require("mason").setup({
+--    ui = {
+--        icons = {
+--            package_installed = "✓",
+--            package_pending = "➜",
+--            package_uninstalled = "✗"
+--        }
+--    }
+--})
+
+require("nvim-treesitter.install").prefer_git = true
