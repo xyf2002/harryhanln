@@ -37,3 +37,4 @@
 -- Loads opt plugin immediately
 :PackerLoad completion-nvim ale
 ```
+

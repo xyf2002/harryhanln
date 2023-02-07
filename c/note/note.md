@@ -34,6 +34,9 @@ External Variable last for the whole file they are declared in.
 
 ### goto and label
 
+### Pointers
+Function pointers.
+
 # Difference with C++
 
 C has no namespaces.
