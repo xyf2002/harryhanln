@@ -112,6 +112,15 @@ vim.keymap.set('n', '<leader>fg', builtin.live_grep, {desc = '[F]ind [G]rep'})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {desc = '[F]ind [B]uffers'})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {desc = '[F]ind [H]elp'})
 
+--AutoSaveFolds
+vim.cmd[[ 
+augroup AutoSaveFolds 
+  autocmd!
+  autocmd BufWritePost * mkview
+  autocmd BufWinEnter * silent! loadview
+augroup END
+]]
+--vim.cmd[[set fillchars=fold:\ ]]
 
 
 --colorscheme
@@ -145,4 +154,6 @@ require('indent_blankline').setup {
 --    }
 --})
 
-require("nvim-treesitter.install").prefer_git = true
+require("nvim-treesitter.install").prefer_git = true -- To circumvent the tree-sitter can not download bug.
+-- vim.cmd[[let g:vimtex_view_method='sioyek']]
+vim.cmd[[let g:vimtex_view_method='zathura']]

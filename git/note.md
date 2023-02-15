@@ -13,6 +13,12 @@ Authentication is, as expected for any functionalities related to security, extr
 
 ## Basics APIs
 
+### Revert A Commit
+
+#### Reomove files
+
+`git rm --cached <file>` removes the file from the staging area, but keeps the file in the working directory.
+
 ### Connecting to Remote
 
 #### Adding Remote Depository

@@ -43,11 +43,10 @@ int testsort(){
 			}
 		}
 		++counter;
-
 	}
 	fclose(fp);
 	if(res) printf("All sorted right!\n");
-	else printf("Sorting failed!\n");
+	else printf("Sorting failed! %i\n", counter);
 	return 0;
 }
 
@@ -110,7 +109,7 @@ void gemin(int * li, int len, int init, int * res){
 	
 }
 
-void mysort(){ //This algorithm takes ~18 sec (unoptimized, ¬6 for -O3 optimization) for the given data set. Moreover, it does not work for repeated value.
+void mysort(){ //This algorithm takes ~18 sec (unoptimized, 6 for -O3 optimization) for the given data set. Moreover, it does not work for repeated value.
 	cpblist(); //blist is  the list with entries; Length 1000000
 	int * pt = rlist;
 	int temp=0;
@@ -127,6 +126,31 @@ void mysort(){ //This algorithm takes ~18 sec (unoptimized, ¬6 for -O3 optimiza
 	return;
 }
 
+void insersionsort(){ //time: unoptimized 10s, 1.95, 1.68, 13, for 0 ,O1, O2, O3
+	cpblist();
+	for (int i=0; i<100000; ++i){
+		for (int j=i; j>0; --j){
+			if(blist[j]<blist[j-1]){
+				int temp = blist[j];
+				blist[j]=blist[j-1];
+				blist[j-1]=temp;
+			}
+		}
+	}
+}
+
+void pinsersionsort(){ //insersionsort with pointers 11, 1.82, 1.69, 13 for 0, O1, O2, O3
+	cpblist();
+	for (int i=0; i<100000; ++i){
+		for (int j=i; j>0; --j){
+			if(*(blist+j)<*(blist+j-1)){
+				int temp = *(blist+j);
+				*(blist+j)=*(blist+j-1);
+				*(blist+j-1) = temp;
+			}
+		}
+	}
+}
 
 int main (){
 
@@ -142,16 +166,18 @@ int main (){
 	int tmax = max();
 	printf("max is: %d \n", tmax);
 
-	mysort();
-	int * ptr = rlist;
+	// mysort(); // Result is in rlist.
+	insersionsort(); // Result is in blist
+	// pinsersionsort();
+	int * ptr = blist;
 	for (int i=0; i<100; ++i){
 		printf("%d: %d\n", i, *ptr);
 		ptr++;
 	}
 	// file output
-	FILE *fp = fopen("sorted.txt", "r+");
+	FILE *fp = fopen("sorted.txt", "w");
 	for (int i=0; i<100000; ++i){
-		fprintf(fp, "%i\n", rlist[i]);
+		fprintf(fp, "%i\n", blist[i]);
 	}
 	fclose(fp);
 
