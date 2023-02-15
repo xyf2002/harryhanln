@@ -1,6 +1,6 @@
 git/local
 git/GitTry
-vim/nvimconfig/lua1/pack
+vim/**
 haskell/**
 !haskell/**hs
 **/CMakeFiles/**
