@@ -4,46 +4,116 @@ return{
 			t("\\alpha"),
 		}
 	),
-
-	s({trig=";b", snippetType="autosnippet"},
+	s({trig=";b"},
 		{
 			t("\\beta"),
 		}
 	),
-
-	s({trig=";g", snippetType="autosnippet"},
+	s({trig=";g"},
 		{
 			t("\\gamma"),
 		}
 	),
-
-	s({trig=";d", snippetType="autosnippet"},
+	s({trig=";d"},
 		{
 			t("\\delta"),
 		}
 	),
 
-	s({trig=";e", snippetType="autosnippet"},
+	s({trig=";e"},
 		{
 			t("\\epsilon"),
 		}
 	),
 
-	s({trig=";z", snippetType="autosnippet"},
+	s({trig=";z"},
 		{
 			t("\\zeta"),
 		}
 	),
-
-	s({trig=";h", snippetType="autosnippet"},
+	s({trig=";h"},
 		{
 			t("\\eta"),
 		}
 	),
-
-	s({trig=";q", snippetType="autosnippet"},
+	s({trig=";q"},
 		{
 			t("\\theta"),
+		}
+	),
+	s({trig=";i"},
+		{
+			t("\\iota"),
+		}
+	),
+	s({trig=";k"},
+		{
+			t("\\kappa"),
+		}
+	),
+	s({trig=";l"},
+		{
+			t("\\lambda"),
+		}
+	),
+	s({trig=";m"},
+		{
+			t("\\mu"),
+		}
+	),
+	s({trig=";n"},
+		{
+			t("\\nu"),
+		}
+	),
+	s({trig=";x"},
+		{
+			t("\\xi"),
+		}
+	),
+	s({trig=";o"},
+		{
+			t("\\omicron"),
+		}
+	),
+	s({trig=";p"},
+		{
+			t("\\pi"),
+		}
+	),
+	s({trig=";r"},
+		{
+			t("\\rho"),
+		}
+	),
+	s({trig=";s"},
+		{
+			t("\\sigma"),
+		}
+	),
+	s({trig=";t"},
+		{
+			t("\\tau"),
+		}
+	),
+	s({trig=";y"},
+		{
+			t("\\upsilon"),
+		}
+	),
+	s({trig=";f"},
+		{
+			t("\\phi"),
+		}
+	),
+	s({trig=";c"},
+		{
+			t("\\chi"),
+		}
+	),
+	s({trig=";w"},
+		{
+			t("\\omega"),
 		}
 	),
 

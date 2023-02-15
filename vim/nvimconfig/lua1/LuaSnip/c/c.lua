@@ -4,15 +4,21 @@ return{
 			t({
 				"#include <stdio.h>",
 				"",
-				"int main() {",
+				"int main() {//int argc, char *argv[]",
 				""
 				}),
 			t({"    "}), i(1),
 			t({ "",
-				"    return 0;",
+				"	return 0;",
 				"}"
-			}), i(0)
+			}), 
 		}
 	),
-		
+	s({trig='pf'},
+		{
+			t({"printf(\"%"}), i(1), 
+			t({"\\n\", "}), i(2),
+			t({");"}), 
+		}
+	),
 }

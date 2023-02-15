@@ -37,6 +37,10 @@ External Variable last for the whole file they are declared in.
 ### Pointers
 Function pointers.
 
+# What C can not do
+
+It does not seem that a function in C can automatically determine the length of an array. When passing array to a function, its length must be passed or the array shall end with a certain digit signifying its end.
+
 # Difference with C++
 
 C has no namespaces.
