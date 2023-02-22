@@ -1,4 +1,4 @@
-# Install script for directory: /home/harryyuhaohan/study/coding/ln/gfx/glfw/sandbox
+# Install script for directory: /home/harryyuhaohan/study/coding/ln/gfx/glfw/try
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -56,5 +56,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/harryyuhaohan/study/coding/ln/gfx/glfw/sandbox/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/harryyuhaohan/study/coding/ln/gfx/glfw/try/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

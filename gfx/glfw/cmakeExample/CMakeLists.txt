@@ -10,7 +10,6 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 
 add_subdirectory(/home/harryyuhaohan/glfw /home/harryyuhaohan/glfw/src)
 
-
 FIND_PACKAGE(OpenGL REQUIRED)
 
 SET(SOURCE_FILES main.cpp)
