@@ -3,7 +3,8 @@ git/GitTry
 vim/**
 haskell/**
 !haskell/**hs
-**/CMakeFiles/**
+**/CMakeFiles/
+**build/
 **/*.out
 **aux
 **.gz

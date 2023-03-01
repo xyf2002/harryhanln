@@ -1,3 +1,0 @@
-/home/harryyuhaohan/study/coding/ln/cpp/make/sandbox/build/CMakeFiles/OLAS.dir
-/home/harryyuhaohan/study/coding/ln/cpp/make/sandbox/build/CMakeFiles/edit_cache.dir
-/home/harryyuhaohan/study/coding/ln/cpp/make/sandbox/build/CMakeFiles/rebuild_cache.dir

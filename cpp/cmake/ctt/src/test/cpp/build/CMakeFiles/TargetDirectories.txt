@@ -1,3 +1,0 @@
-/home/harryyuhaohan/study/coding/ln/cpp/cmake/ctt/src/test/cpp/build/CMakeFiles/test.dir
-/home/harryyuhaohan/study/coding/ln/cpp/cmake/ctt/src/test/cpp/build/CMakeFiles/edit_cache.dir
-/home/harryyuhaohan/study/coding/ln/cpp/cmake/ctt/src/test/cpp/build/CMakeFiles/rebuild_cache.dir

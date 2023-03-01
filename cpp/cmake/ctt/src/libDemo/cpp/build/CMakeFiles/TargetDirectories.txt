@@ -1,3 +1,0 @@
-/home/harryyuhaohan/study/coding/ln/cpp/cmake/ctt/src/libDemo/cpp/build/CMakeFiles/mearlymath.dir
-/home/harryyuhaohan/study/coding/ln/cpp/cmake/ctt/src/libDemo/cpp/build/CMakeFiles/edit_cache.dir
-/home/harryyuhaohan/study/coding/ln/cpp/cmake/ctt/src/libDemo/cpp/build/CMakeFiles/rebuild_cache.dir

@@ -10,7 +10,7 @@ add_executable(projectname main.cpp)
 ```
 2. Create a build directory
 3. `cmake -S <path to source> -B <Path to build>`. This command will build the source file in the directory `<Path to build>`.
-4. `make` command will build and create executable.
+4. Enter `build` directory; `make` command will build and create executable.
 
 ### How Cmake works
 
