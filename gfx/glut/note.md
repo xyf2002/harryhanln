@@ -15,4 +15,5 @@ The cpp files can be built and linked with `gcc`, passing into the flags requrie
 
 On ubuntu, the compile/link command with gcc is `g++ main.cpp -lGLU -lGL -lGLEW -lglut -lX11`
 
+## Create a Window
 

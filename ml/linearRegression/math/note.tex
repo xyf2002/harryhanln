@@ -1,5 +1,6 @@
 \documentclass[12pt, a4paper]{article}
 \usepackage{blindtext, titlesec, amsthm, thmtools, amsmath, amsfonts, scalerel, amssymb, graphicx, titlesec, xcolor, multicol, mathtools}
+\usepackage{bm}
 %\usepackage{hyperref}
 \usepackage[utf8]{inputenc}
 %\hypersetup{colorlinks,linkcolor={red!40!black},citecolor={blue!50!black},urlcolor={blue!80!black}}
@@ -19,25 +20,29 @@
 \begin{document}
 \maketitle
 
+\section{Notation}
+\begin{enumerate}
+	\item $\bm{x}$ is used to denote a vector (or data set)
+	\item $\bar{\bm{x}}$ denotes the mean of the vector (data set). 
+\end{enumerate}
+
 \section{The Simplest: $y=ax+b$}
 \begin{definition}[$R^2$]
 	
 \end{definition}
 
-For a data set $\vec{x}=[x_0, x_1, x_2, \cdots]^T$ and $\vec{y}=[y_0, y_1, y_2, \cdots]^T$ with the same dimension, 
-there exist a linear regression $y=ax+b$ such that the $R^2$ value is minimized. 
+For a data set $\bm{x}=[x_0, x_1, x_2, \cdots, x_{n-1}]^T$ and $\bm{y}=[y_0, y_1, y_2, \cdots, y_{n-1}]^T$ of the same dimension, 
+there exists a linear regression $y=ax+b$ such that the $R^2$ value is minimized. 
 
 The promised regression is:
 \begin{equation}
-\begin{multlined}
-	a = \frac{m_2n_1+n_2}{1-m_2m_1}; 
-	b = \frac{m_2n_1+n_2}{1/m_1-m_2}+n_1
-	\\
-	m_1 = -\frac{\sum \vec{x}}{n}; n_1 = \frac{\sum \vec{y}}{n}; m_2=-\frac{\sum \vec{x}}{|\vec{x}|^2}; n_2 = \frac{\vec{x}\cdot \vec{y}}{|\vec{x}|^2}
-\end{multlined}
+\label{eq:SimplestRegression}
+a = \frac{\bm{x}\cdot \bm{y}-n\bar{\bm{x}}\bar{\bm{y}}}{(\bm{x}\cdot \bm{x})-n\bar{\bm{x}}^2};\ 
+b = \frac{(\bm{x}\cdot \bm{x})\bar{\bm{y}}-\bar{\bm{x}}(\bm{x}\cdot \bm{y})}{(\bm{x}\cdot \bm{x})-n\bar{\bm{x}}^2}
 \end{equation}
 
-Where $\sum \vec{x}$ denote the sum of all entries in the vector $\vec{x}$.
+notice: 
+$$b=\bar{\bm{y}}-a\bar{\bm{x}}$$
 
 \end{document}
 
