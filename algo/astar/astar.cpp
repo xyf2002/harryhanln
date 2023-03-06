@@ -15,7 +15,7 @@ struct Node{
 	int num;
 	struct Node * from;
 	int fromx, fromy;
-	int heuristic;
+	float heuristic;
 	Node(){
 	}
 	Node(Node * a){
@@ -49,10 +49,15 @@ void pushpq(vector<Node>& pq,Node * node){
 		pq.push_back(*node); return;
 	}
 	auto iter = pq.begin();
-	for (int i=0; i<pq.size(); i++){
+	for (int i=0; i<pq.size(); i++){ // With heuristic
 		if (node->val+node->heuristic<=pq[i].val+pq[i].heuristic) break;
 		iter++;
 	}	
+	
+	// for (int i=0; i<pq.size(); i++){ // No heuristic
+	// 	if (node->val<=pq[i].val) break;
+	// 	iter++;
+	// }	
 	iter = pq.insert(iter, *node);
 	return;
 }
@@ -62,6 +67,7 @@ void astar(Node * start, Node * end){
 	for (int i=0; i<WDT; ++i){
 		for (int j=0; j<HET; ++j) matrix[i][j]=1;
 	}
+
 	// matrix[5][1] = 10000;
 	// matrix[1][1] = 10000;
 	// matrix[4][2] = 10000;
@@ -79,7 +85,9 @@ void astar(Node * start, Node * end){
 			nodeMatrix[i][j]=new Node(&null);
 			nodeMatrix[i][j]->x=i;
 			nodeMatrix[i][j]->y=j;
-			nodeMatrix[i][j]->heuristic= (int)sqrt(WDT+HET-i-j);
+			// Edit Heuristic function here
+			nodeMatrix[i][j]->heuristic= (float)sqrt((end->x-i)*(end->x-i)+(end->y-j)*(end->y-j));
+			// nodeMatrix[i][j]->heuristic=1;
 		}
 	}
 	int curCo [2] = {start->x, start->y};
@@ -142,8 +150,9 @@ void astar(Node * start, Node * end){
 }
 
 int main(){
-	Node start(0,0,0);
-	Node end(WDT-1, HET-1, 0);
+	// Edit start and end here:
+	Node start(WDT/10,HET/20,0);
+	Node end(WDT/2, HET/4, 0);
 	astar(&start, &end);
 	
 	return 0;
