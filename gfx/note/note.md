@@ -1,6 +1,5 @@
 # OpenGL 
 
-
 ## Creating a Screen
 
 ### Drawing to Screen
@@ -32,4 +31,13 @@ Use `glCullFace(GLenum mode)` to specified which facing are culled. Options are 
 For more details, see [OpenGL Data Types](https://www.khronos.org/opengl/wiki/OpenGL_Type).
 
 - `GLClampf` : a floating-point value clamped to the range [0,1].
+
+## Programmable pipeline
+
+Shader in OpenGL is written in glsl: a very expressable 
+
+- Compose of fixed function unit and Programmable unit
+- Vertex shadeer -> Tesselation Unit -> Geometry Shader -> Rasterizer (fixed) -> fragment shader -> Final frame
+
+
 

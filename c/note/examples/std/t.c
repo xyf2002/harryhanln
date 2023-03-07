@@ -15,7 +15,7 @@ long int currentns(){
 }
 
 
-int main(void){
+int main(){
     long int ns;
     uint64_t all;
     time_t sec;

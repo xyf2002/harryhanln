@@ -44,6 +44,7 @@ bool sameCoor(Node * a, Node * b){
 	return 1 ? (a->x==b->x)&&(a->y==b->y) : 0;
 }
 
+// TODO: this push method does not remove repetitive items: fix bug.
 void pushpq(vector<Node>& pq,Node * node){
 	if(pq.size()==0){	
 		pq.push_back(*node); return;
