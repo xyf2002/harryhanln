@@ -18,6 +18,7 @@
 
 const char* pVSFileName = "vs.glsl";
 const char* pFSFileName = "fs.glsl";
+GLint gScaleLocation;
 
 struct Vector3f
 {
@@ -100,12 +101,6 @@ static void CompileShader(){
 
 	// char vs[8096], fs[8096];
 	std::string vs, fs;
-	// char * vs = "#version 330 core\n"
-	// "layout (location = 0) in vec3 Position;\n"
-	// 	"void main(){\n"
-	// 	"gl_Position=vec4(0.5*Position.x, 0.5*Position.y, Position.z, 1.0);\n"
-	// 	"}\n"
-	// ;
 	if(!readFile(pVSFileName, vs)) {fprintf(stderr, "Fail to read vertex shader!"); exit(1);}
 	printf("Vertex Shader Read Success!\n");
 	std::cout<<vs.c_str()<<std::endl;
@@ -127,6 +122,15 @@ static void CompileShader(){
 		exit(1);
 	}
 
+	// This must be done after linking of the program
+	// Uniform must be used in glsl so that its location is established by the compiler
+	// This will be a runtime error
+	gScaleLocation = glGetUniformLocation(ShaderProgram, "gScale");
+	if (gScaleLocation==-1) {
+		fprintf(stderr, "Fail to Obtain Location of the Uniform Variable 'gScale'\n");
+		exit(1);
+	}
+
 	glValidateProgram(ShaderProgram);
 	glGetProgramiv(ShaderProgram, GL_VALIDATE_STATUS, &Success);
 	if(!Success){
@@ -142,14 +146,17 @@ static void CompileShader(){
 long now=100; long pre = 10;
 
 static void RenderSceneCB(){
-	static GLclampf r = 0.0f, g= 0, b=0, a=0, c=0.001;
-	timeSinceEpoch(&now);
+	// timeSinceEpoch(&now);
+	
+	static float Delta = 0.005f;
+	static float Scale = 0.000f;
+	Scale += Delta;
+	if (Scale>=1||Scale<=-1) Delta = -Delta;
 
-	// glClearColor(r,g,b,a);
-	// r+=c; g+=c; b+=c;
-	if (r>=1.0f) r =0.0f;
-	if (g>=1.0f) g =0.0f;
-	if (b>=1.0f) b =0.0f;
+	glUniform1f(gScaleLocation, Scale); // Send the uniform to the shader
+	
+	glClearColor(Scale, 3*Scale-3*Scale/1, 8*Scale-8*Scale/1, 0); 
+
 	glClear(GL_COLOR_BUFFER_BIT);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glEnableVertexAttribArray(0);

@@ -26,11 +26,12 @@ Use `glFrontFace(CW)` to make clockwise facing to the screen. (CCW for countercl
 Use `glCullFace(GLenum mode)` to specified which facing are culled. Options are `GL_FRONT`, `GL_BACK`, and `GL_FRONT_AND_BACK`.
 
 
-## GL Data Types
+### GL Data Types
 
 For more details, see [OpenGL Data Types](https://www.khronos.org/opengl/wiki/OpenGL_Type).
 
 - `GLClampf` : a floating-point value clamped to the range [0,1].
+
 
 ## Programmable pipeline
 
@@ -40,4 +41,11 @@ Shader in OpenGL is written in glsl: a very expressable
 - Vertex shadeer -> Tesselation Unit -> Geometry Shader -> Rasterizer (fixed) -> fragment shader -> Final frame
 
 
+## glsl 
+
+glsl is a shading language for OpenGL. It is a C-like language. glsl is case sensitive.
+
+### Uniforms
+
+Input data to the shader which stays uniform during the execution of any draw call.
 

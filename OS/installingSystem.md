@@ -25,15 +25,18 @@ Creating the bootable USB for Windows is easy with Windows's official download a
 
 ## Boot Order
 
-Certain computer systems has 2 or more physical storage disks, usually one of smaller size of quick speed and another greater storage but slower speed. The OS is usually installed in the smaller disk for faster booting. 
+Certain computer systems has 2 or more physical storage disks, usually one of smaller size and quicker speed and another greater storage but slower speed. The OS is usually installed in the smaller disk for faster booting. 
+
 Two complications are caused by this design: 1) sometimes the booting software (such as UEFI) is only installed in the smaller disk; 2) for certain OS the separate disk needs to be mounted manually.
 
-If 1) is the case, erasing the smaller disk while installing the system into the larger disk will make the computer non-bootable. 
+If 1) is the case, erasing the smaller disk and installing the system into the larger disk will make the computer non-bootable. 
 As to complication 2, mounting physcial hard drive is different for different system (windows usually have automatic mounting). For linux system, mounting a new physical disk usually requires fstab.
 
 ### Mounting new physical drive on Ubuntu.
 
-1) format the drive in ext4 format, mark its UUID
-2) append the following line to the file `/etc/fstab`
-`UUID=<UUID> <directory_to_mount> ext4 default 0 0`
-3) enter `<directory_to_mount>` on terminal, type the command `sudo mount -a`
+- format the drive in ext4 format, mark its UUID
+- append the following line to the file `/etc/fstab`
+```
+UUID=<UUID> <directory_to_mount> ext4 default 0 0
+```
+- enter `<directory_to_mount>` and execute the command `sudo mount -a`
