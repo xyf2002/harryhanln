@@ -1,3 +1,15 @@
+/*
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 #include <GL/glew.h> //must be before freeglut.h
 #include <GL/freeglut.h>
 #include <stdio.h>
@@ -9,6 +21,7 @@
 #include <iostream>
 // #include "readFile.h"
 #include "readFile.cpp"
+#include "ogldev_math_3d.h" // This header is from https://github.com/emeiri/ogldev
 
 // struct Vector3f{
 // 	float x;
@@ -19,33 +32,7 @@
 const char* pVSFileName = "vs.glsl";
 const char* pFSFileName = "fs.glsl";
 GLint gScaleLocation;
-
-struct Vector3f
-{
-    union {
-        float x;
-        float r;
-    };
-
-    union {
-        float y;
-        float g;
-    };
-
-    union {
-        float z;
-        float b;
-    };
-
-    Vector3f() {}
-
-    Vector3f(float _x, float _y, float _z)
-    {
-        x = _x;
-        y = _y;
-        z = _z;
-    }
-};
+GLint gTranslationLocation;
 
 GLuint VBO;
 
@@ -125,9 +112,17 @@ static void CompileShader(){
 	// This must be done after linking of the program
 	// Uniform must be used in glsl so that its location is established by the compiler
 	// This will be a runtime error
-	gScaleLocation = glGetUniformLocation(ShaderProgram, "gScale");
+
+	// Uniform 
+	// gScaleLocation = glGetUniformLocation(ShaderProgram, "gScale");
+	// if (gScaleLocation==-1) {
+	// 	fprintf(stderr, "Fail to Obtain Location of the Uniform Variable 'gScale'\n");
+	// 	exit(1);
+	// }
+
+	gTranslationLocation = glGetUniformLocation(ShaderProgram, "gTranslation");
 	if (gScaleLocation==-1) {
-		fprintf(stderr, "Fail to Obtain Location of the Uniform Variable 'gScale'\n");
+		fprintf(stderr, "Fail to Obtain Location of the Uniform Variable 'gTranslation'\n");
 		exit(1);
 	}
 
@@ -150,10 +145,23 @@ static void RenderSceneCB(){
 	
 	static float Delta = 0.005f;
 	static float Scale = 0.000f;
+
+	//Uniform
+
 	Scale += Delta;
 	if (Scale>=1||Scale<=-1) Delta = -Delta;
 
-	glUniform1f(gScaleLocation, Scale); // Send the uniform to the shader
+	Matrix4f Translation(
+			1.0f, 0.0f, 0.0f, Scale * 2,
+			0.0f, 1.0f, 0.0f, Scale,			
+			0.0f, 0.0f, 1.0f, 0.0f,			
+			0.0f, 0.0f, 0.0f, 1.0f			
+			);
+
+	glUniformMatrix4fv(gTranslationLocation, 1, GL_TRUE, &Translation.m[0][0]);
+	// 1 para: location of matrix; number of matrix, row-major(boolean), address to the first element)
+	
+	// glUniform1f(gScaleLocation, Scale); // Send the uniform to the shader
 	
 	glClearColor(Scale, 3*Scale-3*Scale/1, 8*Scale-8*Scale/1, 0); 
 

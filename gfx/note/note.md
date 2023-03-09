@@ -32,6 +32,10 @@ For more details, see [OpenGL Data Types](https://www.khronos.org/opengl/wiki/Op
 
 - `GLClampf` : a floating-point value clamped to the range [0,1].
 
+### Enumerations
+
+Vertex shader has the value 35633, and fragment shader has the value 35632.
+
 
 ## Programmable pipeline
 
@@ -48,4 +52,5 @@ glsl is a shading language for OpenGL. It is a C-like language. glsl is case sen
 ### Uniforms
 
 Input data to the shader which stays uniform during the execution of any draw call.
+
 
