@@ -35,6 +35,73 @@ There are five built in types:
 - `character`, like character in C
 - `logical` like boolean in C
 
+### Variables Declaration
+
+```Fortran
+    implicit none
+
+    integer :: amount
+    real :: pi, e
+    complex :: frequency
+    character :: initial
+    logical :: isOkay=.false. !.true.
+```
+
 ## Arrays
 
 Fortran arrays are ONE indexed.
+
+### Array Declarations and initializations
+
+Static Array
+```Fortran
+    integer, dimension(10) :: array1
+    integer :: array2(10) = (/2,2,3,4,5,6,7,8,9,10/)
+    integer :: arrayb(10) = [1,2,3,4,5,6,7, 8,9,10]
+    real, dimension(10, 10) :: array2d
+```
+
+Allocatable Array
+
+```Fortran
+    integer, allocatable :: array3(:)
+
+    allocate(array3(50))
+     
+    array3(:) = 10
+    deallocate(array3)
+```
+
+#### Array Slicing
+
+```Fortran
+  array1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]  ! Array constructor
+  array1 = [(i, i = 1, 10)]  ! Implied do loop constructor
+  array1(:) = 0  ! Set all elements to zero
+  array1(1:5) = 1  ! Set first five elements to one
+  array1(6:) = 1  ! Set all elements after five to one
+
+  print *, array1(1:10:2)  ! Print out elements at odd indices
+  print *, array2(:,1)  ! Print out the first column in a 2D array
+  print *, array1(10:1:-1)  ! Print an array in reverse
+```
+
+## String 
+
+String declaration is similar to array
+
+```Fortran
+    character(len=4)::firstName
+    character(len=5)::lastName='Smith'
+    character(len=10)::fullName
+
+    firstName = 'John'
+    fullName=firstName//' '//lastName !concatenation 
+```
+
+Allocatable String
+```Fortran
+    character(:), allocatable :: longName(:)
+
+    longName = "HarrySmith" ! allocate automatically
+```

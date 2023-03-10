@@ -60,4 +60,4 @@ Starting from cloning only the main branch from the remote to the local, here is
 #### Modifying Remote 
 
 `git remote set-url <remote> <newurl>` will change the URL of the remote. 
-`git remote set-url --push --add <remote> <newurl>` will add a new URL for pushing to the remote. Multiple URL for pushes can be added, and all remote will be updated when using `git push` commend.
+`git remote set-url --push --add <remote> <newurl>` will add a new URL for pushing to an already existing remote. Multiple URL for pushes can be added, and all remote will be updated when using `git push -u <remote>` commend.

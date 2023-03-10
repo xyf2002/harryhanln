@@ -15,6 +15,9 @@ program hello
     real :: height
     real :: volume
     real :: area
+    logical :: is_it_true=.true.
+    
+    print *, is_it_true
 
     more = 3.14159265358979_sp
 
