@@ -1,4 +1,5 @@
 /*
+        Copyright 2010 Etay Meiri
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -31,8 +32,9 @@
 
 const char* pVSFileName = "vs.glsl";
 const char* pFSFileName = "fs.glsl";
-GLint gScaleLocation;
 GLint gTranslationLocation;
+GLint gRotationLocation;
+GLint gScaleLocation;
 
 GLuint VBO;
 
@@ -113,16 +115,20 @@ static void CompileShader(){
 	// Uniform must be used in glsl so that its location is established by the compiler
 	// This will be a runtime error
 
-	// Uniform 
-	// gScaleLocation = glGetUniformLocation(ShaderProgram, "gScale");
-	// if (gScaleLocation==-1) {
-	// 	fprintf(stderr, "Fail to Obtain Location of the Uniform Variable 'gScale'\n");
-	// 	exit(1);
-	// }
 
 	gTranslationLocation = glGetUniformLocation(ShaderProgram, "gTranslation");
-	if (gScaleLocation==-1) {
-		fprintf(stderr, "Fail to Obtain Location of the Uniform Variable 'gTranslation'\n");
+	if (gTranslationLocation==-1) {
+		fprintf(stderr, "Fail to Obtain Location of the Uniform Variable 'gTranslationLocation'\n");
+		exit(1);
+	}
+	gRotationLocation = glGetUniformLocation(ShaderProgram, "gRotation");
+	if (gRotationLocation==-1) {
+		fprintf(stderr, "Fail to Obtain Location of the Uniform Variable 'gRotationLocation'\n");
+		exit(1);
+	}
+	gScaleLocation = glGetUniformLocation(ShaderProgram, "gScale");
+	if (gRotationLocation==-1) {
+		fprintf(stderr, "Fail to Obtain Location of the Uniform Variable 'gScale'\n");
 		exit(1);
 	}
 
@@ -142,8 +148,8 @@ long now=100; long pre = 10;
 
 static void RenderSceneCB(){
 	// timeSinceEpoch(&now);
-	
-	static float Delta = 0.005f;
+	static float Angle = 0.0f; //Radians
+	static float Delta = 0.010f;
 	static float Scale = 0.000f;
 
 	//Uniform
@@ -158,12 +164,26 @@ static void RenderSceneCB(){
 			0.0f, 0.0f, 0.0f, 1.0f			
 			);
 
+	Angle += Delta;
+	if(Angle>1.5708f||Angle<-1.5708f) Delta *=-1.0f; 
+	Matrix4f Rotation(
+			cosf(Angle), -sinf(Angle), 0.0f, 0.0f,
+			sinf(Angle), cosf(Angle), 0.0f, 0.0f,
+			0.0f, 0.0f, 1.0f, 1.0f,
+			0.0f, 0.0f, 0.0f, 1.0f);
+	Matrix4f MScale(
+			Scale, 0.0f, 0.0f, 0.0f,
+			0.0f, Scale, 0.0f, 0.0f,
+			0.0f, 0.0f, 1.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f);
+
 	glUniformMatrix4fv(gTranslationLocation, 1, GL_TRUE, &Translation.m[0][0]);
-	// 1 para: location of matrix; number of matrix, row-major(boolean), address to the first element)
+	glUniformMatrix4fv(gRotationLocation, 1, GL_TRUE, &Rotation.m[0][0]);
+	glUniformMatrix4fv(gScaleLocation, 1, GL_TRUE, &MScale.m[0][0]);
+	//  parameters: location of matrix; number of matrix, row-major(boolean), address to the first element)
 	
-	// glUniform1f(gScaleLocation, Scale); // Send the uniform to the shader
 	
-	glClearColor(Scale, 3*Scale-3*Scale/1, 8*Scale-8*Scale/1, 0); 
+	glClearColor(Scale/-1.0f, 3*Scale*Scale, 8*Scale, 0); 
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);

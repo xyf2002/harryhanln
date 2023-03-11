@@ -1,0 +1,82 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{blindtext, titlesec, amsthm, thmtools, amsmath, amsfonts, scalerel, amssymb, graphicx, titlesec, xcolor, multicol, hyperref}
+% \usepackage{mathtools}
+\usepackage{bm}
+\usepackage{etoolbox}
+\AtBeginEnvironment{bmatrix}{\setlength{\arraycolsep}{2pt}}
+\usepackage[utf8]{inputenc}
+\hypersetup{colorlinks,linkcolor={red!40!black},citecolor={blue!50!black},urlcolor={blue!80!black}}
+\newtheorem{theorem}{Theorema}[subsection]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollarium}
+\newtheorem{hypothesis}{Coniectura}
+\theoremstyle{definition}
+\newtheorem{definition}{Definitio}[section]
+\theoremstyle{remark}
+\newtheorem{remark}{Observatio}[section]
+\newtheorem{example}{Exampli Gratia}[section]
+\renewcommand\qedsymbol{Q.E.D.}
+\title{Math For Computer Graphics}
+\author{Harry Han}
+\date{\today}
+\begin{document}
+\maketitle
+%\tableofcontents
+\section{Linear Transformations}
+
+A point (or vertex) in three dimensional space can be represented by the following vector: $\bm{v}=[x_0, y_0 ,z_0, 1]^{T}$. The extra dimension is solely for the convenience of matrix manipulation.
+
+\subsection{Translation, Rotation}
+
+Translation of a vertex $\bm{v}=[x_0, y_0,z_0, 1]^T$ in $x$ direction for $t_x$, $y$ direction for $t_y$, and $z$ direction for $t_z$ is a linear transfomation, whose corresponding matrix is $T$:
+\begin{equation}\label{eq:translation}
+	T\bm{v} = 
+	\begin{bmatrix}
+	1 & 0 & 0 & x_t\\
+	0 & 1 & 0 & y_t\\
+	0 & 0 & 1 & z_t\\
+	0 & 0 & 0 & 1
+	\end{bmatrix} 
+	\begin{bmatrix}
+	x_0\\
+	y_0\\
+	z_0\\
+	1
+	\end{bmatrix}
+	= [x_0 + x_t, y_0 + y_t, z_0 + z_t, 1]^T
+\end{equation}
+
+The matrices $R_x, R_y, R_z$ that correspond to the rotations of a vertex $\bm{v}=[x_0, y_0, z_0, 1]^T$ respect to $x, y, z$ for $\theta$ degrees are:
+\begingroup
+\fontsize{10}{12}\selectfont
+\begin{equation}\label{eq:rotation}
+	R_z = 
+	\begin{bmatrix}
+	\cos{\theta} & -\sin{\theta} & 0 & 0\\
+	\sin{\theta} & \cos{\theta} & 0 & 0\\
+	0 & 0 & 1 & 0\\
+	0 & 0 & 0 & 1
+	\end{bmatrix}, 
+	R_x =
+	\begin{bmatrix}
+	1 & 0 & 0 & 0\\
+	0 & \cos{\theta} & -\sin{\theta} & 0\\
+	0 & \sin{\theta} & \cos{\theta} & 0\\
+	0 & 0 & 0 & 1
+	\end{bmatrix}, 
+	R_y =
+	\begin{bmatrix}
+	\cos{\theta} & 0 & \sin{\theta} & 0\\
+	0 & 1 & 0 & 0\\
+	-\sin{\theta} & 0 & \cos{\theta} & 0\\
+	0 & 0 & 0 & 1
+	\end{bmatrix}
+\end{equation}
+\endgroup
+
+
+
+\subsection{Projection}
+
+\end{document}
+
