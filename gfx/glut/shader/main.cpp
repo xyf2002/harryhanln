@@ -24,6 +24,9 @@
 #include "readFile.cpp"
 #include "ogldev_math_3d.h" // This header is from https://github.com/emeiri/ogldev
 
+#define WDT 1000
+#define HET 1000
+
 // struct Vector3f{
 // 	float x;
 // 	float y;
@@ -32,9 +35,10 @@
 
 const char* pVSFileName = "vs.glsl";
 const char* pFSFileName = "fs.glsl";
-GLint gTranslationLocation;
-GLint gRotationLocation;
-GLint gScaleLocation;
+GLint gCombineLocation;
+// GLint gTranslationLocation;
+// GLint gRotationLocation;
+// GLint gScaleLocation;
 
 GLuint VBO;
 
@@ -116,22 +120,27 @@ static void CompileShader(){
 	// This will be a runtime error
 
 
-	gTranslationLocation = glGetUniformLocation(ShaderProgram, "gTranslation");
-	if (gTranslationLocation==-1) {
-		fprintf(stderr, "Fail to Obtain Location of the Uniform Variable 'gTranslationLocation'\n");
+	gCombineLocation= glGetUniformLocation(ShaderProgram, "gCombine");
+	if (gCombineLocation==-1) {
+		fprintf(stderr, "Fail to Obtain Location of the Uniform Variable 'gCombine'\n");
 		exit(1);
 	}
-	gRotationLocation = glGetUniformLocation(ShaderProgram, "gRotation");
-	if (gRotationLocation==-1) {
-		fprintf(stderr, "Fail to Obtain Location of the Uniform Variable 'gRotationLocation'\n");
-		exit(1);
-	}
-	gScaleLocation = glGetUniformLocation(ShaderProgram, "gScale");
-	if (gRotationLocation==-1) {
-		fprintf(stderr, "Fail to Obtain Location of the Uniform Variable 'gScale'\n");
-		exit(1);
-	}
-
+	// gTranslationLocation = glGetUniformLocation(ShaderProgram, "gTranslation");
+	// if (gTranslationLocation==-1) {
+	// 	fprintf(stderr, "Fail to Obtain Location of the Uniform Variable 'gTranslationLocation'\n");
+	// 	exit(1);
+	// }
+	// gRotationLocation = glGetUniformLocation(ShaderProgram, "gRotation");
+	// if (gRotationLocation==-1) {
+	// 	fprintf(stderr, "Fail to Obtain Location of the Uniform Variable 'gRotationLocation'\n");
+	// 	exit(1);
+	// }
+	// gScaleLocation = glGetUniformLocation(ShaderProgram, "gScale");
+	// if (gRotationLocation==-1) {
+	// 	fprintf(stderr, "Fail to Obtain Location of the Uniform Variable 'gScale'\n");
+	// 	exit(1);
+	// }
+	//
 	glValidateProgram(ShaderProgram);
 	glGetProgramiv(ShaderProgram, GL_VALIDATE_STATUS, &Success);
 	if(!Success){
@@ -149,7 +158,7 @@ long now=100; long pre = 10;
 static void RenderSceneCB(){
 	// timeSinceEpoch(&now);
 	static float Angle = 0.0f; //Radians
-	static float Delta = 0.010f;
+	static float Delta = 0.003f;
 	static float Scale = 0.000f;
 
 	//Uniform
@@ -177,13 +186,15 @@ static void RenderSceneCB(){
 			0.0f, 0.0f, 1.0f, 0.0f,
 			0.0f, 0.0f, 0.0f, 1.0f);
 
-	glUniformMatrix4fv(gTranslationLocation, 1, GL_TRUE, &Translation.m[0][0]);
-	glUniformMatrix4fv(gRotationLocation, 1, GL_TRUE, &Rotation.m[0][0]);
-	glUniformMatrix4fv(gScaleLocation, 1, GL_TRUE, &MScale.m[0][0]);
+	Matrix4f Combine=Translation*Rotation*MScale;
+
+
+	glUniformMatrix4fv(gCombineLocation, 1, GL_TRUE, &Combine.m[0][0]);
 	//  parameters: location of matrix; number of matrix, row-major(boolean), address to the first element)
 	
 	
-	glClearColor(Scale/-1.0f, 3*Scale*Scale, 8*Scale, 0); 
+	// glClearColor(Scale/-1.0f, 3*Scale*Scale, 8*Scale, 0); 
+	glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -205,9 +216,9 @@ static void CreateVertexBuffer(){
 	glFrontFace(GL_CCW); // CCW: counterclockwise, CW: clockwise. Default CCW.
 	glCullFace(GL_BACK);
 	Vector3f Vertices[3]; // Struct with x,y,z
-	Vertices[0] = Vector3f(-1.0f, -1.0f, 0.0f);
-	Vertices[2] = Vector3f(0.0f, 1.0f, 0.0f);
-	Vertices[1] = Vector3f(1.0f, -1.0f, 0.0f);
+	Vertices[0] = Vector3f(0.0f, 1.0f, 0.0f);
+	Vertices[1] = Vector3f(-0.866f, -0.5f, 0.0f);
+	Vertices[2] = Vector3f(0.866f, -0.5f, 0.0f);
 	// float Vertices [9] {-1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, -1.0f, 0.0f};
 	
 	
@@ -220,7 +231,7 @@ int main(int argc, char** argv){
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGBA);
 
-	int width = 1920, height = 1080;
+	int width = WDT, height = HET;
 
 	glutInitWindowSize(width, height);
 	int x = 200, y = 100;

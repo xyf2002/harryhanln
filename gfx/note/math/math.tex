@@ -74,7 +74,24 @@ The matrices $R_x, R_y, R_z$ that correspond to the rotations of a vertex $\bm{v
 \end{equation}
 \endgroup
 
+The Scaling matrix $S$ is:
+\begin{equation}\label{eq:scaling}
+	S = 
+	\begin{bmatrix}
+	s_x & 0 & 0 & 0\\
+	0 & s_y & 0 & 0\\
+	0 & 0 & s_z & 0\\
+	0 & 0 & 0 & 1
+	\end{bmatrix}
+\end{equation}
 
+Recall matrix under mutiplication is not an abelien group, i.e., matrix multiplication is associative, although not commutative.
+To tranform a vertex $\bm{v}$ with scaling, rotation, and translation, the order of the matrix is important:
+\begin{equation}\label{eq:combinedTransformation}
+TR_xR_yR_zS\bm{v}
+\end{equation}
+
+OpenGL will normalize all the vertices before rendering to screen, which means if the setted screen is not a square, the final rendering will be distorted.
 
 \subsection{Projection}
 

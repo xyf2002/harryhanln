@@ -54,3 +54,6 @@ glsl is a shading language for OpenGL. It is a C-like language. glsl is case sen
 Input data to the shader which stays uniform during the execution of any draw call.
 
 
+## Vertex Shader 
+
+GL will normalize vertices it receives. Thus, if the screen is not a square, the vertices will be stretched.
