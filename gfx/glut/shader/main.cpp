@@ -96,12 +96,12 @@ static void CompileShader(){
 	std::string vs, fs;
 	if(!readFile(pVSFileName, vs)) {fprintf(stderr, "Fail to read vertex shader!"); exit(1);}
 	printf("Vertex Shader Read Success!\n");
-	std::cout<<vs.c_str()<<std::endl;
+	// std::cout<<vs.c_str()<<std::endl;
 	AddShader(ShaderProgram, vs.c_str(), GL_VERTEX_SHADER);
 
 	if(!readFile(pFSFileName, fs)) {fprintf(stderr, "Fail to read vertex shader!"); exit(1);}
-	AddShader(ShaderProgram, fs.c_str(), GL_FRAGMENT_SHADER);
 	printf("Fragment Shader Read Success!\n");
+	AddShader(ShaderProgram, fs.c_str(), GL_FRAGMENT_SHADER);
 
 	GLint Success=0;
 	GLchar ErrorLog[1024]{0};

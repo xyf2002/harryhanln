@@ -57,3 +57,11 @@ Input data to the shader which stays uniform during the execution of any draw ca
 ## Vertex Shader 
 
 GL will normalize vertices it receives. Thus, if the screen is not a square, the vertices will be stretched.
+
+## fragment shader
+
+### Interpolation
+
+As vertex shader only pass in finite vertices, yet we would want color defined on all fragments of the picture, glsl will interpolate the color for all fragments between vertices. 
+
+If triangle-draw is activated, gl will use Barycentric Coordinates method to interpolate the R, G, B colors independently.
