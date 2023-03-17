@@ -1,6 +1,6 @@
 git/local
 git/GitTry
-vim/**
+vim/mynvimconfig/
 haskell/**
 !haskell/**hs
 **/CMakeFiles/
