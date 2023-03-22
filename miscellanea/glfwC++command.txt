@@ -1,0 +1,8 @@
+g++ Main.cpp -o my.elf -std=c++11 -Wall -lGL -lGLU -lglut -lGLEW -lglfw -lX11 -lXxf86vm -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor 
+
+./glad/src/gl.c  -I./glad/include
+
+// ./glad/src/gl.c for linking errors
+
+
+./my.elf
