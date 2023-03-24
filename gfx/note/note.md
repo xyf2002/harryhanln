@@ -44,6 +44,11 @@ Shader in OpenGL is written in glsl: a very expressable
 - Compose of fixed function unit and Programmable unit
 - Vertex shadeer -> Tesselation Unit -> Geometry Shader -> Rasterizer (fixed) -> fragment shader -> Final frame
 
+### Rasterizer
+
+Perspective division: during the rasterizer, x, y, z value of the vertex was divided by w: Copying the z value to w and perspective projection can be complete.
+
+Rasterizer clip away every vertices whose z value is less then 1.
 
 ## glsl 
 

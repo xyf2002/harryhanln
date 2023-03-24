@@ -87,15 +87,41 @@ The Scaling matrix $S$ is:
 	\end{bmatrix}
 \end{equation}
 
+\subsection{Projection}
+\subsection{Perspective Projection}
+To transform a vertex $\bm{v}=[x_0, y_0, z_0]$ into its proper coordinate for the projection with viewing angle $\theta$, use the projection matrix:
+
+\begin{equation}
+	P=
+	\begin{bmatrix}
+	\frac{1}{z\tan{\theta/2}} & 0 & 0 & 0 \\
+	0 & \frac{1}{z\tan{\theta/2}} & 0 & 0 \\
+	0 & 0 & 1 & 0 \\
+	0 & 0 & 0 & 1 \\
+	\end{bmatrix}
+\end{equation}
+
+However, for implementation in OpenGL, it is useful to have a constant matrices. Since during rasterisation all coordinate of the vetices are divided by $w$, i.e., the value for the fourth dimension, we can implement the perspective projection matrix in openGL as follow:
+
+\begin{equation}
+	P_{GL}=
+	\begin{bmatrix}
+	\frac{1}{\tan{\theta/2}} & 0 & 0 & 0 \\
+	0 & \frac{1}{\tan{\theta/2}} & 0 & 0 \\
+	0 & 0 & 1 & 0 \\
+	0 & 0 & 1 & 0 \\
+	\end{bmatrix}
+\end{equation}
+
+
 Recall matrix under mutiplication is not an abelien group, i.e., matrix multiplication is associative, although not commutative.
 To tranform a vertex $\bm{v}$ with scaling, rotation, and translation, the order of the matrix is important:
 \begin{equation}\label{eq:combinedTransformation}
-TR_xR_yR_zS\bm{v}
+	P_{GL}TR_xR_yR_zS\bm{v}
 \end{equation}
 
 OpenGL will normalize all the vertices before rendering to screen, which means if the setted screen is not a square, the final rendering will be distorted.
 
-\subsection{Projection}
 
 \section{Colors in Fragment Shader}
 
@@ -105,7 +131,7 @@ Assuming a triangle have three vertices $A, B, C$ with arbitraily assigned coord
 
 \end{algorithm}
 
-\begin{figure}[h]
+\begin{figure}[p]
 \centering
 \begin{tikzpicture}
 	\coordinate (A) at (0,0);
