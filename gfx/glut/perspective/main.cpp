@@ -1,16 +1,3 @@
-/*
-        Copyright 2010 Etay Meiri
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include <GL/glew.h> //must be before freeglut.h
 #include <GL/freeglut.h>
 #include <stdio.h>
@@ -26,6 +13,7 @@
 
 #define WDT 1000
 #define HET 1000
+#define FPS 30
 
 // struct Vector3f{
 // 	float x;
@@ -42,6 +30,16 @@ GLint gCombineLocation;
 
 GLuint VBO;
 GLuint IBO;
+
+float AS = (float)WDT/HET; // Aspect Ratio
+
+// For Depth Test
+// Note When a Vertex is passed to GPU, GPU will clip it if its z value is outside of -1, or 1.
+float NearZ = 1.1f;
+float FarZ = 1.8f;
+float zRange = NearZ - FarZ;
+float A = (-FarZ -NearZ)/zRange;
+float B = 2.0f*FarZ*NearZ/zRange;
 
 void timeSinceEpoch(long* out){
 	auto now = std::chrono::system_clock::now();
@@ -220,7 +218,7 @@ static void RenderSceneCB(){
 			0.0f, 0.0f, 0.0f, 1.0f			
 			);
 
-	Angle += 0.002;
+	Angle += 0.004;
 	if(Angle>1.5708f||Angle<-1.5708f) Delta *=-1.0f; 
 
 	Matrix4f Rotationz(
@@ -247,13 +245,13 @@ static void RenderSceneCB(){
 
 	float FOV = 90.0f;
 	float tanHalfFOV = tanf(ToRadian(FOV/2.0f));
-	float f = 1/tanHalfFOV;
+	float f = 1/tanHalfFOV; // Note the default range that gpu draws are from -1 to 1
 
 	
 	Matrix4f Projection(
-			f, 0.0f, 0.0f, 0.0f,
+			f/AS, 0.0f, 0.0f, 0.0f,
 			0.0f, f, 0.0f, 0.0f,			
-			0.0f, 0.0f, 1.0f, 0.0f,			
+			0.0f, 0.0f, A, B,			
 			0.0f, 0.0f, 1.0f, 0.0f			
 			);
 
@@ -279,6 +277,11 @@ static void RenderSceneCB(){
 	glDisableVertexAttribArray(1);
 	glutPostRedisplay(); // this line flaged this function to be called by glutloop repeatedly.
 	glutSwapBuffers();
+}
+
+void idle(int){
+	glutPostRedisplay();
+	glutTimerFunc(1000/FPS, idle, 1);
 }
 
 int main(int argc, char** argv){
@@ -313,7 +316,9 @@ int main(int argc, char** argv){
 	CreateIndexBuffer();
 	CompileShader();
 
+	printf("%f\n", AS);
 	glutDisplayFunc(RenderSceneCB); 
+	// glutTimerFunc(1000/FPS, idle, 1); // For Setted FPS. To enable: comment out glutPostRedisplay in RenderSceneCB.
 	glutMainLoop(); //This loop never return.
 
 	return 0;
