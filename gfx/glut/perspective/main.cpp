@@ -35,8 +35,8 @@ float AS = (float)WDT/HET; // Aspect Ratio
 
 // For Depth Test
 // Note When a Vertex is passed to GPU, GPU will clip it if its z value is outside of -1, or 1.
-float NearZ = 1.1f;
-float FarZ = 1.8f;
+float NearZ = 1.0f;
+float FarZ = 3.5f;
 float zRange = NearZ - FarZ;
 float A = (-FarZ -NearZ)/zRange;
 float B = 2.0f*FarZ*NearZ/zRange;
@@ -243,7 +243,7 @@ static void RenderSceneCB(){
 			0.0f, 0.0f, 1.0f, 0.0f,
 			0.0f, 0.0f, 0.0f, 1.0f);
 
-	float FOV = 90.0f;
+	float FOV = 80.0f;
 	float tanHalfFOV = tanf(ToRadian(FOV/2.0f));
 	float f = 1/tanHalfFOV; // Note the default range that gpu draws are from -1 to 1
 
