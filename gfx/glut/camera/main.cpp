@@ -2,16 +2,20 @@
 #include <GL/freeglut.h>
 #include <stdio.h>
 #include <chrono>
-#include <string>
 #include <fstream>
 #include <iostream>
 #include <stdlib.h>
 #include "readFile.cpp"
 #include "ogldev_math_3d.h" // This header is from https://github.com/emeiri/ogldev
+#include "world_transform.h" // In the current folder
+#include "camera.h"
 
 #define WDT 1000
 #define HET 1000
 #define FPS 30
+
+WorldTrans CubeWorldTransform;
+Camera GameCamera;
 
 const char* pVSFileName = "vs.glsl";
 const char* pFSFileName = "fs.glsl";
@@ -22,6 +26,19 @@ GLint gCombineLocation;
 
 GLuint VBO;
 GLuint IBO;
+
+float FOV = 80.0f;
+float AS = (float)WDT/HET; // Aspect Ratio
+
+// For Depth Test
+// Note When a Vertex is passed to GPU, GPU will clip it if its z value is outside of -1, or 1.
+float NearZ = 1.0f;
+float FarZ = 3.5f;
+float zRange = NearZ - FarZ;
+float A = (-FarZ -NearZ)/zRange;
+float B = 2.0f*FarZ*NearZ/zRange;
+
+PersProjInfo PersProjInfo = {FOV, WDT, HET, NearZ, FarZ};
 
 
 void timeSinceEpoch(long* out){
@@ -182,91 +199,27 @@ static void RenderSceneCB(){
 		pre = now;
 		counter=0;
 	}
-	
+
+	float YRotationAngle = 1.0f;
+	float XRotationAngle = 1.0f;
+	float ZRotationAngle = 1.0f;
+
+	CubeWorldTransform.SetPosition(0.0f, 0.0f, 2.0f);
+	CubeWorldTransform.Rotate(XRotationAngle, YRotationAngle, ZRotationAngle);
+	Matrix4f World = CubeWorldTransform.GetMatrix();
+
+	Matrix4f View = GameCamera.GetMatrix();
 
 	glClear(GL_COLOR_BUFFER_BIT);
-	static float Angle = 0.0f; //Radians
-	static float Delta = 0.03f;
-	static float Scale = 1.0f;
 
-	//Uniform
+	Matrix4f Projection;
 
-	// Scale += Delta;
-	// if (Scale>=1||Scale<=-1) Delta = -Delta;
+	Projection.InitPersProjTransform(PersProjInfo);
 
-	Matrix4f Translation(
-			1.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f, 0.0f,			
-			0.0f, 0.0f, 1.0f, 2.0f,			
-			0.0f, 0.0f, 0.0f, 1.0f			
-			);
-
-	Angle += 0.004;
-	if(Angle>1.5708f||Angle<-1.5708f) Delta *=-1.0f; 
-
-	Matrix4f Rotationz(
-			cosf(Angle), 0.0f, -sinf(Angle), 0.0f,
-			0.0f, 1.0f, 0.0f, 0.0f,
-			sinf(Angle), 0.0f, cosf(Angle), 0.0f,
-			0.0f, 0.0f, 0.0f, 1.0f);
-	Matrix4f Rotationy(
-			1.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, cosf(2*Angle), -sinf(2*Angle), 0.0f,
-			0.0f, sinf(2*Angle), cosf(2*Angle),0.0f,
-			0.0f, 0.0f, 0.0f, 1.0f);
-	Matrix4f Rotationx(
-			cosf(2*Angle), -sinf(2*Angle), 0.0f, 0.0f,
-			sinf(2*Angle), cosf(2*Angle),0.0f, 0.0f,
-			0.0f, 0.0f, 1.0f, 0.0f,
-			0.0f, 0.0f, 0.0f, 1.0f);
-
-	Matrix4f MScale(
-			Scale, 0.0f, 0.0f, 0.0f,
-			0.0f, Scale, 0.0f, 0.0f,
-			0.0f, 0.0f, 1.0f, 0.0f,
-			0.0f, 0.0f, 0.0f, 1.0f);
-
-	float FOV = 80.0f;
-	float tanHalfFOV = tanf(ToRadian(FOV/2.0f));
-	float f = 1/tanHalfFOV; // Note the default range that gpu draws are from -1 to 1
-
-	Matrix4f World = Translation*Rotationz*Rotationx*Rotationy;
-
-	Vector3f CameraPos(0.5f, 0.0f, -1.0f);
-	// The Three vectors needs to be orthonormal
-	Vector3f U(1.0f, 0.0f, 0.0f);
-	Vector3f V(0.0f, 1.0f, 0.0f);
-	Vector3f N(0.0f, 0.0f, 1.0f);
-
-	Matrix4f Camera(
-		U.x, U.y, U.z, -CameraPos.x,
-		V.x, V.y, V.z, -CameraPos.y,
-		N.x, N.y, N.z, -CameraPos.z,
-		0.0f, 0.0f, 0.0f, 1.0f
-	);
-
-	float AS = (float)WDT/HET; // Aspect Ratio
-	
-	// For Depth Test
-	// Note When a Vertex is passed to GPU, GPU will clip it if its z value is outside of -1, or 1.
-	float NearZ = 1.0f;
-	float FarZ = 3.5f;
-	float zRange = NearZ - FarZ;
-	float A = (-FarZ -NearZ)/zRange;
-	float B = 2.0f*FarZ*NearZ/zRange;
-
-	Matrix4f Projection(
-			f/AS, 0.0f, 0.0f, 0.0f,
-			0.0f, f, 0.0f, 0.0f,			
-			0.0f, 0.0f, A, B,			
-			0.0f, 0.0f, 1.0f, 0.0f			
-			);
-
-	Matrix4f WVP=Projection*Camera*World;
+	Matrix4f WVP=Projection*View*World;
 
 	glUniformMatrix4fv(gCombineLocation, 1, GL_TRUE, &WVP.m[0][0]);
 	//  parameters: location of matrix; number of matrix, row-major(boolean), address to the first element)
-	
 	
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
@@ -288,6 +241,14 @@ static void RenderSceneCB(){
 void idle(int){
 	glutPostRedisplay();
 	glutTimerFunc(1000/FPS, idle, 1);
+}
+
+static void KeyboardCB(unsigned char key, int mouse_x, int mouse_y){
+	GameCamera.OnKeyboard(key);
+}
+
+static void SpeicalKeyboardCB(int key, int mouse_x, int mouse_y){
+	GameCamera.OnKeyboard(key);
 }
 
 int main(int argc, char** argv){
@@ -325,6 +286,9 @@ int main(int argc, char** argv){
 	// printf("%f\n", AS);
 	glutDisplayFunc(RenderSceneCB); 
 	// glutTimerFunc(1000/FPS, idle, 1); // For Setted FPS. To enable: comment out glutPostRedisplay in RenderSceneCB.
+	glutKeyboardFunc(KeyboardCB); // handels regular keyboard input: number & letters
+	glutSpecialFunc(SpeicalKeyboardCB); // handle special character keyboard input
+
 	glutMainLoop(); //This loop never return.
 
 	return 0;
