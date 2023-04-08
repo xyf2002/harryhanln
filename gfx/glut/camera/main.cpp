@@ -7,8 +7,8 @@
 #include <stdlib.h>
 #include "readFile.cpp"
 #include "ogldev_math_3d.h" // This header is from https://github.com/emeiri/ogldev
-#include "world_transform.h" // In the current folder
 #include "camera.h"
+#include "world_transform.h" // In the current folder
 
 #define WDT 1000
 #define HET 1000

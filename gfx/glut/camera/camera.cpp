@@ -1,15 +1,16 @@
+#include <GL/glew.h>
 #include <GL/freeglut.h>
 
 #include "camera.h"
 
 Camera::Camera(){
 	m_pos=Vector3f(0.0f, 0.0f, 0.0f);
-	m_targe=Vector3f(0.0f, 0.0f, 1.0f);
+	m_target=Vector3f(0.0f, 0.0f, 1.0f);
 	m_up=Vector3f(0.0f, 1.0f, 0.0f);
 
 }
 
-void Camera::SetPosition(){
+void Camera::SetPosition(float x, float y, float z){
 	m_pos.x=x;
 	m_pos.y=y;
 	m_pos.z=z;
@@ -18,12 +19,12 @@ void Camera::SetPosition(){
 void Camera::OnKeyboard(unsigned char key){
 	switch (key){
 		case GLUT_KEY_UP:
-			m_pos += (m_targe*m_speed); break;
+			m_pos += (m_target*m_speed); break;
 		case GLUT_KEY_DOWN:
-			m_pos -= (m_targe*m_speed); break;
+			m_pos -= (m_target*m_speed); break;
 		case GLUT_KEY_LEFT:
 			{
-			Vector3f Left = m_targe.Cross(m_up);
+			Vector3f Left = m_target.Cross(m_up);
 			Left.Normalize();
 			Left*=m_speed;
 			m_pos+=Left;
@@ -31,7 +32,7 @@ void Camera::OnKeyboard(unsigned char key){
 		break;
 		case GLUT_KEY_RIGHT:
 			{
-			Vector3f Right = m_up.Cross(m_targe);
+			Vector3f Right = m_up.Cross(m_target);
 			Right.Normalize();
 			Right+=m_speed;
 			m_pos+=Right;

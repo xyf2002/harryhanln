@@ -3,7 +3,7 @@ FLAGS=-I$(HOME)/psu/lib/gfx/include -I$(HOME)/psu/lib/gfx/glut/Include -pedantic
 OUT=a.out
 
 all: main.o camera.o world_transform.o
-	$(CC) main.o camera.o world_transform.o -o $(OUT) $(FLAGS)
+	$(CC) main.o ../Common/ogldev_util.cpp  ../Common/math_3d.cpp camera.o world_transform.o -o $(OUT) $(FLAGS)
 
 main.o: main.cpp camera.h world_transform.h
 	$(CC) -c main.cpp $(FLAGS)
