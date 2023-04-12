@@ -1,12 +1,17 @@
 git/local
 git/GitTry
 vim/mynvimconfig/
-haskell/**
-!haskell/**hs
+haskell/*!(hs)
+# !haskell/**hs
+
+# Ignore for CMake
 */CMakeFiles/
 *build/
+
+# Ignoring executables
 */*.out
 *.o
+# Ignore for Tex auxilary files
 *aux
 *.gz
 *latexmk
@@ -24,5 +29,10 @@ haskell/**
 *bcf
 *xml
 *bbl
+
+# Ignoring Homeworks
 */handin
-*/gfx/glut/Include/
+
+# Ignoring 3rd party libraries
+gfx/glut/Include/
+gfx/glut/Common/*
