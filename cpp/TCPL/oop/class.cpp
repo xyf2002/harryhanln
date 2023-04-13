@@ -30,6 +30,9 @@ public:
 	int * dayhack(){
 		return &day;
 	}
+	// Constructors: if the class has a construtor, all dec
+	Day(){}; // Default constructor; When using def
+	Day(int dd){this->day = dd;}; // Constructors can overload;
 };
 
 struct DayHack{
@@ -43,7 +46,7 @@ int main() {//int argc, char *argv[]
 	birthday.init(1,2,3);
 	birthday.print();
 
-	Day monday;
+	Day monday; // use default constructor. Note, there is no parenthesis
 	monday.init(1,2);
 	monday.print();
 	int * hack = monday.dayhack();
@@ -51,5 +54,8 @@ int main() {//int argc, char *argv[]
 	monday.print();
 	((DayHack*)(&monday))->day=10; // Another way of changing the private member of the class through pointer casting.
 	monday.print();
+
+
+	Day Tuesday(33); // use constructor. How to use a constructor
 	return 0;
 }
