@@ -34,6 +34,10 @@
 
 * [A Whirlwind Tour of Python by Jake VanderPlas (O'Reilly)](https://jakevdp.github.io/WhirlwindTourOfPython/)
 
+### Haskell
+
+* [Haskell Programming from First Principles](http://haskellbook.com/)
+
 ## Data Structures and Algorithms
 
 * Introduction to Algorithms by Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein
