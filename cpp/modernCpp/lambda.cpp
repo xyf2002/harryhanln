@@ -4,6 +4,10 @@
 #include <math.h>
 #include <typeinfo>
 
+int usefun (int f(int), int b){
+	return f(b)+b;
+}
+
 int main() {//int argc, char *argv[]
 	/*
 	 * []() mutable -> T { } 
@@ -30,5 +34,20 @@ int main() {//int argc, char *argv[]
 	auto appendStr = [&astring] (std::string addendum){astring+=addendum; return;}; // Recall in ANSI there is no pass by reference.
 	appendStr("aaa");
 	std::cout<<astring<<std::endl;
+
+	// Use lambda upon declaration
+	int de = [](int in){int res=1; while ((in--)>0) res*=(in+1); return res;}(4);
+	std::cout<<de<<std::endl;
+
+	// Nested functions
+
+	int m = 10; 
+	int b = 2;
+
+	auto algo = [=](int a){return a*m+b;};
+
+	// lambda can be pass to other function 
+	auto ps = [](int a){return 2*a;}; 
+	std::cout<<usefun(ps, 2)<<std::endl;
 	return 0;
 }

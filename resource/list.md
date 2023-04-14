@@ -13,6 +13,11 @@
 
 ## Programming Languages
 
+### Assembly
+
+* [Assembly Language Step-by-Step: Programming with Linux](http://www.tldp.org/HOWTO/Assembly-Primer/index.html)
+* [Prgramming From the Ground Up](http://download-mirror.savannah.gnu.org/releases/pgubook/ProgrammingGroundUp-1-0-booksize.pdf)
+
 ### C 
 
  * The C Programming Language (2nd Edition) by Brian W. Kernighan and Dennis M. Ritchie
