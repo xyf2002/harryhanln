@@ -21,4 +21,4 @@ If the shared `libmmath.so` is not in the system directory but in the directory,
 
 `-L$HOME/lib` specifies where to find the library at compile/link time. `-Wl,-rpath` specifies where to find it at run time.
 
-
+Or, alternatively, we can specify the `LD_LIBRARY_PATH` environment variable to include `$HOME/lib` and then compile and link with `gcc example.c -lmmath`.

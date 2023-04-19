@@ -7,31 +7,32 @@
 #include "mTime.h"
 
 
-static float te_fpm;
+static float te_fps;
 static int te_boarder_status;
 static char te_boarder_symbol;
 static int te_clear_screen_status;
 static void te_print_boarder(int);
 static const char * toSymbol(int, int);
 
-static float te_fpm = 10;
+static float te_fps = 10;
 static int te_boarder_status = 1;
 static char te_boarder_symbol = '#';
-static int te_clear_screen_status = 0;
+static int te_clear_screen_status = 1;
 static const char * te_color_escpae [10] = 
 	{
+		"\0",
 		"\x1b[31m",
 		"\x1b[32m", 
 		"\x1b[33m", 
 		"\x1b[34m", 
 		"\x1b[35m", 
 		"\x1b[36m",
-		"\0","\0","\0",
+		"\0","\0",
 		"\x1b[100m",
 };
 
 
-void teSetFpm(int);
+void teSetFPS(int);
 void teSetBoarder(int);
 void teSetClearScreen(int);
 void teRender(int *, int *, int, int, int ());
@@ -42,10 +43,15 @@ void teRender(int *, int *, int, int, int ());
 void teRender(int * ptr, int * cptr, int width, int heigth, int fun()){
 	long now, pre;
 	mTime(&now); mTime(&pre);
-	while (fun()){ // main loop
+	now += 1000000000;
+	while (1){ // main loop
 		mTime(&now); 
-		while ((now-pre)>=(1000000000.0f/te_fpm)){
-			if (te_clear_screen_status) puts("\033c"); // Clear Screen
+		while ((now-pre)>=(1000000000.0f/te_fps)){ 
+			if (!fun()) goto exit;
+			printf("\n");
+			// \033c clear Screen
+			// \033[H move cursor to home position
+			if (te_clear_screen_status) printf("\033c"); // Clear Screen
 			printf("FPS: %4.2lf\n", 1000000000.0f/((float)(now-pre))); // FPS
 
 			te_print_boarder(width+2); printf("\n"); // Boarder
@@ -67,6 +73,7 @@ void teRender(int * ptr, int * cptr, int width, int heigth, int fun()){
 		}
 		usleep(1); // Deprecated: needs to be substituded Sleeps for microseconds
 	}
+exit:
 	return;
 }
 
@@ -88,8 +95,8 @@ static void te_print_boarder(int num){
 	return;
 }
 
-void teSetFPM(int fpm){
-	te_fpm = (float)fpm;
+void teSetFPS(int fps){
+	te_fps = (float)fps;
 	return;
 }
 

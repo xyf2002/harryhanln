@@ -1,12 +1,6 @@
-CC = gcc
-CFLAGS = -std=gnu17 -pedantic -Wall -Wextra -I/home/hhyh/psu/lib/c
+CC = gcc 
+CFLAGS = -std=gnu17 -pedantic -Wall -Wextra -I../include
 DIR := $(shell pwd)
-
-headerTest: headerTest.o libtEngine.so
-	$(CC) $(CFLAGS)  headerTest.c -L$(DIR) -ltEngine 
-	. ./path.sh
-	# export LD_LIBRARY_PATH=$(shell PWD):$(shell LD_LIBRARY_PATH)
-	# echo $(DIR)
 
 libtEngine.so: tEngine.o
 	$(CC) $(CFLAGS) -shared -o libtEngine.so tEngine.o
@@ -14,8 +8,12 @@ libtEngine.so: tEngine.o
 tEngine.o: tEngine.c
 	$(CC) $(CFLAGS)  -c -fPIC tEngine.c
 
-headerTest.o: headerTest.c
-	$(CC) $(CFLAGS) -c headerTest.c
+test.o: test.c
+	$(CC) $(CFLAGS) -c test.c
 
 clean: 
-	rm *.o *.so *.out
+	rm *.o *.out
+
+test: test.o libtEngine.so
+	$(CC) test.c $(CFLAGS) -L$(DIR) -ltEngine -Wl,-rpath=$(DIR) -o test.out
+	# . ./LDPath.sh 
