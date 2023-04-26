@@ -17,3 +17,5 @@ clean:
 test: test.o libtEngine.so
 	$(CC) test.c $(CFLAGS) -L$(DIR) -ltEngine -Wl,-rpath=$(DIR) -o test.out
 	# . ./LDPath.sh 
+	# -L is link time search path for libraries
+	#  -Wl,-rpath is runtime search path for libraries
