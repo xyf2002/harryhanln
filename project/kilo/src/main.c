@@ -1,22 +1,46 @@
 #include <ctype.h>
+#include <errno.h>
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/ioctl.h>
 #include <termios.h>
 #include <unistd.h> // lib for POSIX system
 
-struct termios terminalInitState;
-void disableRAWMode();
+#define CTRL_KEY(k) ((k)&0x1f)
 
-int exitPrint = 0;
+struct editorConfig {
+  int screenrows;
+  int screencol;
+  struct termios orig_termios;
+};
+
+struct editorConfig E;
+
+void disableRAWMode();
+void die(const char *);
+
+void getWindowSize(int *rows, int *cols) {
+  struct winsize ws;
+
+  if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0) {
+    die("Fail to get window size! (At func getWindowSize())");
+  } else {
+    *cols = ws.ws_col;
+    *rows = ws.ws_row;
+  }
+}
+
+void clearScreen() {
+  write(STDIN_FILENO, "\x1b[2J", 4);
+  write(STDIN_FILENO, "\x1b[H", 3);
+}
 
 void die(const char *s) {
+  clearScreen();
+
   perror(s); // From <stdio.h>
   exit(1);   // Exit with 1. From <stdlib.h>
-
-  // perror looks for the global variable errno an prints a description of the
-  // error. When error occurs in program, the program set the global errno
-  // variable. it also takes a string which it also prints if the error occur.
 }
 
 /// This function enables RAW mode for terminal.
@@ -26,9 +50,9 @@ void enableRAWMode() {
       -1) { // STDIN_FILENO is the standard input
     die("tcgetattr");
   }
-  if(tcgetattr(STDIN_FILENO, &terminalInitState)==-1){
-		die("tcgetattr");
-	}
+  if (tcgetattr(STDIN_FILENO, &E.orig_termios) == -1) {
+    die("tcgetattr");
+  }
   atexit(&disableRAWMode); // From <stdlib.h> Execute the function when the
                            // program exits.
   raw.c_lflag &=
@@ -55,81 +79,65 @@ void enableRAWMode() {
 
   // Timeout for Read
 
-  raw.c_cc[VMIN] = 0;
-  raw.c_cc[VTIME] = 1;
+  raw.c_cc[VMIN] = 0;  // what read() returns after timeout
+  raw.c_cc[VTIME] = 1; // Timeout after 0.1 s
 
-  if(tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw)==-1){
-		die("tcsetattr");
-	}
+  if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw) == -1) {
+    die("tcsetattr");
+  }
 }
 
+/// disable RAW Mode for the terminal.
 void disableRAWMode() {
-  if(tcsetattr(STDIN_FILENO, TCSAFLUSH, &terminalInitState)==-1){
-		die("error occur in function disableRAWMode");
-	}
-}
-
-void *my_read() {
-  char c;          // Buffer char for read()
-  char buf[100];   // Buffer array for storing all char
-  char *ptr = buf; // ptr for assignment of array
-  enableRAWMode();
-  // read return number of bytes if success. 0 if EOF, -1 if fail.
-
-  while (1) {
-    if(read(STDIN_FILENO, &c, 1)==-1){
-			die("Error for read() inside my_read");
-		}
-
-    if ((int)c != 0) {
-      if (iscntrl(c)) { // From <ctype.h> test if it is control character
-        printf("%d\r\n\r", c);
-      } else {
-        printf("%d: ('%c')\r\n\r", c, c);
-        *(ptr++) = c;
-      }
-    }
-
-    if (c == 'q') {
-      printf("%s\r\n\r", buf);
-      break;
-    }
-    c = 0;
+  if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &E.orig_termios) == -1) {
+    die("error occur in function disableRAWMode");
   }
-
-  exitPrint = 1;
-  disableRAWMode();
-  // return NULL; // Recall NULL is a pointer to void that points to nothing
-  // return NULL is optional
 }
 
-void *asciRead() {
-  enableRAWMode();
-  char ch;
-  while ((ch = getchar()) != 27) {
-    printf("%c\n", ch);
-    // usleep(1); // Sleeps a millisecond so that the thread is not taking all
-    // the cpu
+/// Reads and returns the key once.
+char editorReadKey() {
+  int nread;
+  char c;
+  while ((nread = read(STDIN_FILENO, &c, 1)) != 1) {
+    if (nread == -1 && errno != EAGAIN)
+      die("editorReadKey failed!");
   }
-  exitPrint = 1;
-  printf("%s\n", "ESC Pressed!");
+  return c;
 }
 
-void *print() {
-  while (!exitPrint) {
-    sleep(1);
-    printf("%s\n", "I am Printing!\n");
+void editorProcessKeyPress() {
+  char c = editorReadKey();
+  switch (c) {
+  case (CTRL_KEY('q')):
+    clearScreen();
+    exit('0');
+    break;
   }
-  printf("%s\n", "printing thread finished!");
-  return NULL;
 }
+
+void editorDrawRows() {
+  int nrows = E.screenrows;
+  while (nrows-- > 0) {
+    write(STDIN_FILENO, "~\r\n", 3);
+  }
+}
+
+void editorRefreshScreen() {
+  clearScreen();
+
+  editorDrawRows();
+  write(STDIN_FILENO, "\x1b[H", 3);
+}
+
+void editorInit() { getWindowSize(&E.screenrows, &E.screencol); }
 
 int main() {
-  pthread_t id_print;
-  pthread_t id_read;
-  // pthread_create(&id_print, NULL, print, NULL);
-  pthread_create(&id_read, NULL, my_read, NULL);
-  // pthread_join(id_print, NULL);
-  pthread_join(id_read, NULL);
+  enableRAWMode();
+  editorInit();
+  while (1) {
+    editorRefreshScreen();
+    editorProcessKeyPress();
+  }
+	die("process died!");
   return 0;
 }
