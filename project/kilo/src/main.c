@@ -19,12 +19,54 @@ struct editorConfig E;
 
 void disableRAWMode();
 void die(const char *);
+char editorReadKey();
+int getCursorPosition(int *, int *);
+void clearScreen();
+
+int getCursorPosition(int *rows, int *cols) {
+  // Read the status report
+  char c;
+  char buf[32];
+  int i = 0;
+
+  if (write(STDIN_FILENO, "\x1b[6n", 4) != 4) {
+    // Send query to device status report
+    // report send back in stdin, in the form of "[37;57R" which can be read.
+    // 37 col, 57 row
+    die("func getCursorPosition failed!");
+  }
+
+  while (i < sizeof(buf) - 1) {
+    if (read(STDIN_FILENO, &buf[i], 1) != 1)
+      break;
+    if (buf[i] == 'R')
+      break;
+    i++;
+  }
+
+  buf[i] = '\0';
+  if (buf[0] != '\x1b' || buf[1] != '[')
+    return -1;
+  if (sscanf(&buf[2], "%d;%d", rows, cols) != 2)
+    // sscanf from <stdio.h>
+    return -1;
+
+  return 0;
+}
 
 void getWindowSize(int *rows, int *cols) {
   struct winsize ws;
 
-  if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0) {
-    die("Fail to get window size! (At func getWindowSize())");
+  // Use ioctl from <sys/ioctl.h>
+  // place the data into ws struct, return -1 on failure
+  if (1 || ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0) {
+    if (write(STDOUT_FILENO, "\x1b[999C\x1b[999B", 12) != 12) {
+      // ESC 999C move cursor to right, B move down; They would not move cursor
+      // off screen.
+      die("Fail to get window size! (At func getWindowSize(), fail to write "
+          "Escape Sequence");
+    }
+    getCursorPosition(rows, cols); // Seems to be working fine
   } else {
     *cols = ws.ws_col;
     *rows = ws.ws_row;
@@ -32,8 +74,10 @@ void getWindowSize(int *rows, int *cols) {
 }
 
 void clearScreen() {
-  write(STDIN_FILENO, "\x1b[2J", 4);
-  write(STDIN_FILENO, "\x1b[H", 3);
+  write(STDIN_FILENO, "\x1b[2J",
+        4); // Erase in display, option 2, the whole screen, cursor do not move
+  write(STDIN_FILENO, "\x1b[H",
+        3); // Place the cursor the to top left of the screen
 }
 
 void die(const char *s) {
@@ -99,8 +143,12 @@ char editorReadKey() {
   int nread;
   char c;
   while ((nread = read(STDIN_FILENO, &c, 1)) != 1) {
+    // read returns number of byte read. -1 when failure.
     if (nread == -1 && errno != EAGAIN)
       die("editorReadKey failed!");
+
+    // TEST: TESTCODE
+    // printf("%s\r\n", "editorReadKey Running");
   }
   return c;
 }
@@ -138,6 +186,6 @@ int main() {
     editorRefreshScreen();
     editorProcessKeyPress();
   }
-	die("process died!");
+  die("process died!");
   return 0;
 }
