@@ -5,7 +5,7 @@
 
 #include "utils.h"
 
-void clearScreen() {
+void clearScreen(void) {
   write(STDIN_FILENO, "\x1b[2J",
         4); // Erase in display, option 2, the whole screen, cursor do not move
   write(STDIN_FILENO, "\x1b[H",

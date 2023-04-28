@@ -11,30 +11,31 @@
 #include "utils.h"
 
 #define CTRL_KEY(k) ((k)&0x1f)
+#define KILO_VERSION "0.0.1"
 
 struct editorConfig {
-  int screenrows;
-  int screencol;
+  int cx, cy;     // cursor position. cx horizantol, cy vertical
+  int screenrows; // number of rows in the screen
+  int screencols; // number of columns in the screen
   struct termios orig_termios;
 };
 
 struct editorConfig E;
 
-int getCursorPosition(int*, int*);
-void getWindowSize(int*, int*);
-void enableRAWMode();
-void disableRAWMode();
-char editorReadKey();
-void editorProcessKeyPress();
-void editorRefreshScreen();
-void editorInit();
+int getCursorPosition(int *, int *);
+void getWindowSize(int *, int *);
+void enableRAWMode(void);
+void disableRAWMode(void);
+char editorReadKey(void);
+void editorProcessKeyPress(void);
+void editorRefreshScreen(void);
+void editorInit(void);
 
 /*** Terminal ***/
 int getCursorPosition(int *rows, int *cols) {
   // Read the status report
-  char c;
   char buf[32];
-  int i = 0;
+  unsigned int i = 0;
 
   if (write(STDIN_FILENO, "\x1b[6n", 4) != 4) {
     // Send query to device status report
@@ -80,9 +81,8 @@ void getWindowSize(int *rows, int *cols) {
   }
 }
 
-
 /// This function enables RAW mode for terminal.
-void enableRAWMode() {
+void enableRAWMode(void) {
   struct termios raw;
   if (tcgetattr(STDIN_FILENO, &raw) ==
       -1) { // STDIN_FILENO is the standard input
@@ -126,7 +126,7 @@ void enableRAWMode() {
 }
 
 /// disable RAW Mode for the terminal.
-void disableRAWMode() {
+void disableRAWMode(void) {
   if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &E.orig_termios) == -1) {
     die("error occur in function disableRAWMode");
   }
@@ -134,7 +134,7 @@ void disableRAWMode() {
 
 /*** Input ***/
 /// Reads and returns the key once.
-char editorReadKey() {
+char editorReadKey(void) {
   int nread;
   char c;
   while ((nread = read(STDIN_FILENO, &c, 1)) != 1) {
@@ -149,7 +149,7 @@ char editorReadKey() {
   return c;
 }
 
-void editorProcessKeyPress() {
+void editorProcessKeyPress(void) {
   char c = editorReadKey();
   switch (c) {
   case (CTRL_KEY('q')):
@@ -160,32 +160,67 @@ void editorProcessKeyPress() {
 }
 
 /*** Output ***/
-void editorDrawRows(struct abuf *ab) {
+void editorDrawRows(struct abuf *abptr) {
   int nrows = E.screenrows;
-  while (nrows-- > 0) {
-    abAppend(ab, "~", 1);
+
+  while (nrows--) { // This loop while repeat nrows times
+    if (nrows == 2 * E.screenrows / 3) {
+      // Welcome Message
+      char welcome[80];
+      int welcomelen = snprintf(welcome, sizeof(welcome),
+                                "Kilo Editor -- Version %s", KILO_VERSION);
+      // snprintf is form <stdio.h>
+      if (welcomelen > E.screencols)
+        welcomelen = E.screencols;
+
+      // Center the Message
+      int padding = (E.screencols - welcomelen) / 2;
+      if (padding) {
+        abAppend(abptr, "~", 1);
+        padding--;
+      }
+      while (padding--)
+        abAppend(abptr, " ", 1);
+
+      abAppend(abptr, welcome, welcomelen);
+    } else {
+      abAppend(abptr, "~", 1);
+    }
+
+    abAppend(abptr, "\x1b[K", 3); // Erase line to right of the cursor
     if (nrows > 0) {
-      abAppend(ab, "\r\n", 2);
+      abAppend(abptr, "\r\n", 2);
     }
   }
 }
 
-void editorRefreshScreen() {
+void editorRefreshScreen(void) {
+	// init append buffer
   struct abuf ab = ABUF_INIT;
 
-  abAppend(&ab, "\x1b[2J", 4);
-  abAppend(&ab, "\x1b[H", 3);
+  abAppend(&ab, "\x1b[?25l", 6); // Hide cursor
+  abAppend(&ab, "\x1b[H", 3);    // Move cursor to top left
 
   editorDrawRows(&ab);
-  abAppend(&ab, "\x1b[H", 3);
 
+	// Move mouse to correct position
+	char buf [32];
+	snprintf(buf, sizeof(buf), "\x1b[%d;%dH", E.cx+1, E.cy+1);
+  abAppend(&ab, buf, strlen(buf));    // To corrected position
+	// strlen is from <string.h>
+
+  abAppend(&ab, "\x1b[?25h", 6); // Show cursor
   write(STDIN_FILENO, ab.b, ab.len);
 }
 
 /*** init ***/
-void editorInit() { getWindowSize(&E.screenrows, &E.screencol); }
+void editorInit(void) {
+  E.cx = 0;
+  E.cy = 0;
+  getWindowSize(&E.screenrows, &E.screencols);
+}
 
-int main() {
+int main(void) {
   enableRAWMode();
   editorInit();
   while (1) {

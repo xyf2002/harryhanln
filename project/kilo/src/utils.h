@@ -16,7 +16,7 @@ void abFree(struct abuf *ab);
 #endif
 
 // Utilities functions
-void clearScreen();
+void clearScreen(void);
 void die(const char *);
 
 #endif // For UTILS_H
