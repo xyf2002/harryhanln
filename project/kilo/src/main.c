@@ -3,6 +3,7 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/ioctl.h>
 #include <termios.h>
 #include <unistd.h> // lib for POSIX system
@@ -17,12 +18,18 @@ struct editorConfig {
 
 struct editorConfig E;
 
-void disableRAWMode();
-void die(const char *);
-char editorReadKey();
-int getCursorPosition(int *, int *);
+int getCursorPosition(int*, int*);
+void getWindowSize(int*, int*);
 void clearScreen();
+void die (const char *s);
+void enableRAWMode();
+void disableRAWMode();
+char editorReadKey();
+void editorProcessKeyPress();
+void editorRefreshScreen();
+void editorInit();
 
+/*** Terminal ***/
 int getCursorPosition(int *rows, int *cols) {
   // Read the status report
   char c;
@@ -59,7 +66,7 @@ void getWindowSize(int *rows, int *cols) {
 
   // Use ioctl from <sys/ioctl.h>
   // place the data into ws struct, return -1 on failure
-  if (1 || ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0) {
+  if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0) {
     if (write(STDOUT_FILENO, "\x1b[999C\x1b[999B", 12) != 12) {
       // ESC 999C move cursor to right, B move down; They would not move cursor
       // off screen.
@@ -138,11 +145,34 @@ void disableRAWMode() {
   }
 }
 
+/*** Append Buffer ***/
+struct abuf {
+  char *b;
+  int len;
+};
+
+#define ABUF_INIT                                                              \
+  { NULL, 0 }
+
+void abAppend(struct abuf *ab, const char *s, int len) {
+  char *new = realloc(ab->b, len + ab->len);
+
+  if (new == NULL)
+    return;
+  memcpy(&new[ab->len], s, len); // From <string.h>
+  ab->b = new;
+  ab->len += len;
+}
+
+void abFree(struct abuf *ab) { free(ab->b); }
+
+/*** Input ***/
 /// Reads and returns the key once.
 char editorReadKey() {
   int nread;
   char c;
   while ((nread = read(STDIN_FILENO, &c, 1)) != 1) {
+    // read returns '\0' if no input is received after 0.1 s
     // read returns number of byte read. -1 when failure.
     if (nread == -1 && errno != EAGAIN)
       die("editorReadKey failed!");
@@ -163,20 +193,30 @@ void editorProcessKeyPress() {
   }
 }
 
-void editorDrawRows() {
+/*** Output ***/
+void editorDrawRows(struct abuf *ab) {
   int nrows = E.screenrows;
   while (nrows-- > 0) {
-    write(STDIN_FILENO, "~\r\n", 3);
+    abAppend(ab, "~", 1);
+    if (nrows > 0) {
+      abAppend(ab, "\r\n", 2);
+    }
   }
 }
 
 void editorRefreshScreen() {
-  clearScreen();
+  struct abuf ab = ABUF_INIT;
 
-  editorDrawRows();
-  write(STDIN_FILENO, "\x1b[H", 3);
+  abAppend(&ab, "\x1b[2J", 4);
+  abAppend(&ab, "\x1b[H", 3);
+
+  editorDrawRows(&ab);
+  abAppend(&ab, "\x1b[H", 3);
+
+  write(STDIN_FILENO, ab.b, ab.len);
 }
 
+/*** init ***/
 void editorInit() { getWindowSize(&E.screenrows, &E.screencol); }
 
 int main() {
