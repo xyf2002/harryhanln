@@ -8,6 +8,8 @@
 #include <termios.h>
 #include <unistd.h> // lib for POSIX system
 
+#include "utils.h"
+
 #define CTRL_KEY(k) ((k)&0x1f)
 
 struct editorConfig {
@@ -20,8 +22,6 @@ struct editorConfig E;
 
 int getCursorPosition(int*, int*);
 void getWindowSize(int*, int*);
-void clearScreen();
-void die (const char *s);
 void enableRAWMode();
 void disableRAWMode();
 char editorReadKey();
@@ -80,19 +80,6 @@ void getWindowSize(int *rows, int *cols) {
   }
 }
 
-void clearScreen() {
-  write(STDIN_FILENO, "\x1b[2J",
-        4); // Erase in display, option 2, the whole screen, cursor do not move
-  write(STDIN_FILENO, "\x1b[H",
-        3); // Place the cursor the to top left of the screen
-}
-
-void die(const char *s) {
-  clearScreen();
-
-  perror(s); // From <stdio.h>
-  exit(1);   // Exit with 1. From <stdlib.h>
-}
 
 /// This function enables RAW mode for terminal.
 void enableRAWMode() {
@@ -144,27 +131,6 @@ void disableRAWMode() {
     die("error occur in function disableRAWMode");
   }
 }
-
-/*** Append Buffer ***/
-struct abuf {
-  char *b;
-  int len;
-};
-
-#define ABUF_INIT                                                              \
-  { NULL, 0 }
-
-void abAppend(struct abuf *ab, const char *s, int len) {
-  char *new = realloc(ab->b, len + ab->len);
-
-  if (new == NULL)
-    return;
-  memcpy(&new[ab->len], s, len); // From <string.h>
-  ab->b = new;
-  ab->len += len;
-}
-
-void abFree(struct abuf *ab) { free(ab->b); }
 
 /*** Input ***/
 /// Reads and returns the key once.
