@@ -13,6 +13,18 @@
 #define CTRL_KEY(k) ((k)&0x1f)
 #define KILO_VERSION "0.0.1"
 
+enum editorKey {
+  ARROW_LEFT = 100,
+  ARROW_RIGHT,
+  ARROW_UP,
+  ARROW_DOWN,
+  PAGE_UP,
+  PAGE_DOWN,
+  DEL_KEY,
+  HOME_KEY,
+  END_KEY
+};
+
 struct editorConfig {
   int cx, cy;     // cursor position. cx horizantol, cy vertical
   int screenrows; // number of rows in the screen
@@ -30,6 +42,7 @@ char editorReadKey(void);
 void editorProcessKeyPress(void);
 void editorRefreshScreen(void);
 void editorInit(void);
+int editorMoveCursor(char);
 
 /*** Terminal ***/
 int getCursorPosition(int *rows, int *cols) {
@@ -134,6 +147,19 @@ void disableRAWMode(void) {
 
 /*** Input ***/
 /// Reads and returns the key once.
+// Note on Escape Sequences:
+// ARROW_UP: \x1b[A
+// ARROW_DOWN: \x1b[B
+// ARROW_RIGHT: \x1b[C
+// ARROW_LEFT: \x1b[D
+// HOME: \x1b[H
+// END: \x1b[F
+// DELETE: \x1b[3~
+// PAGE_UP: \x1b[5~
+// PAGE_DOWN: \x1b[6~
+// Note that the escape sequence is read in 3 parts, the first part is always
+// '\x1b', the second part is always '[', and the third part is the actual
+// escape sequence.
 char editorReadKey(void) {
   int nread;
   char c;
@@ -146,7 +172,44 @@ char editorReadKey(void) {
     // TEST: TESTCODE
     // printf("%s\r\n", "editorReadKey Running");
   }
-  return c;
+
+  if (c != '\x1b') // if no escape sequence is read.
+    return c;
+
+  char seq[3];
+  if (read(STDIN_FILENO, &seq[0], 1) != 1)
+    return '\x1b';
+  if (read(STDIN_FILENO, &seq[1], 1) != 1)
+    return '\x1b';
+  read(STDIN_FILENO, &seq[2], 1);
+
+  if (seq[0] != '[')
+    return '\x1b';
+
+  if ((seq[1] == '5') && (seq[2] == '~'))
+    return PAGE_UP;
+  if ((seq[1] == '6') && (seq[2] == '~'))
+    return PAGE_DOWN;
+  if ((seq[1] == '3') && (seq[2] == '~'))
+    return DEL_KEY;
+  if ((seq[1] == '1') && (seq[2] == '~'))
+    return HOME_KEY;
+
+  switch (seq[1]) {
+  case 'A':
+    return ARROW_UP; // TESTED
+  case 'B':
+    return ARROW_DOWN; // TESTED
+  case 'C':
+    return ARROW_RIGHT; // TESTED
+  case 'D':
+    return ARROW_LEFT; // TESTED
+  case 'H':
+    return HOME_KEY; // TESTED
+  case 'F':
+    return END_KEY;
+  }
+  return '\x1b';
 }
 
 void editorProcessKeyPress(void) {
@@ -155,6 +218,25 @@ void editorProcessKeyPress(void) {
   case (CTRL_KEY('q')):
     clearScreen();
     exit('0');
+    break;
+  case ARROW_LEFT:  // TESTED
+  case ARROW_RIGHT: // TESTED
+  case ARROW_DOWN:  // TESTED
+  case ARROW_UP:    // TESTED
+    editorMoveCursor(c);
+    break;
+
+  case PAGE_UP: // PAGE_UP, PAGE_DOWN tested
+  case PAGE_DOWN: {
+    int times = E.screenrows;
+    while (times--)
+      editorMoveCursor(c == PAGE_UP ? ARROW_UP : ARROW_DOWN);
+    break;
+  }
+
+  case HOME_KEY:// TESTED
+  case END_KEY:// TESTED
+  case DEL_KEY:// TESTED
     break;
   }
 }
@@ -195,7 +277,7 @@ void editorDrawRows(struct abuf *abptr) {
 }
 
 void editorRefreshScreen(void) {
-	// init append buffer
+  // init append buffer
   struct abuf ab = ABUF_INIT;
 
   abAppend(&ab, "\x1b[?25l", 6); // Hide cursor
@@ -203,14 +285,36 @@ void editorRefreshScreen(void) {
 
   editorDrawRows(&ab);
 
-	// Move mouse to correct position
-	char buf [32];
-	snprintf(buf, sizeof(buf), "\x1b[%d;%dH", E.cx+1, E.cy+1);
-  abAppend(&ab, buf, strlen(buf));    // To corrected position
-	// strlen is from <string.h>
+  // Move mouse to correct position
+  char buf[32];
+  snprintf(buf, sizeof(buf), "\x1b[%d;%dH", E.cy + 1, E.cx + 1);
+  abAppend(&ab, buf, strlen(buf)); // To corrected position
+                                   // strlen is from <string.h>
 
   abAppend(&ab, "\x1b[?25h", 6); // Show cursor
   write(STDIN_FILENO, ab.b, ab.len);
+}
+
+int editorMoveCursor(char key) {
+  switch (key) {
+  case ARROW_UP:
+    if (E.cy > 0)
+      E.cy--;
+    return 0;
+  case ARROW_DOWN:
+    if (E.cy < E.screenrows - 1)
+      E.cy++;
+    return 0;
+  case ARROW_LEFT:
+    if (E.cx > 0)
+      E.cx--;
+    return 0;
+  case ARROW_RIGHT:
+    if (E.cx < E.screencols - 1)
+      E.cx++;
+    return 0;
+  }
+  return -1;
 }
 
 /*** init ***/
