@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/ioctl.h>
+#include <sys/types.h>
 #include <termios.h>
 #include <unistd.h> // lib for POSIX system
 
@@ -12,6 +13,11 @@
 
 #define CTRL_KEY(k) ((k)&0x1f)
 #define KILO_VERSION "0.0.1"
+
+typedef struct {
+  int size;
+  char *chars;
+} erow; // editor row
 
 enum editorKey {
   ARROW_LEFT = 100,
@@ -29,6 +35,8 @@ struct editorConfig {
   int cx, cy;     // cursor position. cx horizantol, cy vertical
   int screenrows; // number of rows in the screen
   int screencols; // number of columns in the screen
+  int numrows;
+  erow row;
   struct termios orig_termios;
 };
 
@@ -43,6 +51,32 @@ void editorProcessKeyPress(void);
 void editorRefreshScreen(void);
 void editorInit(void);
 int editorMoveCursor(char);
+
+/*** FILE IO ***/
+void editorOpen(char *filename) {
+	FILE *fp = fopen(filename, "r"); 
+	char errorMessage [100];
+	snprintf(errorMessage, 100, "Can not open File: %s \n", filename );
+	// TODO: CHECK IF WORK
+	if (!fp) die(errorMessage);
+
+  char *line = NULL;  // if *line = NULL getline will automatically allocate memory for it.
+	size_t linecap = 0;
+  ssize_t linelen = getline(&line, &linecap, fp);
+	if (linelen != -1){
+		while ((linelen > 0) && ((line[linelen-1]== '\n' )||(line[linelen-1]== 'r')))
+			linelen--;
+	}
+
+  E.numrows = 1;
+  E.row.size = linelen;
+  E.row.chars = (char *)calloc(linelen + 1, sizeof(char));
+  memcpy(E.row.chars, line, linelen);
+  E.row.chars[linelen] = '\0';
+
+	free(line);
+	fclose(fp);
+}
 
 /*** Terminal ***/
 int getCursorPosition(int *rows, int *cols) {
@@ -234,9 +268,9 @@ void editorProcessKeyPress(void) {
     break;
   }
 
-  case HOME_KEY:// TESTED
-  case END_KEY:// TESTED
-  case DEL_KEY:// TESTED
+  case HOME_KEY: // TESTED
+  case END_KEY:  // TESTED
+  case DEL_KEY:  // TESTED
     break;
   }
 }
@@ -246,27 +280,32 @@ void editorDrawRows(struct abuf *abptr) {
   int nrows = E.screenrows;
 
   while (nrows--) { // This loop while repeat nrows times
-    if (nrows == 2 * E.screenrows / 3) {
-      // Welcome Message
-      char welcome[80];
-      int welcomelen = snprintf(welcome, sizeof(welcome),
-                                "Kilo Editor -- Version %s", KILO_VERSION);
-      // snprintf is form <stdio.h>
-      if (welcomelen > E.screencols)
-        welcomelen = E.screencols;
+    if (E.screenrows - nrows > E.numrows) {
+      if (nrows == 2 * E.screenrows / 3) {
+        // Welcome Message
+        char welcome[80];
+        int welcomelen = snprintf(welcome, sizeof(welcome),
+                                  "Kilo Editor -- Version %s", KILO_VERSION);
+        // snprintf is form <stdio.h>
+        if (welcomelen > E.screencols)
+          welcomelen = E.screencols;
 
-      // Center the Message
-      int padding = (E.screencols - welcomelen) / 2;
-      if (padding) {
+        // Center the Message
+        int padding = (E.screencols - welcomelen) / 2;
+        if (padding) {
+          abAppend(abptr, "~", 1);
+          padding--;
+        }
+        while (padding--)
+          abAppend(abptr, " ", 1);
+
+        abAppend(abptr, welcome, welcomelen);
+      } else {
         abAppend(abptr, "~", 1);
-        padding--;
       }
-      while (padding--)
-        abAppend(abptr, " ", 1);
-
-      abAppend(abptr, welcome, welcomelen);
     } else {
-      abAppend(abptr, "~", 1);
+			int len = (E.row.size>E.screenrows ? E.screenrows : E.row.size);
+			abAppend(abptr, E.row.chars, len);
     }
 
     abAppend(abptr, "\x1b[K", 3); // Erase line to right of the cursor
@@ -321,12 +360,16 @@ int editorMoveCursor(char key) {
 void editorInit(void) {
   E.cx = 0;
   E.cy = 0;
+  E.numrows = 0;
   getWindowSize(&E.screenrows, &E.screencols);
 }
 
-int main(void) {
+int main(int argc, char *argv[]) {
   enableRAWMode();
   editorInit();
+	if (argc > 1){
+  editorOpen(argv[1]);
+	}
   while (1) {
     editorRefreshScreen();
     editorProcessKeyPress();
