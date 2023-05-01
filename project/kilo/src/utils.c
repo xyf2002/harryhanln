@@ -1,7 +1,7 @@
-#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "utils.h"
 
@@ -31,4 +31,40 @@ void abAppend(struct abuf *ab, const char *s, int len) {
 }
 
 void abFree(struct abuf *ab) { free(ab->b); }
+#endif
+
+// an implementation of getline()
+// getline() is included in see man getline(3)
+           // Since glibc 2.10:
+           //     _POSIX_C_SOURCE >= 200809L
+           // Before glibc 2.10:
+           //     _GNU_SOURCE
+#if _POSIX_C_SOURCE < 200809L || !defined _GNU_SOURCE
+#include <stdlib.h>
+#include <sys/types.h>
+ssize_t getline(char **restrict buffer, size_t *restrict size,
+                FILE *restrict fp) {
+  register int c;
+  register char *cs = *buffer;
+
+  if (cs == NULL) {
+    register int length = 0;
+    while ((c = getc(fp)) != EOF) {
+      cs = (char *)realloc(cs, ++length);
+      if ((*(cs + length - 1) = c) == '\n') {
+        *(cs + length) = '\0';
+        *buffer = cs;
+        break;
+      }
+    }
+    return (ssize_t)(*size = length);
+  } else {
+    while (--(*size) > 0 && (c = getc(fp)) != EOF) {
+      if ((*cs++ = c) == '\n')
+        break;
+    }
+    *cs = '\0';
+  }
+  return (ssize_t)(*size = strlen(*buffer));
+}
 #endif
