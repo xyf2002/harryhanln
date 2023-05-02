@@ -25,7 +25,7 @@ char * hii ] = {'1', '2'}; // This can not work and will result in segamentation
 // All of the following returns a void pointer. 
 malloc(int) // 
 calloc(int, type)
-relloc(*void , int)
+realloc(*void , int)
 free(* void) // it does not frees the pointer, it frees the memory pointed to by the pointer
 ```
 
