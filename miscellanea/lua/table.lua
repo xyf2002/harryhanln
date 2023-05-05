@@ -1,11 +1,7 @@
 -- Everything in lua is a table
 -- Here are some didactic examples
 
-hello ={"Hello", "World", "!",} 
-print(table.concat(hello, " "))  -- Simple way to print non nested table
-nested = {1,2,3,{4,5,6}, {"one", {9,8},{}} ,"two"}  -- Tables can be nested indefinitely
-
--- Iterate through table
+-- Printing a Table is not as straightforward as in python
 function ptable(t)
 		for k,v in pairs(t) do
 				print(k,v)
@@ -29,4 +25,13 @@ function pnestedTable(t)
 	return res
 end
 
+hello ={"Hello", "World", "!",} 
+print(table.concat(hello, " "))  -- Simple way to print non nested table
+nested = {1,2,3,{4,5,6}, {"one", {9,8},{}} ,"two"}  -- Tables can be nested indefinitely
+
+-- Iterate through table
+
 print(pnestedTable(nested))
+
+print(#nested) -- # is the length operator
+

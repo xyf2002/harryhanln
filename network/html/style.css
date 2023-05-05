@@ -1,0 +1,36 @@
+body {
+	backgroud-color: #000;
+}
+
+h1 {
+	font-family: Geogia, "Times New Roman", serif;
+	font-size: 40px;
+	font-style: italic;
+	font-weight: bold;
+	color: #517151;
+	margin-left: 20px;
+}
+
+strong{
+	font-weight: bold;
+	color: red;
+}
+
+li{
+	list-style-type: square;
+	color: hsl(285, 100%, 60%) /* Hue saturation lightness*/
+}
+
+#stage{  /* id for div */
+	width: 400px;
+	height: 300px;
+	border: 1px dashed black;
+}
+
+.animal{ /* class for div, class can be used repeatedly*/
+	width: 100px;
+	height: 100px;
+	border: 1px solid black;
+	font-size: 50px;
+	color: rgb(255, 0, 0);
+}

@@ -30,6 +30,10 @@ haskell/*!(hs)
 *xml
 *bbl
 
+# Ignoring node_modules
+*node_modules
+*.json
+
 # Ignoring Homeworks
 */handin
 
