@@ -1,10 +1,10 @@
+#ifndef UTILS_H
+#define UTILS_H 1
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
-#ifndef UTILS_H
-#define UTILS_H 1
 
 // append buffer: my custom mutable strings in C
 #ifndef ABUF_INIT

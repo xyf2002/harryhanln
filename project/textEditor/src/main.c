@@ -9,43 +9,15 @@
 #include <termios.h>
 #include <unistd.h> // lib for POSIX system
 
+#include "globals.h"
+#include "terminal.h"
 #include "utils.h"
 
 #define CTRL_KEY(k) ((k)&0x1f)
 #define KILO_VERSION "0.0.1"
 
-typedef struct {
-  int size;
-  char *chars;
-} erow; // editor row
+extern struct editorConfig E;
 
-enum editorKey {
-  ARROW_LEFT = 100,
-  ARROW_RIGHT,
-  ARROW_UP,
-  ARROW_DOWN,
-  PAGE_UP,
-  PAGE_DOWN,
-  DEL_KEY,
-  HOME_KEY,
-  END_KEY
-};
-
-struct editorConfig {
-  int cx, cy;     // cursor position. cx horizantol, cy vertical
-  int screenrows; // number of rows in the screen
-  int screencols; // number of columns in the screen
-  int numrows;
-  erow row;
-  struct termios orig_termios;
-};
-
-struct editorConfig E;
-
-int getCursorPosition(int *, int *);
-void getWindowSize(int *, int *);
-void enableRAWMode(void);
-void disableRAWMode(void);
 char editorReadKey(void);
 void editorProcessKeyPress(void);
 void editorRefreshScreen(void);
@@ -54,128 +26,31 @@ int editorMoveCursor(char);
 
 /*** FILE IO ***/
 void editorOpen(char *filename) {
-	FILE *fp = fopen(filename, "r"); 
-	char errorMessage [100];
-	snprintf(errorMessage, 100, "Can not open File '%s'\r\nperrer message", filename );
-	if (!fp) die(errorMessage);
+  FILE *fp = fopen(filename, "r");
+  char errorMessage[100];
+  snprintf(errorMessage, 100, "Can not open File '%s'\r\nperrer message",
+           filename);
+  if (!fp)
+    die(errorMessage);
 
-  char *line = NULL;  // if *line = NULL getline will automatically allocate memory for it.
-	size_t linecap = 0;
+  char *line = NULL; // if *line = NULL getline will automatically allocate
+                     // memory for it.
+  size_t linecap = 0;
   ssize_t linelen = getline(&line, &linecap, fp);
-	if (linelen != -1){
-		while ((linelen > 0) && ((line[linelen-1]== '\n' )||(line[linelen-1]== 'r')))
-			linelen--;
-	}
+  if (linelen != -1) {
+    while ((linelen > 0) &&
+           ((line[linelen - 1] == '\n') || (line[linelen - 1] == '\r')))
+      linelen--;
+  }
 
   E.numrows = 1;
   E.row.size = linelen;
-  E.row.chars = (char *)calloc(linelen + 1, sizeof(char)); 
+  E.row.chars = (char *)calloc(linelen + 1, sizeof(char));
   memcpy(E.row.chars, line, linelen);
   E.row.chars[linelen] = '\0';
 
-	free(line);
-	fclose(fp);
-}
-
-/*** Terminal ***/
-int getCursorPosition(int *rows, int *cols) {
-  // Read the status report
-  char buf[32];
-  unsigned int i = 0;
-
-  if (write(STDIN_FILENO, "\x1b[6n", 4) != 4) {
-    // Send query to device status report
-    // report send back in stdin, in the form of "[37;57R" which can be read.
-    // 37 col, 57 row
-    die("func getCursorPosition failed!");
-  }
-
-  while (i < sizeof(buf) - 1) {
-    if (read(STDIN_FILENO, &buf[i], 1) != 1)
-      break;
-    if (buf[i] == 'R')
-      break;
-    i++;
-  }
-
-  buf[i] = '\0';
-  if (buf[0] != '\x1b' || buf[1] != '[')
-    return -1;
-  if (sscanf(&buf[2], "%d;%d", rows, cols) != 2)
-    // sscanf from <stdio.h>
-    return -1;
-
-  return 0;
-}
-
-void getWindowSize(int *rows, int *cols) {
-  struct winsize ws;
-
-  // Use ioctl from <sys/ioctl.h>
-  // place the data into ws struct, return -1 on failure
-  if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0) {
-    if (write(STDOUT_FILENO, "\x1b[999C\x1b[999B", 12) != 12) {
-      // ESC 999C move cursor to right, B move down; They would not move cursor
-      // off screen.
-      die("Fail to get window size! (At func getWindowSize(), fail to write "
-          "Escape Sequence");
-    }
-    getCursorPosition(rows, cols); // Seems to be working fine
-  } else {
-    *cols = ws.ws_col;
-    *rows = ws.ws_row;
-  }
-}
-
-/// This function enables RAW mode for terminal.
-void enableRAWMode(void) {
-  struct termios raw;
-  if (tcgetattr(STDIN_FILENO, &raw) ==
-      -1) { // STDIN_FILENO is the standard input
-    die("tcgetattr");
-  }
-  if (tcgetattr(STDIN_FILENO, &E.orig_termios) == -1) {
-    die("tcgetattr");
-  }
-  atexit(&disableRAWMode); // From <stdlib.h> Execute the function when the
-                           // program exits.
-  raw.c_lflag &=
-      ~(ECHO); // Turn off echo mode. IE, output will not be printed to screen
-  raw.c_lflag &= ~(
-      ICANON); // Turn off canonical mode, output will be registered immediately
-  raw.c_lflag &= ~(ISIG); // Turn off <Ctrl-c> <Ctrl-z> which sends SIGINT and
-                          // SIGTSTP to terminal repectively
-
-  raw.c_lflag &= ~(IEXTEN); // Turn off <ctrl-v)
-  raw.c_iflag &=
-      ~(IXON); // Turn off <Ctrl-s> and <ctrl-q>, software flow control
-  raw.c_iflag &= ~(ICRNL); // Carriage return now do not produce new line
-
-  raw.c_oflag &= ~(
-      OPOST); // Turn off all output processing. "\n" is not replaced by "\r\n"
-
-  // Miscellaneous flags
-  // This flags are probably alreadly disabled for modern terminal emulator
-  raw.c_cflag &= ~(CS8);
-  raw.c_iflag &= ~(BRKINT);
-  raw.c_iflag &= ~(INPCK);
-  raw.c_iflag &= ~(ISTRIP);
-
-  // Timeout for Read
-
-  raw.c_cc[VMIN] = 0;  // what read() returns after timeout
-  raw.c_cc[VTIME] = 1; // Timeout after 0.1 s
-
-  if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw) == -1) {
-    die("tcsetattr");
-  }
-}
-
-/// disable RAW Mode for the terminal.
-void disableRAWMode(void) {
-  if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &E.orig_termios) == -1) {
-    die("error occur in function disableRAWMode");
-  }
+  free(line);
+  fclose(fp);
 }
 
 /*** Input ***/
@@ -285,7 +160,7 @@ void editorDrawRows(struct abuf *abptr) {
         char welcome[80];
         int welcomelen = snprintf(welcome, sizeof(welcome),
                                   "Kilo Editor -- Version %s", KILO_VERSION);
-				// KILO_VERSION defined in main.c
+        // KILO_VERSION defined in main.c
         // snprintf is form <stdio.h>
         if (welcomelen > E.screencols)
           welcomelen = E.screencols;
@@ -304,9 +179,9 @@ void editorDrawRows(struct abuf *abptr) {
         abAppend(abptr, "~", 1);
       }
     } else {
-			int len = (E.row.size>E.screenrows ? E.screenrows : E.row.size);
-			abAppend(abptr, E.row.chars, len);
-			free(E.row.chars);
+      int len = (E.row.size > E.screenrows ? E.screenrows : E.row.size);
+      abAppend(abptr, E.row.chars, len);
+      // free(E.row.chars);
     }
 
     abAppend(abptr, "\x1b[K", 3); // Erase line to right of the cursor
@@ -359,22 +234,22 @@ int editorMoveCursor(char key) {
 
 /*** init ***/
 void editorInit(void) {
-  E.cx = 0;
+  E.cx = 0; // E is global variable
   E.cy = 0;
   E.numrows = 0;
-  getWindowSize(&E.screenrows, &E.screencols);
+  getWindowSize(&E.screenrows, &E.screencols); // from "terminal.h"
 }
 
 int main(int argc, char *argv[]) {
-  enableRAWMode();
+  enableRAWMode(); // from "terminal.h"
   editorInit();
-	if (argc > 1){
-  editorOpen(argv[1]);
-	}
+  if (argc > 1) {
+    editorOpen(argv[1]);
+  }
   while (1) {
     editorRefreshScreen();
     editorProcessKeyPress();
   }
-  die("process died!");
+  die("process died!");  // from utils.h
   return 0;
 }
