@@ -4,9 +4,12 @@ vim/mynvimconfig/
 haskell/*!(hs)
 # !haskell/**hs
 
+# Ignoring Test files
+**/test/
+
 # Ignore for CMake
-*/CMakeFiles/
-*build/
+**/CMakeFiles/
+**/build/
 
 # Ignoring executables
 */*.out
@@ -31,7 +34,7 @@ haskell/*!(hs)
 *bbl
 
 # Ignoring node_modules
-*node_modules
+**/node_modules
 *.json
 
 # Ignoring Homeworks
