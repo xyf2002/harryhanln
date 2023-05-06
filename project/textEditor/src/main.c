@@ -56,8 +56,7 @@ int editorMoveCursor(char);
 void editorOpen(char *filename) {
 	FILE *fp = fopen(filename, "r"); 
 	char errorMessage [100];
-	snprintf(errorMessage, 100, "Can not open File: %s \n", filename );
-	// TODO: CHECK IF WORK
+	snprintf(errorMessage, 100, "Can not open File '%s'\r\nperrer message", filename );
 	if (!fp) die(errorMessage);
 
   char *line = NULL;  // if *line = NULL getline will automatically allocate memory for it.
@@ -70,7 +69,7 @@ void editorOpen(char *filename) {
 
   E.numrows = 1;
   E.row.size = linelen;
-  E.row.chars = (char *)calloc(linelen + 1, sizeof(char));
+  E.row.chars = (char *)calloc(linelen + 1, sizeof(char)); 
   memcpy(E.row.chars, line, linelen);
   E.row.chars[linelen] = '\0';
 
@@ -279,13 +278,14 @@ void editorProcessKeyPress(void) {
 void editorDrawRows(struct abuf *abptr) {
   int nrows = E.screenrows;
 
-  while (nrows--) { // This loop while repeat nrows times
+  while (nrows--) { // This loop will repeat nrows times
     if (E.screenrows - nrows > E.numrows) {
       if (nrows == 2 * E.screenrows / 3) {
         // Welcome Message
         char welcome[80];
         int welcomelen = snprintf(welcome, sizeof(welcome),
                                   "Kilo Editor -- Version %s", KILO_VERSION);
+				// KILO_VERSION defined in main.c
         // snprintf is form <stdio.h>
         if (welcomelen > E.screencols)
           welcomelen = E.screencols;
@@ -306,6 +306,7 @@ void editorDrawRows(struct abuf *abptr) {
     } else {
 			int len = (E.row.size>E.screenrows ? E.screenrows : E.row.size);
 			abAppend(abptr, E.row.chars, len);
+			free(E.row.chars);
     }
 
     abAppend(abptr, "\x1b[K", 3); // Erase line to right of the cursor

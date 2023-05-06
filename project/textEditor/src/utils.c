@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-
 #include "utils.h"
 
 void clearScreen(void) {
@@ -16,7 +11,9 @@ void die(const char *s) {
   clearScreen();
 
   perror(s); // From <stdio.h>
-  exit(1);   // Exit with 1. From <stdlib.h>
+  // The termial is in RAW mode. perrors will return \n but not \r
+  write(STDIN_FILENO, "\r", 2);
+  exit(1); // Exit with 1. From <stdlib.h>
 }
 
 #ifdef ABUF_INIT
@@ -34,13 +31,16 @@ void abFree(struct abuf *ab) { free(ab->b); }
 #endif
 
 // an implementation of getline()
-// getline() is included in see man getline(3)
-           // Since glibc 2.10:
-           //     _POSIX_C_SOURCE >= 200809L
-           // Before glibc 2.10:
-           //     _GNU_SOURCE
+// getline() is included in see man getline(3) which contains the following
+//
+// Since glibc 2.10:
+//     _POSIX_C_SOURCE >= 200809L
+// Before glibc 2.10:
+//     _GNU_SOURCE
 #if _POSIX_C_SOURCE < 200809L || !defined _GNU_SOURCE
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/types.h>
 ssize_t getline(char **restrict buffer, size_t *restrict size,
                 FILE *restrict fp) {
