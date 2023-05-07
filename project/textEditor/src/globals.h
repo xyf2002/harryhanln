@@ -1,8 +1,16 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H 1
 
-#include <termios.h>
+#ifndef CTRL_KEY
+#define CTRL_KEY(k) ((k)&0x1f)
+#endif
 
+#ifndef KILO_VERSION
+#define KILO_VERSION "0.0.1"
+#endif
+
+
+#include <termios.h>
 typedef struct {
   int size;
   char *chars;

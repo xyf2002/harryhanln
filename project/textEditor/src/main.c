@@ -1,20 +1,6 @@
-#include <ctype.h>
-#include <errno.h>
-#include <pthread.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/ioctl.h>
-#include <sys/types.h>
-#include <termios.h>
-#include <unistd.h> // lib for POSIX system
-
 #include "globals.h"
 #include "terminal.h"
 #include "utils.h"
-
-#define CTRL_KEY(k) ((k)&0x1f)
-#define KILO_VERSION "0.0.1"
 
 extern struct editorConfig E;
 
@@ -85,11 +71,9 @@ char editorReadKey(void) {
     return c;
 
   char seq[3];
-  if (read(STDIN_FILENO, &seq[0], 1) != 1)
-    return '\x1b';
-  if (read(STDIN_FILENO, &seq[1], 1) != 1)
-    return '\x1b';
-  read(STDIN_FILENO, &seq[2], 1);
+  for (int i = 0; i < 3; ++i)
+    if (read(STDIN_FILENO, &seq[i], 1) != 1)
+      return '\x1b';
 
   if (seq[0] != '[')
     return '\x1b';
@@ -116,6 +100,8 @@ char editorReadKey(void) {
     return HOME_KEY; // TESTED
   case 'F':
     return END_KEY;
+  default:
+    return '\x1b';
   }
   return '\x1b';
 }
@@ -139,6 +125,8 @@ void editorProcessKeyPress(void) {
     int times = E.screenrows;
     while (times--)
       editorMoveCursor(c == PAGE_UP ? ARROW_UP : ARROW_DOWN);
+    break;
+  default:
     break;
   }
 
@@ -228,6 +216,8 @@ int editorMoveCursor(char key) {
     if (E.cx < E.screencols - 1)
       E.cx++;
     return 0;
+  default:
+    return -1;
   }
   return -1;
 }
@@ -241,7 +231,7 @@ void editorInit(void) {
 }
 
 int main(int argc, char *argv[]) {
-  enableRAWMode(); // from "terminal.h"
+  enableRAWMode(); // from "terminal.h"; enable Terminal RAW mode
   editorInit();
   if (argc > 1) {
     editorOpen(argv[1]);
@@ -250,6 +240,6 @@ int main(int argc, char *argv[]) {
     editorRefreshScreen();
     editorProcessKeyPress();
   }
-  die("process died!");  // from utils.h
+  die("process died!"); // from utils.h; exit program with error message
   return 0;
 }

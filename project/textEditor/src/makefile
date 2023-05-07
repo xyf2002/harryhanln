@@ -1,5 +1,10 @@
-CC=clang
-CFLAGS=-Wall -Wextra -Wpedantic -std=c99
+CC=gcc
+
+CWARNINGS=-Wall -Wextra -Wpedantic -Wformat=2 -Wswitch-default -Wpointer-arith -Wbad-function-cast -Wstrict-overflow=5 -Wstrict-prototypes -Winline -Wundef -Wnested-externs -Wcast-qual -Wshadow -Wunreachable-code -Wlogical-op -Wfloat-equal -Wstrict-aliasing=2 -Wredundant-decls -Wold-style-definition 
+
+COPTIMISING=-O0 -Og -ggdb3 -fno-omit-frame-pointer -ffloat-store -fno-common -fstrict-aliasing
+
+CFLAGS=-std=c99 $(CWARNINGS) $(COPTIMISING) -lm
 
 all: a.out
 

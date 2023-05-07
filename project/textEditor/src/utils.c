@@ -37,7 +37,8 @@ void abFree(struct abuf *ab) { free(ab->b); }
 //     _POSIX_C_SOURCE >= 200809L
 // Before glibc 2.10:
 //     _GNU_SOURCE
-#if _POSIX_C_SOURCE < 200809L || !defined _GNU_SOURCE
+
+#if !defined _POSIX_C_SOURCE || !defined _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
