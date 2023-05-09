@@ -3,6 +3,7 @@
 #include "utils.h"
 
 extern struct editorConfig E;
+extern struct programUtils PU;
 
 char editorReadKey(void);
 void editorProcessKeyPress(void);
@@ -41,19 +42,6 @@ void editorOpen(char *filename) {
 
 /*** Input ***/
 /// Reads and returns the key once.
-// Note on Escape Sequences:
-// ARROW_UP: \x1b[A
-// ARROW_DOWN: \x1b[B
-// ARROW_RIGHT: \x1b[C
-// ARROW_LEFT: \x1b[D
-// HOME: \x1b[H
-// END: \x1b[F
-// DELETE: \x1b[3~
-// PAGE_UP: \x1b[5~
-// PAGE_DOWN: \x1b[6~
-// Note that the escape sequence is read in 3 parts, the first part is always
-// '\x1b', the second part is always '[', and the third part is the actual
-// escape sequence.
 char editorReadKey(void) {
   int nread;
   char c;
@@ -111,7 +99,7 @@ void editorProcessKeyPress(void) {
   switch (c) {
   case (CTRL_KEY('q')):
     clearScreen();
-    exit('0');
+		PU.running = 0;
     break;
   case ARROW_LEFT:  // TESTED
   case ARROW_RIGHT: // TESTED
@@ -227,6 +215,7 @@ void editorInit(void) {
   E.cx = 0; // E is global variable
   E.cy = 0;
   E.numrows = 0;
+	PU.running = 1;
   getWindowSize(&E.screenrows, &E.screencols); // from "terminal.h"
 }
 
@@ -236,10 +225,9 @@ int main(int argc, char *argv[]) {
   if (argc > 1) {
     editorOpen(argv[1]);
   }
-  while (1) {
+  while (PU.running) { // PU is global struct, [P]rogram [U]tils
     editorRefreshScreen();
     editorProcessKeyPress();
   }
-  die("process died!"); // from utils.h; exit program with error message
   return 0;
 }

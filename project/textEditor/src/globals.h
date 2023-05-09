@@ -37,4 +37,8 @@ struct editorConfig {
   struct termios orig_termios;
 };
 
+struct programUtils {
+	int running;
+};
+
 #endif // for GLOBALS_H
