@@ -46,12 +46,12 @@ void abFree(struct abuf *ab) { free(ab->b); }
 ssize_t getline(char **restrict buffer, size_t *restrict size,
                 FILE *restrict fp) {
   register int c;
-  register char *cs = *buffer;
+  register char *cs = NULL;
 
   if (cs == NULL) {
     register int length = 0;
     while ((c = getc(fp)) != EOF) {
-      cs = (char *)realloc(cs, ++length);
+      cs = (char *)realloc(cs, ++length+1);
       if ((*(cs + length - 1) = c) == '\n') {
         *(cs + length) = '\0';
         *buffer = cs;
