@@ -1,8 +1,10 @@
 git/local
 git/GitTry
 vim/mynvimconfig/
-haskell/*!(hs)
-# !haskell/**hs
+
+**/haskell/**/*
+!**/haskell/**/
+!**/haskell/**/*.hs
 
 # Ignoring Test files
 **/test/
