@@ -5,16 +5,23 @@
 #define CTRL_KEY(k) ((k)&0x1f)
 #endif
 
-#ifndef KILO_VERSION
-#define KILO_VERSION "0.0.1"
-#endif
-
+#define KILO_VERSION_MAJOR 0
+#define KILO_VERSION_MINOR 0
+#define KILO_VERSION_PATCH 1
 
 #include <termios.h>
 typedef struct {
   int size;
   char *chars;
 } erow; // editor row
+
+typedef struct{
+	int size;
+	char **linebuf; //A pointer storing pointer to line buffer
+} textbuf; // textbuffer holding all lines.
+
+#include <stddef.h>
+int textbufInit(textbuf *);
 
 enum editorKey {
   ARROW_LEFT = 100,

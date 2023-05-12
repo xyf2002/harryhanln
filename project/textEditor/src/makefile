@@ -6,22 +6,31 @@ COPTIMISING=-O0 -Og -ggdb3 -fno-omit-frame-pointer -ffloat-store -fno-common -fs
 
 CFLAGS=-std=c99 $(CWARNINGS) $(COPTIMISING) -lm
 
+RED=\033[0;31m
+BLUE=\033[0;34m
+NC=\033[0m
+
 all: a.out
 
 a.out: main.o utils.o terminal.o globals.o
-	$(CC) $(CFLAGS) main.o utils.o terminal.o globals.o -o a.out 
+	@echo -e "$(RED)LINKING$(NC): Producing Executable a.out"
+	@$(CC) $(CFLAGS) main.o utils.o terminal.o globals.o -o a.out 
 
 main.o: main.c utils.o
-	$(CC) $(CFLAGS) -c main.c 
+	@echo -e "$(RED)COMPILING$(NC): $(BLUE)main.c$(NC)"
+	@$(CC) $(CFLAGS) -c main.c 
 
 terminal.o: terminal.c terminal.h utils.o
-	$(CC) $(CFLAGS) -c terminal.c 
+	@echo -e "$(RED)COMPILING$(NC): $(BLUE)terminal.c$(NC)"
+	@$(CC) $(CFLAGS) -c terminal.c 
 
 utils.o: utils.c utils.h
-	$(CC) $(CFLAGS) -c utils.c 
+	@echo -e "$(RED)COMPILING$(NC): $(BLUE)utils.c$(NC)"
+	@$(CC) $(CFLAGS) -c utils.c 
 
 globals.o: globals.h globals.c
-	$(CC) $(CFLAGS) -c globals.c 
+	@echo -e "$(RED)COMPILING$(NC): $(BLUE)globals.c$(NC)"
+	@$(CC) $(CFLAGS) -c globals.c 
 
 test: a.out
 	cp ./a.out -t ../test

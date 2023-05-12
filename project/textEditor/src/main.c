@@ -4,6 +4,8 @@
 
 extern struct editorConfig E;
 extern struct programUtils PU;
+extern textbuf TEXTBUF;
+
 
 char editorReadKey(void);
 void editorProcessKeyPress(void);
@@ -101,10 +103,10 @@ void editorProcessKeyPress(void) {
     clearScreen();
 		PU.running = 0;
     break;
-  case ARROW_LEFT:  // TESTED
-  case ARROW_RIGHT: // TESTED
-  case ARROW_DOWN:  // TESTED
-  case ARROW_UP:    // TESTED
+  case ARROW_LEFT:  
+  case ARROW_RIGHT:
+  case ARROW_DOWN: 
+  case ARROW_UP:   
     editorMoveCursor(c);
     break;
 
@@ -118,9 +120,9 @@ void editorProcessKeyPress(void) {
     break;
   }
 
-  case HOME_KEY: // TESTED
-  case END_KEY:  // TESTED
-  case DEL_KEY:  // TESTED
+  case HOME_KEY:
+  case END_KEY: 
+  case DEL_KEY: 
     break;
   }
 }
@@ -135,7 +137,7 @@ void editorDrawRows(struct abuf *abptr) {
         // Welcome Message
         char welcome[80];
         int welcomelen = snprintf(welcome, sizeof(welcome),
-                                  "Kilo Editor -- Version %s", KILO_VERSION);
+                                  "Kilo Editor -- Version %d.%d.%d", KILO_VERSION_MAJOR, KILO_VERSION_MINOR, KILO_VERSION_PATCH);
         // KILO_VERSION defined in main.c
         // snprintf is form <stdio.h>
         if (welcomelen > E.screencols)
@@ -217,6 +219,9 @@ void editorInit(void) {
   E.numrows = 0;
 	PU.running = 1;
   getWindowSize(&E.screenrows, &E.screencols); // from "terminal.h"
+	
+	if (textbufInit(&TEXTBUF)<0)// int textbufInit(textbuf*) from global.h 
+		exit(1);
 }
 
 int main(int argc, char *argv[]) {
