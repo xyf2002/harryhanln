@@ -1,1 +1,1 @@
-int tobetested = 5;
+int tobetested;

@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 int ex = 1;
+extern int tobetested;
 
 void modex(){
 	extern int ex;
@@ -23,6 +24,7 @@ void noextern(){
 					"in subforloop for noexter(): %i\n", ex++);
 		}
 	}
+	tobetested=10;
 	return;
 }
 
@@ -38,8 +40,8 @@ int main(){
 	// tobetested = 10;
 	// printf("In main, tobetested declared as local variable: "
 	// 			"%d\n", tobetested);
-	extern int tobetested;
 	printf("In main, tobetested declared as extern: %d\n", tobetested);
+	extern int non_exist;
 	return 0;
 }
 
