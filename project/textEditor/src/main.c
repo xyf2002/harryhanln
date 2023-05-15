@@ -16,29 +16,15 @@ int editorMoveCursor(char);
 /*** FILE IO ***/
 void editorOpen(char *filename) {
   FILE *fp = fopen(filename, "r");
-  char errorMessage[100];
-  snprintf(errorMessage, 100, "Can not open File '%s'\r\nperrer message",
-           filename);
-  if (!fp)
-    die(errorMessage);
+  if (!fp){
+		char errorMessage[100];
+		snprintf(errorMessage, 100, "Can not open File '%s'\r\nperrer message",
+					 filename);
+		die(errorMessage);
+	}
 
-  char *line = NULL; // if *line = NULL getline will automatically allocate
-                     // memory for it.
-  size_t linecap = 0;
-  ssize_t linelen = getline(&line, &linecap, fp);
-  if (linelen != -1) {
-    while ((linelen > 0) &&
-           ((line[linelen - 1] == '\n') || (line[linelen - 1] == '\r')))
-      linelen--;
-  }
+	textbufRead(&TEXTBUF, fp); // All lines of the file are read into TEXTBUF
 
-  E.numrows = 1;
-  E.row.size = linelen;
-  E.row.chars = (char *)calloc(linelen + 1, sizeof(char));
-  memcpy(E.row.chars, line, linelen);
-  E.row.chars[linelen] = '\0';
-
-  free(line);
   fclose(fp);
 }
 
@@ -129,12 +115,12 @@ void editorProcessKeyPress(void) {
 
 /*** Output ***/
 void editorDrawRows(struct abuf *abptr) {
-  int nrows = E.screenrows;
+  int nrows = 0;
 
-  while (nrows--) { // This loop will repeat nrows times
-    if (E.screenrows - nrows > E.numrows) {
-      if (nrows == 2 * E.screenrows / 3) {
-        // Welcome Message
+  while (nrows++<E.screenrows) { // This loop will repeat nrows times
+    if (nrows > E.numrows+1) {
+      if (nrows ==  E.screenrows / 3) {
+        // Welcome Mssage
         char welcome[80];
         int welcomelen = snprintf(welcome, sizeof(welcome),
                                   "Kilo Editor -- Version %d.%d.%d", KILO_VERSION_MAJOR, KILO_VERSION_MINOR, KILO_VERSION_PATCH);
@@ -157,9 +143,12 @@ void editorDrawRows(struct abuf *abptr) {
         abAppend(abptr, "~", 1);
       }
     } else {
-      int len = (E.row.size > E.screenrows ? E.screenrows : E.row.size);
-      abAppend(abptr, E.row.chars, len);
-      // free(E.row.chars);
+      // int len = (E.row.size > E.screenrows ? E.screenrows : E.row.size);
+      // abAppend(abptr, E.row.chars, len);
+			const char * temp = *(TEXTBUF.linebuf);
+			// TODO: Display text to screen properly
+      abAppend(abptr, temp, strlen(temp));
+      // abAppend(abptr, *(TEXTBUF.linebuf)+nrows-1, strlen(*(TEXTBUF.linebuf)+nrows-1));
     }
 
     abAppend(abptr, "\x1b[K", 3); // Erase line to right of the cursor
@@ -216,7 +205,7 @@ int editorMoveCursor(char key) {
 void editorInit(void) {
   E.cx = 0; // E is global variable
   E.cy = 0;
-  E.numrows = 0;
+  E.numrows = 1;
 	PU.running = 1;
   getWindowSize(&E.screenrows, &E.screencols); // from "terminal.h"
 	

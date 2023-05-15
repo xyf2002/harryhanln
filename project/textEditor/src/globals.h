@@ -23,6 +23,9 @@ typedef struct{
 #include <stddef.h>
 int textbufInit(textbuf *);
 
+#include <stdio.h>
+int textbufRead(textbuf *, FILE *);
+
 enum editorKey {
   ARROW_LEFT = 100,
   ARROW_RIGHT,

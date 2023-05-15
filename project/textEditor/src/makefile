@@ -32,7 +32,7 @@ globals.o: globals.h globals.c
 	@echo -e "$(RED)COMPILING$(NC): $(BLUE)globals.c$(NC)"
 	@$(CC) $(CFLAGS) -c globals.c 
 
-test: a.out
+test: all
 	cp ./a.out -t ../test
 
 clean:
