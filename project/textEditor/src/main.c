@@ -113,43 +113,51 @@ void editorProcessKeyPress(void) {
   }
 }
 
+static int appendWelcomeMessage(struct abuf *ptr){
+	struct abuf *abptr = ptr;
+	char welcome[80];
+	int welcomelen = snprintf(welcome, sizeof(welcome),
+													 "Kilo Editor -- Version %d.%d.%d", KILO_VERSION_MAJOR, KILO_VERSION_MINOR, KILO_VERSION_PATCH);
+	// KILO_VERSION defined in main.c
+	// snprintf is form <stdio.h>
+	if (welcomelen > E.screencols)
+		welcomelen = E.screencols;
+
+	// Center the Message
+	int padding = (E.screencols - welcomelen) / 2;
+	if (padding) {
+		abAppend(abptr, "~", 1);
+		padding--;
+	}
+	while (padding--)
+		abAppend(abptr, " ", 1);
+
+	abAppend(abptr, welcome, welcomelen);
+
+	return 1;
+}
+
 /*** Output ***/
 void editorDrawRows(struct abuf *abptr) {
-  int nrows = 0;
 
-  while (nrows++<E.screenrows) { // This loop will repeat nrows times
-    if (nrows > E.numrows+1) {
+  for (int nrows = 0; nrows<E.screenrows; nrows++) { // This loop will repeat nrows times
+    if (nrows > E.numrows+2 ) {
       if (nrows ==  E.screenrows / 3) {
         // Welcome Mssage
-        char welcome[80];
-        int welcomelen = snprintf(welcome, sizeof(welcome),
-                                  "Kilo Editor -- Version %d.%d.%d", KILO_VERSION_MAJOR, KILO_VERSION_MINOR, KILO_VERSION_PATCH);
-        // KILO_VERSION defined in main.c
-        // snprintf is form <stdio.h>
-        if (welcomelen > E.screencols)
-          welcomelen = E.screencols;
-
-        // Center the Message
-        int padding = (E.screencols - welcomelen) / 2;
-        if (padding) {
-          abAppend(abptr, "~", 1);
-          padding--;
-        }
-        while (padding--)
-          abAppend(abptr, " ", 1);
-
-        abAppend(abptr, welcome, welcomelen);
-      } else {
-        abAppend(abptr, "~", 1);
-      }
-    } else {
-      // int len = (E.row.size > E.screenrows ? E.screenrows : E.row.size);
-      // abAppend(abptr, E.row.chars, len);
-			const char * temp = *(TEXTBUF.linebuf);
-			// TODO: Display text to screen properly
-      abAppend(abptr, temp, strlen(temp));
-      // abAppend(abptr, *(TEXTBUF.linebuf)+nrows-1, strlen(*(TEXTBUF.linebuf)+nrows-1));
-    }
+				appendWelcomeMessage(abptr);
+			} else {
+				abAppend(abptr, "~", 1);
+				// appendWelcomeMessage(abptr);
+			}
+		} else {
+			// int len = (E.row.size > E.screenrows ? E.screenrows : E.row.size);
+			// abAppend(abptr, E.row.chars, len);
+			// const char * temp = *(TEXTBUF.linebuf);
+			// const int stringlen = strlen(temp);
+			// if (stringlen > 1)
+			// 	abAppend(abptr, temp, stringlen);
+			// abAppend(abptr, *(TEXTBUF.linebuf)+nrows-1, strlen(*(TEXTBUF.linebuf)+nrows-1));
+		}
 
     abAppend(abptr, "\x1b[K", 3); // Erase line to right of the cursor
     if (nrows > 0) {
@@ -177,6 +185,7 @@ void editorRefreshScreen(void) {
   write(STDIN_FILENO, ab.b, ab.len);
 }
 
+// BUG: cursor responds too slowly.
 int editorMoveCursor(char key) {
   switch (key) {
   case ARROW_UP:

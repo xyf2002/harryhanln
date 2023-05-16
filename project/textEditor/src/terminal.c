@@ -54,41 +54,23 @@ void getWindowSize(int *rows, int *cols) {
   }
 }
 
-/// This function enables RAW mode for terminal.
 void enableRAWMode(void) {
   struct termios raw;
-  if (tcgetattr(STDIN_FILENO, &raw) ==
-      -1) { // STDIN_FILENO is the standard input
+  if (tcgetattr(STDIN_FILENO, &raw) == -1) {
+		// STDIN_FILENO is the standard input
     die("tcgetattr");
-  }
+	}
   if (tcgetattr(STDIN_FILENO, &E.orig_termios) == -1) {
     die("tcgetattr");
   }
   atexit(&disableRAWMode); // From <stdlib.h> Execute the function when the
                            // program exits.
-  raw.c_lflag &=
-      ~(ECHO); // Turn off echo mode. IE, output will not be printed to screen
-  raw.c_lflag &= ~(
-      ICANON); // Turn off canonical mode, output will be registered immediately
-  raw.c_lflag &= ~(ISIG); // Turn off <Ctrl-c> <Ctrl-z> which sends SIGINT and
-                          // SIGTSTP to terminal repectively
-
-  raw.c_lflag &= ~(IEXTEN); // Turn off <ctrl-v)
-  raw.c_iflag &=
-      ~(IXON); // Turn off <Ctrl-s> and <ctrl-q>, software flow control
-  raw.c_iflag &= ~(ICRNL); // Carriage return now do not produce new line
-
-  raw.c_oflag &= ~(
-      OPOST); // Turn off all output processing. "\n" is not replaced by "\r\n"
-
-  // Miscellaneous flags
-  // This flags are probably alreadly disabled for modern terminal emulator
+	
+	// See devel.md for what does these flags do.
+	raw.c_lflag &= ~(ECHO|ICANON|ISIG|IEXTEN);
+	raw.c_iflag &= ~(IXON|ICRNL|BRKINT|INPCK|ISTRIP);
+  raw.c_oflag &= ~( OPOST); 
   raw.c_cflag &= ~(CS8);
-  raw.c_iflag &= ~(BRKINT);
-  raw.c_iflag &= ~(INPCK);
-  raw.c_iflag &= ~(ISTRIP);
-
-  // Timeout for Read
 
   raw.c_cc[VMIN] = 0;  // what read() returns after timeout
   raw.c_cc[VTIME] = 1; // Timeout after 0.1 s
@@ -98,7 +80,6 @@ void enableRAWMode(void) {
   }
 }
 
-/// disable RAW Mode for the terminal.
 void disableRAWMode(void) {
   if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &E.orig_termios) == -1) {
     die("error occur in function disableRAWMode");

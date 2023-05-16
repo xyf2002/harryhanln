@@ -19,9 +19,8 @@ void die(const char *s) {
 #ifdef ABUF_INIT
 void abAppend(struct abuf *ab, const char *s, int len) {
   char *new = realloc(ab->b, len + ab->len);
-
   if (new == NULL)
-    return;
+		die("Fail to realloc memory for function abAppend");
   memcpy(&new[ab->len], s, len); // From <string.h>
   ab->b = new;
   ab->len += len;

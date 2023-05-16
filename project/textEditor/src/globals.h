@@ -16,7 +16,8 @@ typedef struct {
 } erow; // editor row
 
 typedef struct{
-	int size;
+	// TODO: Change size to numlines
+	int size;  // Total number of lines 
 	char **linebuf; //A pointer storing pointer to line buffer
 } textbuf; // textbuffer holding all lines.
 
