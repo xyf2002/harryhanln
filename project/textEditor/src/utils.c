@@ -20,7 +20,7 @@ void die(const char *s) {
 void abAppend(struct abuf *ab, const char *s, int len) {
   char *new = realloc(ab->b, len + ab->len);
   if (new == NULL)
-		die("Fail to realloc memory for function abAppend");
+    die("Fail to realloc memory for function abAppend");
   memcpy(&new[ab->len], s, len); // From <string.h>
   ab->b = new;
   ab->len += len;
@@ -50,7 +50,7 @@ ssize_t getline(char **restrict buffer, size_t *restrict size,
   if (cs == NULL) {
     register int length = 0;
     while ((c = getc(fp)) != EOF) {
-      cs = (char *)realloc(cs, ++length+1);
+      cs = (char *)realloc(cs, ++length + 1);
       if ((*(cs + length - 1) = c) == '\n') {
         *(cs + length) = '\0';
         *buffer = cs;

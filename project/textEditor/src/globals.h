@@ -15,11 +15,11 @@ typedef struct {
   char *chars;
 } erow; // editor row
 
-typedef struct{
-	// TODO: Change size to numlines
-	int size;  // Total number of lines 
-	char **linebuf; //A pointer storing pointer to line buffer
-} textbuf; // textbuffer holding all lines.
+typedef struct {
+  // TODO: Change size to numlines
+  int size;       // Total number of lines
+  char **linebuf; // A pointer storing pointer to line buffer
+} textbuf;        // textbuffer holding all lines.
 
 #include <stddef.h>
 int textbufInit(textbuf *);
@@ -44,15 +44,15 @@ struct editorConfig {
   int screenrows; // number of rows in the screen
   int screencols; // number of columns in the screen
   int numrows;
-	int offsetx;
-	int offsety;
+  int offsetx;
+  int offsety;
   erow row;
   struct termios orig_termios;
 };
 
 struct programUtils {
-	int running;
-	int updated;
+  int running;
+  int updated;
 };
 
 #endif // for GLOBALS_H
