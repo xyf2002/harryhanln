@@ -32,6 +32,7 @@ globals.o: globals.h globals.c
 	@echo -e "$(RED)COMPILING$(NC): $(BLUE)globals.c$(NC)"
 	@$(CC) $(CFLAGS) -c globals.c 
 
+# For making test file in ../test directory
 test: all
 	cp ./a.out -t ../test
 

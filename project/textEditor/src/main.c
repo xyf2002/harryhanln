@@ -52,60 +52,59 @@ char editorReadKey(void) {
   if (seq[0] != '[')
     return '\x1b';
 
-  if ((seq[1] == '5') && (seq[2] == '~'))
+  if (seq[1] == '5') 
     return PAGE_UP;
-  if ((seq[1] == '6') && (seq[2] == '~'))
+  if (seq[1] == '6') 
     return PAGE_DOWN;
-  if ((seq[1] == '3') && (seq[2] == '~'))
+  if (seq[1] == '3') 
     return DEL_KEY;
-  if ((seq[1] == '1') && (seq[2] == '~'))
+  if (seq[1] == '1') 
     return HOME_KEY;
 
-  switch (seq[1]) {
-  case 'A':
-    return ARROW_UP; // TESTED
-  case 'B':
-    return ARROW_DOWN; // TESTED
-  case 'C':
-    return ARROW_RIGHT; // TESTED
-  case 'D':
-    return ARROW_LEFT; // TESTED
-  case 'H':
-    return HOME_KEY; // TESTED
-  case 'F':
-    return END_KEY;
-  default:
-    return '\x1b';
-  }
-  return '\x1b';
+	switch (seq[1]) {
+		case 'A':
+			return ARROW_UP; // TESTED
+		case 'B':
+			return ARROW_DOWN; // TESTED
+		case 'C':
+			return ARROW_RIGHT; // TESTED
+		case 'D':
+			return ARROW_LEFT; // TESTED
+		case 'H':
+			return HOME_KEY; // TESTED
+		case 'F':
+			return END_KEY;
+		default:
+			return '\x1b';
+	}
+	return '\x1b';
 }
 
 void editorProcessKeyPress(void) {
-  char c = editorReadKey();
-  switch (c) {
-  case (CTRL_KEY('q')):
-    clearScreen();
-		PU.running = 0;
-    break;
-	case ('a'):
-		editorMoveCursor(ARROW_UP);
-		break;
-  case ARROW_LEFT:  
-  case ARROW_RIGHT:
-  case ARROW_DOWN: 
-  case ARROW_UP:   
-    editorMoveCursor(c);
+	char c = editorReadKey();
+	switch (c) {
+		case (CTRL_KEY('q')):
+			clearScreen();
+			PU.running = 0;
+			break;
+		case ARROW_LEFT:  
+		case ARROW_RIGHT:
+		case ARROW_DOWN: 
+		case ARROW_UP:   
+			editorMoveCursor(c);
+			PU.updated = 1;
     break;
 
-  case PAGE_UP: // PAGE_UP, PAGE_DOWN tested
-  case PAGE_DOWN: {
-    int times = E.screenrows;
-    while (times--)
-      editorMoveCursor(c == PAGE_UP ? ARROW_UP : ARROW_DOWN);
-    break;
-  default:
-    break;
-  }
+		case PAGE_UP: // PAGE_UP, PAGE_DOWN tested
+		case PAGE_DOWN: {
+			int times = E.screenrows;
+			while (times--)
+				editorMoveCursor(c == PAGE_UP ? ARROW_UP : ARROW_DOWN);
+			PU.updated = 1;
+			break;
+			default:
+				break;
+		}
 
   case HOME_KEY:
   case END_KEY: 
@@ -117,10 +116,11 @@ void editorProcessKeyPress(void) {
 static int appendWelcomeMessage(struct abuf *ptr){
 	struct abuf *abptr = ptr;
 	char welcome[80];
-	int welcomelen = snprintf(welcome, sizeof(welcome),
-													 "Kilo Editor -- Version %d.%d.%d", KILO_VERSION_MAJOR, KILO_VERSION_MINOR, KILO_VERSION_PATCH);
 	// KILO_VERSION defined in main.c
 	// snprintf is form <stdio.h>
+	int welcomelen = snprintf(
+		welcome, sizeof(welcome), "Kilo Editor -- Version %d.%d.%d", 
+		KILO_VERSION_MAJOR, KILO_VERSION_MINOR, KILO_VERSION_PATCH);
 	if (welcomelen > E.screencols)
 		welcomelen = E.screencols;
 
@@ -140,25 +140,30 @@ static int appendWelcomeMessage(struct abuf *ptr){
 
 /*** Output ***/
 void editorDrawRows(struct abuf *abptr) {
-	for (int nrows = 0; nrows<E.screenrows; nrows++) { // This loop will repeat nrows times
-		if (nrows >= TEXTBUF.size + E.offset - 2) {
-			if (nrows ==  E.screenrows / 3 && TEXTBUF.size == 0) {
-				appendWelcomeMessage(abptr);
-			} else {
-				abAppend(abptr, "~", 1);
-			}
+	for (int nrows = 0; nrows<E.screenrows; nrows++) { 
+		// Number of rows to be drawn
+		const int n_rows_to_draw = nrows + E.offsety; 
+		if (n_rows_to_draw >= TEXTBUF.size || n_rows_to_draw < 0 ) {
+			abAppend(abptr, "~", 3);
 		} else {
 			if (TEXTBUF.linebuf != NULL){
-				char *temp = *(TEXTBUF.linebuf+nrows+E.offset);
-				int stringlen = strlen(temp);
-				abAppend(abptr, temp, stringlen);
+				// temp points to the string of the row to be drawn.
+				char *temp = *(TEXTBUF.linebuf+n_rows_to_draw); 
+				const int stringlen = strlen(temp);
+
+				// For calculate the spaces for direction scrolling. 
+				const int xoffset = E.offsetx >= stringlen ? stringlen : E.offsetx;
+				temp+=xoffset;
+
+				// Calculate the correct display length of the buffer
+				int bufferlen = stringlen - xoffset;
+				bufferlen = (bufferlen>=E.screencols) ? E.screencols-1 : bufferlen;
+
+				abAppend(abptr, " ", 1);
+				abAppend(abptr, temp, bufferlen);
 			}
 		}
-
-    abAppend(abptr, "\x1b[K", 3); // Erase line to right of the cursor
-    if (nrows >= 0) {
-      abAppend(abptr, "\r\n", 2);
-    }
+    abAppend(abptr, "\r\n", 2);
   }
 }
 
@@ -178,44 +183,74 @@ void editorRefreshScreen(void) {
                                    // strlen is from <string.h>
 
   abAppend(&ab, "\x1b[?25h", 6); // Show cursor
+	write(STDIN_FILENO, "\x1b[2J\x1b[H", 7);
   write(STDIN_FILENO, ab.b, ab.len);
+	abFree(&ab);
 }
 
+int editorScrollDown(void){
+	E.offsety++;
+	return 1;
+}
+
+int editorScrollUp(void){
+	E.offsety--;
+	return 1;
+}
+
+int editorScrollLeft(void){
+	if (E.offsetx>1) E.offsetx--;
+	return 1;
+}
+
+int editorScrollRight(void){
+	E.offsetx++;
+	return 1;
+}
+
+// TODO: RENAME or Refactor
 int editorMoveCursor(char key) {
-  switch (key) {
-  case ARROW_UP:
-    if (E.cy > 0)
-      E.cy--;
-    return 0;
-  case ARROW_DOWN:
-    if (E.cy < E.screenrows - 1)
-      E.cy++;
-    return 0;
-  case ARROW_LEFT:
-    if (E.cx > 0)
-      E.cx--;
-    return 0;
-  case ARROW_RIGHT:
-    if (E.cx < E.screencols - 1)
-      E.cx++;
-    return 0;
-  default:
-    return -1;
-  }
-  return -1;
+	switch (key) {
+		case ARROW_UP:
+			if (E.cy > E.screenrows/4)
+				E.cy--;
+			else editorScrollUp();
+			return 0;
+		case ARROW_DOWN:
+			if (E.cy <3*E.screenrows/4 - 1)
+				E.cy++;
+			else editorScrollDown();
+			return 0;
+		case ARROW_LEFT:
+			if (E.cx > 0)
+				E.cx--;
+			if (E.cx < E.screencols/4)
+				editorScrollLeft();
+			return 0;
+		case ARROW_RIGHT:
+			if (E.cx < E.screencols - 1)
+				E.cx++;
+			if (E.cx > 3*E.screencols/4)
+				editorScrollRight();
+
+			return 0;
+		default:
+			return -1;
+	}
+	return -1;
 }
 
 /*** init ***/
 void editorInit(void) {
   E.cx = 0; // E is global variable
   E.cy = 0;
-  E.numrows = 1;
-	E.offset = 0;
+	E.offsety = 0;
+	E.offsetx = 0;
 	PU.running = 1;
+	PU.updated = 1;
   getWindowSize(&E.screenrows, &E.screencols); // from "terminal.h"
 	
-	if (textbufInit(&TEXTBUF)<0)// int textbufInit(textbuf*) from global.h 
-		exit(1);
+	textbufInit(&TEXTBUF); // int textbufInit(textbuf*) from global.h 
 }
 
 int main(int argc, char *argv[]) {
@@ -225,7 +260,10 @@ int main(int argc, char *argv[]) {
     editorOpen(argv[1]);
   }
   while (PU.running) { // PU is global struct, [P]rogram [U]tils
-    editorRefreshScreen();
+		if (PU.updated){
+			editorRefreshScreen();
+			PU.updated=0;
+		}
     editorProcessKeyPress();
   }
   return 0;

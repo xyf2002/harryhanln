@@ -44,13 +44,15 @@ struct editorConfig {
   int screenrows; // number of rows in the screen
   int screencols; // number of columns in the screen
   int numrows;
-	int offset;
+	int offsetx;
+	int offsety;
   erow row;
   struct termios orig_termios;
 };
 
 struct programUtils {
 	int running;
+	int updated;
 };
 
 #endif // for GLOBALS_H
