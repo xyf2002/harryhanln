@@ -33,22 +33,20 @@ void editorOpen(char *filename) {
 char editorReadKey(void) {
   int nread;
   char c;
-  while ((nread = read(STDIN_FILENO, &c, 1)) != 1) {
+  while ((nread = read(STDIN_FILENO, &c, 1)) < 1) {
     // read returns '\0' if no input is received after 0.1 s
     // read returns number of byte read. -1 when failure.
     if (nread == -1 && errno != EAGAIN)
       die("editorReadKey failed!");
-
-    // TEST: TESTCODE
-    // printf("%s\r\n", "editorReadKey Running");
   }
 
   if (c != '\x1b') // if no escape sequence is read.
     return c;
 
+	// NOTE: INCOMPLETE CAPTURE FOR PAGE_UP
   char seq[3];
-  for (int i = 0; i < 3; ++i)
-    if (read(STDIN_FILENO, &seq[i], 1) != 1)
+  for (int i = 0; i < 2; ++i)
+    if (read(STDIN_FILENO, &seq[i], 1) < 1)
       return '\x1b';
 
   if (seq[0] != '[')
@@ -89,6 +87,9 @@ void editorProcessKeyPress(void) {
     clearScreen();
 		PU.running = 0;
     break;
+	case ('a'):
+		editorMoveCursor(ARROW_UP);
+		break;
   case ARROW_LEFT:  
   case ARROW_RIGHT:
   case ARROW_DOWN: 
@@ -139,28 +140,23 @@ static int appendWelcomeMessage(struct abuf *ptr){
 
 /*** Output ***/
 void editorDrawRows(struct abuf *abptr) {
-
-  for (int nrows = 0; nrows<E.screenrows; nrows++) { // This loop will repeat nrows times
-    if (nrows > E.numrows+2 ) {
-      if (nrows ==  E.screenrows / 3) {
-        // Welcome Mssage
+	for (int nrows = 0; nrows<E.screenrows; nrows++) { // This loop will repeat nrows times
+		if (nrows >= TEXTBUF.size + E.offset - 2) {
+			if (nrows ==  E.screenrows / 3 && TEXTBUF.size == 0) {
 				appendWelcomeMessage(abptr);
 			} else {
 				abAppend(abptr, "~", 1);
-				// appendWelcomeMessage(abptr);
 			}
 		} else {
-			// int len = (E.row.size > E.screenrows ? E.screenrows : E.row.size);
-			// abAppend(abptr, E.row.chars, len);
-			// const char * temp = *(TEXTBUF.linebuf);
-			// const int stringlen = strlen(temp);
-			// if (stringlen > 1)
-			// 	abAppend(abptr, temp, stringlen);
-			// abAppend(abptr, *(TEXTBUF.linebuf)+nrows-1, strlen(*(TEXTBUF.linebuf)+nrows-1));
+			if (TEXTBUF.linebuf != NULL){
+				char *temp = *(TEXTBUF.linebuf+nrows+E.offset);
+				int stringlen = strlen(temp);
+				abAppend(abptr, temp, stringlen);
+			}
 		}
 
     abAppend(abptr, "\x1b[K", 3); // Erase line to right of the cursor
-    if (nrows > 0) {
+    if (nrows >= 0) {
       abAppend(abptr, "\r\n", 2);
     }
   }
@@ -185,7 +181,6 @@ void editorRefreshScreen(void) {
   write(STDIN_FILENO, ab.b, ab.len);
 }
 
-// BUG: cursor responds too slowly.
 int editorMoveCursor(char key) {
   switch (key) {
   case ARROW_UP:
@@ -215,6 +210,7 @@ void editorInit(void) {
   E.cx = 0; // E is global variable
   E.cy = 0;
   E.numrows = 1;
+	E.offset = 0;
 	PU.running = 1;
   getWindowSize(&E.screenrows, &E.screencols); // from "terminal.h"
 	

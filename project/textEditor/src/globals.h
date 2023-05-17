@@ -44,6 +44,7 @@ struct editorConfig {
   int screenrows; // number of rows in the screen
   int screencols; // number of columns in the screen
   int numrows;
+	int offset;
   erow row;
   struct termios orig_termios;
 };
