@@ -46,7 +46,7 @@ char editorReadKey(void) {
   char seq[3];
   for (int i = 0; i < 2; ++i)
     if (read(STDIN_FILENO, &seq[i], 1) < 1)
-      return '\x1b';
+  //     return '\x1b';
 
   if (seq[0] != '[')
     return '\x1b';
@@ -60,6 +60,10 @@ char editorReadKey(void) {
   if (seq[1] == '1')
     return HOME_KEY;
 
+ //  if (read(STDIN_FILENO, &seq[2], 1) < 1)
+	// 	return '\x1b';
+	// if (seq[2]!='~') 
+	// 	return '\x1b';
   switch (seq[1]) {
   case 'A':
     return ARROW_UP; // TESTED
@@ -81,17 +85,25 @@ char editorReadKey(void) {
 
 void editorProcessKeyPress(void) {
   char c = editorReadKey();
+  PU.updated = 1;
   switch (c) {
   case (CTRL_KEY('q')):
     clearScreen();
     PU.running = 0;
     break;
+
+  case (CTRL_KEY('z')):
+		E.offsety = TEXTBUF.size - E.screenrows;
+    break;
+  case (CTRL_KEY('x')):
+		E.offsety = 0;
+    break;
+
   case ARROW_LEFT:
   case ARROW_RIGHT:
   case ARROW_DOWN:
   case ARROW_UP:
     editorMoveCursor(c);
-    PU.updated = 1;
     break;
 
   case PAGE_UP: // PAGE_UP, PAGE_DOWN tested
@@ -99,7 +111,6 @@ void editorProcessKeyPress(void) {
     int times = E.screenrows;
     while (times--)
       editorMoveCursor(c == PAGE_UP ? ARROW_UP : ARROW_DOWN);
-    PU.updated = 1;
     break;
   }
 
@@ -107,8 +118,8 @@ void editorProcessKeyPress(void) {
   case END_KEY:
   case DEL_KEY:
     break;
-	default:
-		break;
+  default:
+    break;
   }
 }
 
@@ -188,12 +199,14 @@ void editorRefreshScreen(void) {
 }
 
 int editorScrollDown(void) {
-  E.offsety++;
+  if (E.offsety < TEXTBUF.size + E.screenrows / 4)
+    E.offsety++;
   return 1;
 }
 
 int editorScrollUp(void) {
-  E.offsety--;
+  if (E.offsety > -E.screenrows / 2)
+    E.offsety--;
   return 1;
 }
 
@@ -210,6 +223,7 @@ int editorScrollRight(void) {
 
 // TODO: RENAME or Refactor
 int editorMoveCursor(char key) {
+  PU.updated = 1;
   switch (key) {
   case ARROW_UP:
     if (E.cy > E.screenrows / 4)
