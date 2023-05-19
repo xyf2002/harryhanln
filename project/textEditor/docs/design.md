@@ -12,5 +12,11 @@ The buffer shall be stored in memory and in a cached filed. The cached file is c
 
 The editor shall enable multiple key listeners, i.e., it may differentiate `c` and `cc`.
 
+The key listener shall be in a different thread. 
+
 ## Writing to Files
+
+## Display
+
+The display is row-based, i.e., each row of the text is rendered in the terminal, with their respective decorators and line numbers. 
 

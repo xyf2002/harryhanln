@@ -13,22 +13,28 @@ NC=\033[0m
 all: a.out
 
 a.out: main.o utils.o terminal.o globals.o
+	@echo "--------------------------------------------------"
 	@echo -e "$(RED)LINKING$(NC): Producing Executable a.out"
 	@$(CC) $(CFLAGS) main.o utils.o terminal.o globals.o -o a.out 
+	@echo "--------------------------------------------------"
 
 main.o: main.c utils.o
+	@echo "--------------------------------------------------"
 	@echo -e "$(RED)COMPILING$(NC): $(BLUE)main.c$(NC)"
 	@$(CC) $(CFLAGS) -c main.c 
 
 terminal.o: terminal.c terminal.h utils.o
+	@echo "--------------------------------------------------"
 	@echo -e "$(RED)COMPILING$(NC): $(BLUE)terminal.c$(NC)"
 	@$(CC) $(CFLAGS) -c terminal.c 
 
 utils.o: utils.c utils.h
+	@echo "--------------------------------------------------"
 	@echo -e "$(RED)COMPILING$(NC): $(BLUE)utils.c$(NC)"
 	@$(CC) $(CFLAGS) -c utils.c 
 
 globals.o: globals.h globals.c
+	@echo "--------------------------------------------------"
 	@echo -e "$(RED)COMPILING$(NC): $(BLUE)globals.c$(NC)"
 	@$(CC) $(CFLAGS) -c globals.c 
 

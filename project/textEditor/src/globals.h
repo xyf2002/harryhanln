@@ -41,12 +41,11 @@ enum editorKey {
 
 struct editorConfig {
   int cx, cy;     // cursor position. cx horizantol, cy vertical
-  int screenrows; // number of rows in the screen
-  int screencols; // number of columns in the screen
-  int numrows;
-  int offsetx;
+  int screenrows; // number of rows that fit in the screen
+  int screencols; // number of columns that fit in the screen
+  int offsetx;  // Display offset, x direction
   int offsety;
-  erow row;
+	int mode;  // Indicator for mode 
   struct termios orig_termios;
 };
 
@@ -55,4 +54,5 @@ struct programUtils {
   int updated;
 };
 
+void textbufInputChar(textbuf *, char, int x, int y);
 #endif // for GLOBALS_H

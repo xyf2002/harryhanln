@@ -94,9 +94,11 @@ void editorProcessKeyPress(void) {
 
   case (CTRL_KEY('z')):
 		E.offsety = TEXTBUF.size - E.screenrows;
+		E.cy = 0;
     break;
   case (CTRL_KEY('x')):
 		E.offsety = 0;
+		E.cy = E.screenrows-1;
     break;
 
   case ARROW_LEFT:
@@ -119,6 +121,7 @@ void editorProcessKeyPress(void) {
   case DEL_KEY:
     break;
   default:
+		textbufInputChar(&TEXTBUF, c, E.cx, E.cy+E.offsety);
     break;
   }
 }
@@ -166,10 +169,10 @@ void editorDrawRows(struct abuf *abptr) {
         temp += xoffset;
 
         // Calculate the correct display length of the buffer
-        int bufferlen = stringlen - xoffset;
+        int bufferlen = stringlen - xoffset; // same as strlen(temp)
         bufferlen = (bufferlen >= E.screencols) ? E.screencols - 1 : bufferlen;
 
-        abAppend(abptr, " ", 1);
+        abAppend(abptr, " ", 1);  // The space before the Line.
         abAppend(abptr, temp, bufferlen);
       }
     }
@@ -211,7 +214,7 @@ int editorScrollUp(void) {
 }
 
 int editorScrollLeft(void) {
-  if (E.offsetx > 1)
+  if (E.offsetx >= 1)
     E.offsetx--;
   return 1;
 }
@@ -221,13 +224,15 @@ int editorScrollRight(void) {
   return 1;
 }
 
-// TODO: RENAME or Refactor
+// TODO: Protection mechanism (stop from scrolling too far away from text 
+// TODO: Needs to be reworked
 int editorMoveCursor(char key) {
   PU.updated = 1;
   switch (key) {
   case ARROW_UP:
-    if (E.cy > E.screenrows / 4)
-      E.cy--;
+    if (E.cy > E.screenrows / 4 || E.offsety < 0){
+			if (E.cy>0) E.cy--;
+		}
     else
       editorScrollUp();
     return 0;
@@ -248,7 +253,6 @@ int editorMoveCursor(char key) {
       E.cx++;
     if (E.cx > 3 * E.screencols / 4)
       editorScrollRight();
-
     return 0;
   default:
     return -1;
@@ -262,11 +266,15 @@ void editorInit(void) {
   E.cy = 0;
   E.offsety = 0;
   E.offsetx = 0;
-  PU.running = 1;
-  PU.updated = 1;
   getWindowSize(&E.screenrows, &E.screencols); // from "terminal.h"
 
-  textbufInit(&TEXTBUF); // int textbufInit(textbuf*) from global.h
+  PU.running = 1;
+  PU.updated = 1;
+	
+	TEXTBUF.size = 0;
+  TEXTBUF.linebuf = NULL;
+  if (TEXTBUF.size != 0 || TEXTBUF.linebuf != NULL)
+		die("Fail to Init TEXTBUF");
 }
 
 int main(int argc, char *argv[]) {

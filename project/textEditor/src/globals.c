@@ -37,3 +37,13 @@ int textbufRead(textbuf *tb, FILE *fp) {
 	}
 	return 1;
 }
+
+void textbufInputChar(textbuf *ptrtb, char c, int x, int y){
+	char *linebuf = ptrtb->linebuf[y+1];
+	int len = strlen(linebuf);
+	linebuf=realloc(linebuf, len+1);
+	// NOTE: UNFINISHED HERE
+	// memmove(linebuf[x-1], linebuf[x], )
+	linebuf[x-1]=c;
+	ptrtb->linebuf[y+1]=linebuf;
+}
