@@ -38,12 +38,27 @@ int textbufRead(textbuf *tb, FILE *fp) {
 	return 1;
 }
 
-void textbufInputChar(textbuf *ptrtb, char c, int x, int y){
+// BUG: Assigne place out of range
+void textbufInputChar(textbuf *ptrtb, char inputChar, int x, int y){
 	char *linebuf = ptrtb->linebuf[y+1];
-	int len = strlen(linebuf);
-	linebuf=realloc(linebuf, len+1);
-	// NOTE: UNFINISHED HERE
-	// memmove(linebuf[x-1], linebuf[x], )
-	linebuf[x-1]=c;
+	// strlen does not count the final null terminator.
+	int len = strlen(linebuf);  
+	linebuf=realloc(linebuf, len+2); // extra space for null terminator
+	// memmove: <string.h>, c11
+	memmove(&linebuf[x], &linebuf[x-1], (len-x+1)*sizeof(char));
+	linebuf[x-1]=inputChar; // Assign Character
+	linebuf[len+1] = '\0'; 
+	ptrtb->linebuf[y+1]=linebuf;
+}
+
+// NOTE: UNFINSIHED
+void textbufDeleteChar(textbuf *ptrtb, int x, int y){
+	char *linebuf = ptrtb->linebuf[y+1];
+	// strlen does not count the final null terminator.
+	int len = strlen(linebuf);  
+	linebuf=realloc(linebuf, len+2); // extra space for null terminator
+	// memmove: <string.h>, c11
+	memmove(&linebuf[x-1], &linebuf[x], (len-x+1)*sizeof(char));
+	linebuf[len+1] = '\0'; 
 	ptrtb->linebuf[y+1]=linebuf;
 }

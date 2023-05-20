@@ -4,7 +4,7 @@ CWARNINGS=-Wall -Wextra -Wpedantic -Wformat=2 -Wswitch-default -Wpointer-arith -
 
 COPTIMISING=-O0 -ggdb3 -fno-omit-frame-pointer -ffloat-store -fno-common -fstrict-aliasing -g
 
-CFLAGS=-std=c99 $(CWARNINGS) $(COPTIMISING) -lm
+CFLAGS=-std=c11 $(CWARNINGS) $(COPTIMISING) -lm
 
 RED=\033[0;31m
 BLUE=\033[0;34m

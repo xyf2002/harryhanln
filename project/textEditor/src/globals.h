@@ -55,4 +55,5 @@ struct programUtils {
 };
 
 void textbufInputChar(textbuf *, char, int x, int y);
+void textbufDeleteChar(textbuf *, int x, int y);
 #endif // for GLOBALS_H

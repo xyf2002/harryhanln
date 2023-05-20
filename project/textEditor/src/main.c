@@ -118,10 +118,15 @@ void editorProcessKeyPress(void) {
 
   case HOME_KEY:
   case END_KEY:
-  case DEL_KEY:
     break;
+  case DEL_KEY:
+		// textbufDeleteChar(&TEXTBUF, E.cx+E.offsetx, E.cy+E.offsety);
+		textbufInputChar(&TEXTBUF, 'a', E.cx+E.offsetx, E.cy+E.offsety);
+		break;
   default:
-		textbufInputChar(&TEXTBUF, c, E.cx, E.cy+E.offsety);
+		// Input
+		textbufInputChar(&TEXTBUF, c, E.cx+E.offsetx, E.cy+E.offsety);
+		E.cx+=1; // Move the cursor
     break;
   }
 }
