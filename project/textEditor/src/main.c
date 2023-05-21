@@ -115,18 +115,23 @@ void editorProcessKeyPress(void) {
       editorMoveCursor(c == PAGE_UP ? ARROW_UP : ARROW_DOWN);
     break;
   }
-
   case HOME_KEY:
   case END_KEY:
-    break;
   case DEL_KEY:
-		// textbufDeleteChar(&TEXTBUF, E.cx+E.offsetx, E.cy+E.offsety);
+    break;
+	case 127: // Backspace
+		textbufDeleteChar(&TEXTBUF, E.cx+E.offsetx, E.cy+E.offsety);
+
+		editorMoveCursor(ARROW_LEFT);
+		// textbufInputChar(&TEXTBUF, 'a', E.cx+E.offsetx, E.cy+E.offsety);
+		break;
+	case 8:
 		textbufInputChar(&TEXTBUF, 'a', E.cx+E.offsetx, E.cy+E.offsety);
 		break;
   default:
 		// Input
 		textbufInputChar(&TEXTBUF, c, E.cx+E.offsetx, E.cy+E.offsety);
-		E.cx+=1; // Move the cursor
+		editorMoveCursor(ARROW_RIGHT);
     break;
   }
 }
@@ -248,10 +253,11 @@ int editorMoveCursor(char key) {
       editorScrollDown();
     return 0;
   case ARROW_LEFT:
-    if (E.cx > 0)
+    if (E.cx > 2){
       E.cx--;
     if (E.cx < E.screencols / 4)
       editorScrollLeft();
+			}
     return 0;
   case ARROW_RIGHT:
     if (E.cx < E.screencols - 1)

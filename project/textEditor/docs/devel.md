@@ -79,4 +79,6 @@ Here, `raw` is a `struct termios`. The flag, functions, and structs are from the
 - "\x1b[H": move cursor to top-left corner
 - "\x1b[2J": clear screen
 - "\x1b[K": erase line to the left of cursor
+- 127: backspace
+- 13: enter
 

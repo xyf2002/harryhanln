@@ -28,7 +28,7 @@ int textbufInit(textbuf *);
 int textbufRead(textbuf *, FILE *);
 
 enum editorKey {
-  ARROW_LEFT ,
+  ARROW_LEFT = 100,
   ARROW_RIGHT,
   ARROW_UP,
   ARROW_DOWN,
