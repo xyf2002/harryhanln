@@ -14,7 +14,8 @@ The executable will be 'hosted' in gdb command line interface.
 - `break` set break point. `break +<line-number>` or `break <function-name>`.
 - `next` execute the next line. `n` for short. 
 - `list` list the source code. `l` for short. `l +<line-number>` or `l-<line-number>`, or `l + <line-number>`, or `l <function-name>`.
-- `print` print the value of a variable. `p` for - `step` step into the function. `s` for short.
+- `print` print the value of a variable. `p` for short.
+- `step` step into the function. `s` for short.
 - `continue` continue the execution. `c` for short.
 - `up` go up the stack. `u` for short.
 - `backtrace` print the call stack. `bt` for short.

@@ -1,5 +1,17 @@
 # Development Documentation
 
+## Globle Variables
+
+### `extern struct editorConfig E`
+
+Struct defined in `global.h`.
+
+### `extern textbuf TEXTBUF`
+
+Struct defined in `global.h`: 
+
+`typedef struct {int size; char **linebuf;}; textbuf` 
+
 ## `main.c` 
 
 ### `char editorReadKey(void)`

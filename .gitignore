@@ -45,3 +45,5 @@ vim/mynvimconfig/
 # Ignoring 3rd party libraries
 gfx/glut/Include/
 gfx/glut/Common/*
+
+*txt

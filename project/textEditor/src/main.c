@@ -11,6 +11,7 @@ void editorProcessKeyPress(void);
 void editorRefreshScreen(void);
 void editorInit(void);
 int editorMoveCursor(char);
+void editorSaveFile(char *);
 
 /*** FILE IO ***/
 void editorOpen(char *filename) {
@@ -136,6 +137,11 @@ void editorProcessKeyPress(void) {
   }
 }
 
+// WARNING: Unfinished
+void editorSaveFile(char *ptr){
+	FILE *pf = fopen(ptr);	
+}
+
 static int appendWelcomeMessage(struct abuf *ptr) {
   struct abuf *abptr = ptr;
   char welcome[80];
@@ -253,7 +259,7 @@ int editorMoveCursor(char key) {
       editorScrollDown();
     return 0;
   case ARROW_LEFT:
-    if (E.cx > 2){
+    if (E.cx > 2){ // padding
       E.cx--;
     if (E.cx < E.screencols / 4)
       editorScrollLeft();
