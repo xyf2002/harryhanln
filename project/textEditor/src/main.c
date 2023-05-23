@@ -1,3 +1,5 @@
+#include <fcntl.h>
+
 #include "globals.h"
 #include "terminal.h"
 #include "utils.h"
@@ -90,6 +92,7 @@ void editorProcessKeyPress(void) {
   switch (c) {
   case (CTRL_KEY('q')):
     clearScreen();
+		editorSaveFile("aaa");
     PU.running = 0;
     break;
 
@@ -138,8 +141,15 @@ void editorProcessKeyPress(void) {
 }
 
 // WARNING: Unfinished
+// Can not create file
 void editorSaveFile(char *ptr){
-	FILE *pf = fopen(ptr);	
+	int fd = open(ptr, O_RDWR);	
+	for (int i = 0; i < TEXTBUF.size; i++){
+		write(fd, TEXTBUF.linebuf[i], strlen(TEXTBUF.linebuf[i]));
+		write(fd, "\n", 1);
+	}
+	close(fd);
+	return;
 }
 
 static int appendWelcomeMessage(struct abuf *ptr) {
