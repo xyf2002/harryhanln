@@ -11,18 +11,18 @@
 
 #include <termios.h>
 typedef struct {
-  int size;
+  unsigned int size;
   char *chars;
 } erow; // editor row
 
 typedef struct {
   // TODO: Change size to numlines
-  int size;       // Total number of lines
+  unsigned int size;       // Total number of lines
   char **linebuf; // A pointer storing pointer to line buffer
 } textbuf;        // textbuffer holding all lines.
 
 #include <stddef.h>
-int textbufInit(textbuf *);
+void textbufInit(textbuf *);
 
 #include <stdio.h>
 int textbufRead(textbuf *, FILE *);
@@ -40,20 +40,28 @@ enum editorKey {
 };
 
 struct editorConfig {
-  int cx, cy;     // cursor position. cx horizantol, cy vertical
-  int screenrows; // number of rows that fit in the screen
-  int screencols; // number of columns that fit in the screen
-  int offsetx;  // Display offset, x direction
-  int offsety;
-	int mode;  // Indicator for mode 
+  unsigned int cx, cy;     // cursor position. cx horizantol, cy vertical
+  unsigned int screenrows; // number of rows that fit in the screen
+  unsigned int screencols; // number of columns that fit in the screen
+  unsigned int offsetx;  // Display offset, x direction
+  unsigned int offsety;
+	unsigned int mode;  // Indicator for mode 
   struct termios orig_termios;
 };
 
 struct programUtils {
-  int running;
-  int updated;
+  unsigned int running;
+  unsigned int updated;
+};
+
+struct key {
+	unsigned int key;
+	unsigned int special;
 };
 
 void textbufInputChar(textbuf *, char, int x, int y);
 void textbufDeleteChar(textbuf *, int x, int y);
+
+void keyInit(struct key*);
+void programUtilsInit(struct programUtils *);
 #endif // for GLOBALS_H

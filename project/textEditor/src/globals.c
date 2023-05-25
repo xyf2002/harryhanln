@@ -1,19 +1,19 @@
 #include "globals.h"
+#include "utils.h"
 
 struct editorConfig E;
 struct programUtils PU;
+struct key KEY;
 textbuf TEXTBUF;
 
-int textbufInit(textbuf *t) {
+void textbufInit(textbuf *t) {
   t->size = 0;
   t->linebuf = NULL;
   if (t->size != 0 || t->linebuf != NULL)
-    return -1;
-  return 1;
+		die("Failed to Init Textbuf!");
 }
 
 #include <string.h>
-#include "utils.h"
 static int addtextbuf(textbuf * ptrtb, char * string){
 	(ptrtb->size)++;
 	int stringLength = strlen(string);
@@ -64,4 +64,16 @@ void textbufDeleteChar(textbuf *ptrtb, int x, int y){
 	linebuf=realloc(linebuf, len); // extra space for null terminator
 	ptrtb->linebuf[y+1]=linebuf;
 	}
+}
+
+void keyInit(struct key *K){
+	K->key = 0;
+	K->special = 0;
+	if (K->key!=0 || K->special!=0) 
+		die("Failed to Init struct key!");
+}
+
+void programUtilsInit(struct programUtils *p){
+  p->running = 1;
+  p->updated = 1;
 }

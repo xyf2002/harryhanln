@@ -6,6 +6,7 @@
 
 extern struct editorConfig E;
 extern struct programUtils PU;
+extern struct key KEY;
 extern textbuf TEXTBUF;
 
 char editorReadKey(void);
@@ -49,7 +50,7 @@ char editorReadKey(void) {
   char seq[3];
   for (int i = 0; i < 2; ++i)
     if (read(STDIN_FILENO, &seq[i], 1) < 1)
-  //     return '\x1b';
+      return '\x1b';
 
   if (seq[0] != '[')
     return '\x1b';
@@ -92,7 +93,7 @@ void editorProcessKeyPress(void) {
   switch (c) {
   case (CTRL_KEY('q')):
     clearScreen();
-		editorSaveFile("aaa");
+		editorSaveFile("aaa.txt");
     PU.running = 0;
     break;
 
@@ -114,7 +115,7 @@ void editorProcessKeyPress(void) {
 
   case PAGE_UP: // PAGE_UP, PAGE_DOWN tested
   case PAGE_DOWN: {
-    int times = E.screenrows;
+    unsigned int times = E.screenrows;
     while (times--)
       editorMoveCursor(c == PAGE_UP ? ARROW_UP : ARROW_DOWN);
     break;
@@ -140,11 +141,9 @@ void editorProcessKeyPress(void) {
   }
 }
 
-// WARNING: Unfinished
-// Can not create file
 void editorSaveFile(char *ptr){
-	int fd = open(ptr, O_RDWR);	
-	for (int i = 0; i < TEXTBUF.size; i++){
+	int fd = open(ptr, O_CREAT | O_RDWR, 0644);	
+	for (unsigned int i = 0; i < TEXTBUF.size; i++){
 		write(fd, TEXTBUF.linebuf[i], strlen(TEXTBUF.linebuf[i]));
 		write(fd, "\n", 1);
 	}
@@ -157,14 +156,14 @@ static int appendWelcomeMessage(struct abuf *ptr) {
   char welcome[80];
   // KILO_VERSION defined in main.c
   // snprintf is form <stdio.h>
-  int welcomelen =
+  unsigned int welcomelen =
       snprintf(welcome, sizeof(welcome), "Kilo Editor -- Version %d.%d.%d",
                KILO_VERSION_MAJOR, KILO_VERSION_MINOR, KILO_VERSION_PATCH);
   if (welcomelen > E.screencols)
     welcomelen = E.screencols;
 
   // Center the Message
-  int padding = (E.screencols - welcomelen) / 2;
+  unsigned int padding = (E.screencols - welcomelen) / 2;
   if (padding) {
     abAppend(abptr, "~", 1);
     padding--;
@@ -179,23 +178,23 @@ static int appendWelcomeMessage(struct abuf *ptr) {
 
 /*** Output ***/
 void editorDrawRows(struct abuf *abptr) {
-  for (int nrows = 0; nrows < E.screenrows; nrows++) {
-    // Number of rows to be drawn
-    const int n_rows_to_draw = nrows + E.offsety;
+  for (unsigned int nrows = 0; nrows < E.screenrows; nrows++) {
+    // the line number of the row to be drawn
+    const unsigned int n_rows_to_draw = nrows + E.offsety;
     if (n_rows_to_draw >= TEXTBUF.size || n_rows_to_draw < 0) {
       abAppend(abptr, "~", 3);
     } else {
       if (TEXTBUF.linebuf != NULL) {
         // temp points to the string of the row to be drawn.
         char *temp = *(TEXTBUF.linebuf + n_rows_to_draw);
-        const int stringlen = strlen(temp);
+        const unsigned int stringlen = strlen(temp);
 
         // For calculate the spaces for direction scrolling.
-        const int xoffset = E.offsetx >= stringlen ? stringlen : E.offsetx;
+        const unsigned int xoffset = E.offsetx >= stringlen ? stringlen : E.offsetx;
         temp += xoffset;
 
         // Calculate the correct display length of the buffer
-        int bufferlen = stringlen - xoffset; // same as strlen(temp)
+        unsigned int bufferlen = stringlen - xoffset; // same as strlen(temp)
         bufferlen = (bufferlen >= E.screencols) ? E.screencols - 1 : bufferlen;
 
         abAppend(abptr, " ", 1);  // The space before the Line.
@@ -288,25 +287,21 @@ int editorMoveCursor(char key) {
 }
 
 /*** init ***/
-void editorInit(void) {
+void init(void) {
   E.cx = 0; // E is global variable
   E.cy = 0;
   E.offsety = 0;
   E.offsetx = 0;
   getWindowSize(&E.screenrows, &E.screencols); // from "terminal.h"
-
-  PU.running = 1;
-  PU.updated = 1;
 	
-	TEXTBUF.size = 0;
-  TEXTBUF.linebuf = NULL;
-  if (TEXTBUF.size != 0 || TEXTBUF.linebuf != NULL)
-		die("Fail to Init TEXTBUF");
+	programUtilsInit(&PU);
+	textbufInit(&TEXTBUF);
+	keyInit(&KEY);
 }
 
 int main(int argc, char *argv[]) {
   enableRAWMode(); // from "terminal.h"; enable Terminal RAW mode
-  editorInit();
+  init();
   if (argc > 1) {
     editorOpen(argv[1]);
   }

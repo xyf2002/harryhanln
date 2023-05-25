@@ -20,3 +20,6 @@ The key listener shall be in a different thread.
 
 The display is row-based, i.e., each row of the text is rendered in the terminal, with their respective decorators and line numbers. 
 
+### Warning System
+
+There shall be displayed warning system, maybe implemented simply as a function taking in string.

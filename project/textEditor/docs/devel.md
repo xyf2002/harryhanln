@@ -34,7 +34,7 @@ Note that the escape sequence is read in 3 parts, the first part is always
 '\x1b', the second part is always '[', and the third part is the actual
 escape sequence.
 
-## `utils.h`
+## utils.h
 
 ### `struct abuf {char *b, int len};` 
 
@@ -49,7 +49,7 @@ Append `len` characters from `s` to `ab->b` (realloc memory if required). `ab->l
 
 My custom ISO compliant version of `getline()`. If `*lineptr` is `NULL` or `*n` is 0, then `getline()` will allocate a buffer for storing the line. This buffer should be freed by the user program even if `getline()` failed. 
 
-## `terminal.h`
+## terminal.h
 
 ### `void disableRawMode(void)`
 

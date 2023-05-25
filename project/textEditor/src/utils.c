@@ -12,7 +12,7 @@ void die(const char *s) {
 
   perror(s); // From <stdio.h>
   // The termial is in RAW mode. perrors will return \n but not \r
-  write(STDIN_FILENO, "\r", 2);
+  write(STDIN_FILENO, "\r", 1);
   exit(1); // Exit with 1. From <stdlib.h>
 }
 

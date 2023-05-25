@@ -5,7 +5,7 @@
 extern struct editorConfig E;
 
 /// This function is merely an auxillary function for getWindowSize()
-int getCursorPosition(int *rows, int *cols) {
+int getCursorPosition(unsigned int *rows, unsigned int *cols) {
   // Read the status report
   char buf[32];
   unsigned int i = 0;
@@ -28,14 +28,14 @@ int getCursorPosition(int *rows, int *cols) {
   buf[i] = '\0';
   if (buf[0] != '\x1b' || buf[1] != '[')
     return -1;
-  if (sscanf(&buf[2], "%d;%d", rows, cols) != 2)
+  if (sscanf(&buf[2], "%u;%u", rows, cols) != 2)
     // sscanf from <stdio.h>
     return -1;
 
   return 0;
 }
 
-void getWindowSize(int *rows, int *cols) {
+void getWindowSize(unsigned int *rows, unsigned int *cols) {
   struct winsize ws;
 
   // Use ioctl from <sys/ioctl.h>
