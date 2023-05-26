@@ -142,7 +142,14 @@ void editorProcessKeyPress(void) {
 }
 
 void editorSaveFile(char *ptr){
+	// 0644 is octal, equivalent to 110100100 in binary
+	// Owner can read and write, all other can only read.
 	int fd = open(ptr, O_CREAT | O_RDWR, 0644);	
+	if (fd == -1){
+		char message [64];
+		sprintf(message, "Failed to open file: %s", ptr);
+		die(message);
+	}
 	for (unsigned int i = 0; i < TEXTBUF.size; i++){
 		write(fd, TEXTBUF.linebuf[i], strlen(TEXTBUF.linebuf[i]));
 		write(fd, "\n", 1);
