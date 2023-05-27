@@ -12,13 +12,13 @@ NC=\033[0m
 
 all: a.out
 
-a.out: main.o utils.o terminal.o globals.o
+a.out: main.o 
 	@echo "--------------------------------------------------"
 	@echo -e "$(RED)LINKING$(NC): Producing Executable a.out"
-	@$(CC) $(CFLAGS) main.o utils.o terminal.o globals.o -o a.out 
+	@$(CC) $(CFLAGS) main.o utils.o terminal.o globals.o editor.o -o a.out 
 	@echo "--------------------------------------------------"
 
-main.o: main.c utils.o
+main.o: main.c utils.o terminal.o globals.o editor.o
 	@echo "--------------------------------------------------"
 	@echo -e "$(RED)COMPILING$(NC): $(BLUE)main.c$(NC)"
 	@$(CC) $(CFLAGS) -c main.c 
@@ -37,6 +37,11 @@ globals.o: globals.h globals.c
 	@echo "--------------------------------------------------"
 	@echo -e "$(RED)COMPILING$(NC): $(BLUE)globals.c$(NC)"
 	@$(CC) $(CFLAGS) -c globals.c 
+
+editor.o: editor.h editor.c globals.o utils.o
+	@echo "--------------------------------------------------"
+	@echo -e "$(RED)COMPILING$(NC): $(BLUE)editor.c$(NC)"
+	@$(CC) $(CFLAGS) -c editor.c 
 
 # For making test file in ../test directory
 test: all

@@ -22,6 +22,8 @@ void abFree(struct abuf *ab);
 
 // Utilities functions
 void clearScreen(void);
+
+#include <errno.h>
 void die(const char *);
 
 // an implementation of getline()
