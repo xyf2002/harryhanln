@@ -49,5 +49,7 @@ int main() {
   }
   fclose(fp);
 
+	if (buf[0][0]=='\n') printf("%s\n", "YES");
+
   return 0;
 }
