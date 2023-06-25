@@ -8,12 +8,12 @@ newLine: .asciiz "\n"
  .text:
 la $t0, a # load address: t0 = &a[0]
 
-lb $a0, 0($t0) # t1 = a[0]
-li $v0, 1
+lb $a0, 0($t0) # load buffer, t1 = a[0]
+li $v0, 1  # load immediately
 syscall
 
 li $t2, 10
-sb $t2, 1($t0)  # a[1] = t2;
+sb $t2, 1($t0)  # store buffer a[1] = t2;
 
 # Print newline
 li $v0, 4

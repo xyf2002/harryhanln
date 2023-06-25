@@ -54,3 +54,12 @@ EA: MUL $t0, $s0, 2
 ```
 
 #### if, if-else
+
+### function
+
+- `jal label` : (jump and link) jump to label and store return address in $ra, use for begin function call
+- `jr $ra` : jump to address stored in $ra, use for return funciton call
+- Arguments are passed in $a0-$a3, return value is stored in $v0-$v1
+- Registers shall be spilled to stack before function call.
+- Convention: function may use registers $t0-$t9, $a0-$a3, $v0-$v1but must keep $s0-$s7, $ra untouched
+
