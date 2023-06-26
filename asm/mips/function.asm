@@ -30,19 +30,17 @@ printInt:
 # print value
 li $v0 1
 syscall
-
 # pushing to stack
 addi $sp, $sp, -4
 sw $ra, 0($sp)
-
 # function call
 jal printNewLine
-
 # popping from stack
 lw $ra, 0($sp)
 addi $sp, $sp, 4
 
 jr $ra
+
 printNewLine:
 addi $v0, $0, 4
 la $a0, newLine

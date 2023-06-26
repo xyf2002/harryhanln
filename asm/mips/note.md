@@ -63,3 +63,20 @@ EA: MUL $t0, $s0, 2
 - Registers shall be spilled to stack before function call.
 - Convention: function may use registers $t0-$t9, $a0-$a3, $v0-$v1but must keep $s0-$s7, $ra untouched
 
+#### Push to stack
+
+- `addi $sp, $sp, -4` : move stack pointer to next address
+- `sw $t0, 0($sp)` : store $t0 to stack
+- `lw $t0, 0($sp)` : load $t0 from stack
+- `addi $sp, $sp, 4` : move stack pointer to previous address
+
+#### How to use stack in function call
+
+Stack help us to avoid register spill and save register value for function call.
+
+To use stack for function call, following the procedure
+
+- store required variable in stack (including returning address)
+- when a function call is to return, the stack must be reseted to the state it is received
+- reusing the variable stored in stack by order.
+
