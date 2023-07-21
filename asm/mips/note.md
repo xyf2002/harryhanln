@@ -2,6 +2,15 @@
 
 ## Quickstart
 
+## Assemblage and Execution on x86 environment
+
+MARS (Mips assembler and runtime simulator) can be used to assemble and run mips assembly language on x86 environment. 
+Simply run
+
+```shell
+mars filename.asm 
+```
+
 ### 32 Registers
 
 32-bit MIPS has 32 fast registers, prefixed by `$`:
