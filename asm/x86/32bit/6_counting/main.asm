@@ -7,15 +7,15 @@ _start:
   mov cx, 0  ; set ecs to 0
 
 nextNumber:
-  inc   ecx
-  add   eax, ecx
-  add   eax, 48
-  push  eax
-  mov   eax, esp
+  inc   rcx
+  add   rax, rcx
+  add   rax, 48
+  push  rax
+  mov   rax, rsp
   call  characterPrintLN
-  pop   eax
+  pop   rax
   
-  cmp   ecx, 10
+  cmp   rcx, 10
   jne   nextNumber  ; jump if not equal
 
   call quit

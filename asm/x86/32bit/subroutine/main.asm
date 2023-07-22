@@ -10,7 +10,7 @@ _start:
   call  strlen
 
   ; printing to screen
-  mov   edx, eax
+  mov   edx, eax  ; get length of the string
   mov   ecx, msg
   mov   ebx, 1
   mov   eax, 4

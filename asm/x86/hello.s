@@ -1,3 +1,4 @@
+; note: syscall for 64 bits and 32 bits are different
 section .data
   msg db "Hello, World!"
 
