@@ -35,6 +35,11 @@ __Importantly__ `rsp`, aka `r4`, is stack pointer.
 - `mul src` multiplies `src` with `rax` and stores the result in `rax`.
 - `div src` divides `rax` by `src` and stores the quotient in `rax` and remainder in `rdx`.
 
+### Syscall
+
+- `syscall` executes the system call specified by `rax` and stores the result in `rax`.
+
+
 ## Function calling convention
 
 - Store the arguments to function into the following register in order:
@@ -44,3 +49,5 @@ __Importantly__ `rsp`, aka `r4`, is stack pointer.
 - Additional parameters are pushed onto stack, which are removed by the caller after the call.
 - The return value is stored in `rax` or `xmm0` for floating point numbers.
 - The registers that needs to be preserved are `rbx`, `rbp`, `r12`, `r13`, `r14`, and `r15`. All other can be modified.
+
+
