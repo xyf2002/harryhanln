@@ -7,6 +7,6 @@ SECTION .text
     global  _start
 
 _start:
-    mov         eax,        msg1
+    mov         rax,        msg1
     call        sprint
     call        quit
