@@ -36,6 +36,16 @@ All registers must be prefixed with a `%` sign; all immediate values must be pre
 - `jl label` - jump to label if less `rbx < rax`
 - `jle label` - jump to label if `rbx <= rax`
 
+### Calling Convention
+
+- Store the arguments to function into the following register in order:
+  - `rdi`, `rsi`, `rdx`, `rcx`, `r8`, `r9` for integers and pointers.
+  - `xmm0`, `xmm1`, `xmm2`, `xmm3`, `xmm4`, `xmm5`, `xmm6`, `xmm7` for floating point numbers.
+
+- Additional parameters are pushed onto stack, which are removed by the caller after the call.
+- The return value is stored in `rax` or `xmm0` for floating point numbers.
+- The registers that needs to be preserved are `rbx`, `rbp`, `r12`, `r13`, `r14`, and `r15`. All other can be modified.
+
 ### Stack
 
 - `push %rax` - push rax onto the Stack
