@@ -18,6 +18,22 @@ All registers must be prefixed with a `%` sign; all immediate values must be pre
 
 ## Instruction Set 
 
+### Operation suffixes
+
+- `b` - byte, 8 bits
+- `w` - word, 16 bits
+- `l` - long, 32 bits integer or 64 bits floating point
+- `q` - quad, 64 bits
+- `s` - six bytes, 32 bits floating point
+- `t` - ten bytes, 80 bits floating point
+
+### Data Movement
+
+- `mov $1, %rax` - move 1 into rax
+- `mov %rax, %rbx` - move rax into rbx
+- `movb $1, (%rax)` - move one byte holding the value 1 into the address in rax
+- `movw -8(%rsp, %rbx, 4), %rax` - move a word from the address in rsp + rbx * 4 - 8 into rax
+
 ### Arithmetic
 
 - `mov $1, %rax` - move 1 into rax
