@@ -6,6 +6,12 @@
 
 Listed on the [kernel.org](https://www.kernel.org/doc/html/latest/process/changes.html#required-packages) website.
 
+### Check out to the proper tag
+
+Check existing tag with `git tag -l`.
+
+Create a branch based on tag and switch to it with: `git branch -b [branchname] [tagname]`.
+
 ### Set build config file
 
 Find the config file in `/boot`, `/proc/config.gz`, `/usr/src/kernel/`, or `/usr/src/linux/.config`.

@@ -26,11 +26,18 @@ Need `implicit none` tells the program all variable must be explicitly declared.
 ```
 integer, dimension(10) :: array 
 integer :: array2 (5)
+integer, allocatable :: array3(:)
 
+allocate(array3(5))
 array2 = [1,2,3,4,5]
+array3 = [1,2,3,4,5]
+
+deallocate(array3)
 ```
 
 Array is declare with `[]`, like python
+
+An array must have a fixed lenght, or to have dynamic memory allocation with `allocatable` keyword.
 
 ## Subroutine
 
