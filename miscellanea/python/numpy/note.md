@@ -11,7 +11,7 @@ To create an array manually: `a = np.array([1, 2], [2, 3], dtype=float)`
 To systematically create array, these function may be useful:
 
 - `np.linspace(start, stop, num=50, endpoint=True, retstep=False, dtype=None, axis=0)` 
-- `np.arange(start, stop, step, dtype=None)`, arrange evenly spaced array. The final element is included unless rounding errors occur. There is no endpoint options.
+- `np.arange(start, stop, step, dtype=None)`, arrange evenly spaced array. The final element is included unless rounding errors occur. There is no endpoint options. __NOTE__ In practise the final step many times in not included.
 - `np.zeros(shape, dtype=float, order='C')`
 - `np.ones(shape, dtype=None, order='C')`
 - `coeff_matrix = np.vstack((top, bottom))` Stack numpy arrays in sequence vertically (row wise). Note the double brackets.

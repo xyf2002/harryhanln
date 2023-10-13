@@ -1,0 +1,9 @@
+#!/usr/bin/octave
+
+hf = figure();
+fx = @(t) sqrt(3)/2*sin(t)
+fy = @(t) cos(t)
+fz = @(t) 1/2*sin(t)
+ezplot3 (fx, fy, fz, [0, 10*pi], 100);
+
+print(hf, "plot.png", "-dpng", "-S800,600");
