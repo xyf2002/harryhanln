@@ -10,7 +10,7 @@ Listed on the [kernel.org](https://www.kernel.org/doc/html/latest/process/change
 
 Check existing tag with `git tag -l`.
 
-Create a branch based on tag and switch to it with: `git branch -b [branchname] [tagname]`.
+Create a branch based on tag and switch to it with: `git checkout -b [branchname] [tagname]`.
 
 ### Set build config file
 
