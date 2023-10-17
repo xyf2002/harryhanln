@@ -34,7 +34,7 @@ EXPOSE 3000
 
 ```bash
 # build image from docker file
-docker build -t <image-name> <path-to-dockerfile>
+docker build -t <image-name> <path-to-directory-of-dockerfile>
 
 # remove image 
 docker rmi <image-id> 
