@@ -22,6 +22,8 @@ Here is a list of useful tools:
     - Usage
         - Configure the sensors with `sudo sensors-detect`
         - Run sensors with `sensors`
+- aria2: ultrafast download utility for http, ftp, sftp, torrent, etc.
+    - usage is simple: `aria2c http://example.org/mylinux.torrent`, `aria2c http://example.org/mylinux.is`
 
 ### Outlandish Ones
 
