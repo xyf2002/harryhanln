@@ -6,6 +6,7 @@ Here is a list of useful tools:
 
 ### Standard Tools for Terminal
 
+- tldr: summarising man page to practical use cases. [github](https://github.com/tldr-pages/tldr)
 - rsync: fast, versatile, remote and local file copying utility.
     - Useful Options:
         - `-a` archive mode. Preserve ownership, permission, etc
