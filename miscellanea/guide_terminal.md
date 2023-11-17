@@ -46,6 +46,10 @@
 - `>, >>`: redirect to file
 - `uniq`: only output unique line
 
+### Lesser Known Ones
+
+-`locate` and `updatedb`: find the file in whole system by `locate <filename>`
+
 ## Reference
 
 - [GNU/Linux Command Line Tool Summary](https://tldp.org/LDP/GNU-Linux-Tools-Summary/html/index.html)

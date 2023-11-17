@@ -4,6 +4,8 @@
 
 A Dockerfile can be used to create docker image. A docker image can be used to instantiate a docker container. 
 
+Docker file has name of `Dockerfile`.
+
 A container is a isolated process on host machine, behaving like a VM. You can run app or test apps in the container.
 A image defines the file system of the container. It shall contain all that is needed to run the process. 
 
@@ -38,6 +40,9 @@ docker build -t <image-name> <path-to-directory-of-dockerfile>
 
 # remove image 
 docker rmi <image-id> 
+
+# show local image
+docker image ls
 ```
 
 ### Running Container
@@ -46,6 +51,9 @@ docker rmi <image-id>
 # run container from image 
 # Instantiate a container from the image and run it
 docker run -p <host-port>:<container-port> <image-name> 
+
+# access docker container's shell
+docker run -it <image-name> bash
 
 # list all running containers
 docker ps

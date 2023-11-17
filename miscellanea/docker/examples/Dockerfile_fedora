@@ -1,0 +1,11 @@
+FROM fedora:38
+
+WORKDIR /app
+
+RUN mkdir -p ~/.vim/
+COPY . ~/.vim/
+
+RUN dnf upgrade -y
+RUN dnf install vim git dnf-plugins-core -y
+RUN dnf copr enable claaj/typst -y
+RUN dnf install typst -y

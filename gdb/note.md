@@ -8,24 +8,31 @@
 
 The executable will be 'hosted' in gdb command line interface.
 
-## Commands Cheat Sheet
+## Useful commands
 
+- `help`: display help message:
+    -`help x`: help message for examine
 - `run` run the executable. `run` can be followed with inputs.
+- `continue` continue the execution. `c` for short.
 - `break` set break point. `break +<line-number>` or `break <function-name>`.
 - `next` execute the next line. `n` for short. 
 - `list` list the source code. `l` for short. `l +<line-number>` or `l-<line-number>`, or `l + <line-number>`, or `l <function-name>`.
 - `print` print the value of a variable. `p` for short.
+    * p &variable : prints the address of the variable
+    * `p/x`: print in hexadecimal
+- `x`: examine the value arround address. Examine has many formats, see help x
+    * `x/10b $sp` examine the next 10 bytes around stack pointer
+    * `x/20wx 0x7fffffffdd90` examine the nex 20 words (4 byte each), show in hexdecimal
 - `step` step into the function. `s` for short.
-- `continue` continue the execution. `c` for short.
+- `info` print the information. `i` for short. info is very versatile
+    * `info local`: print all local variables
+    * `info frame`: give information about current stack frame
 - `up` go up the stack. `u` for short.
 - `backtrace` print the call stack. `bt` for short.
-- `info` print the information of a variable. `i` for short.
 - `display` display the value of a variable each time the program stops. `d` for short.
 - `undisplay` remove the display. 
 - `delete` delete the break point. `d` for short.
 - `whatis` print the type of a variable. 
-- `step` steps in the function
-- `quit` quit the gdb. `q` for short.
 
 
 ## Debuggin Options 
