@@ -1,11 +1,10 @@
 # Shell Scripting Language
 
 To create a simple shell script:
-1) create a file ends in `.sh`
-2) begin the file with the shibang: `#! /bin/shell`. (Somehow, this first line of shell is caleed 'shibang')
-3) append the shell script
-4) give the file executable permission by `chmod +x <filename.sh>`
-5) run the file by typing its path. (or invoke `bash before it`)
+1. begin the file with: `#! /bin/shell`. (This is called 'shibang')
+1. append the shell script
+1. give the file executable permission by `chmod +x <filename>`
+1. run the file by typing its path, or simply `bash <filename>
 
 ## Useful shortcuts
 

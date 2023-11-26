@@ -18,9 +18,11 @@ Apple computers can also enter BIOS to change boot order. However, installing an
 To create the installation media:
 
 1. Download the disk image file from the ubuntu official website
-2. I have used belenaEtcher falsh OS images to USB drive, i.e. making the USB drive bootable. This step will automatically format the drive and create separate partitions for OS image and free space. The partion of OS image is protected. 
+1. I have used belenaEtcher falsh OS images to USB drive, i.e. making the USB drive bootable. This step will automatically format the drive and create separate partitions for OS image and free space. The partion of OS image is protected. 
+1. Alternatively, plug in the usb. Identify it in `/dev/`. (Say it is /dev/sda). Then `sudo cp <imagefile> /dev/sda`. Note: sda not sda1!
 
 ### Windows
+
 Creating the bootable USB for Windows is easy with Windows's official download application on official website. It will automatically format the disk, install OS image, and make the disk bootable. 
 
 ## Boot Order
@@ -36,6 +38,7 @@ As to complication 2, mounting physcial hard drive is different for different sy
 
 - format the drive in ext4 format, mark its UUID
 - append the following line to the file `/etc/fstab`
+
 ```
 UUID=<UUID> <directory_to_mount> ext4 default 0 0
 ```

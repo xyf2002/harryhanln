@@ -4,20 +4,17 @@
 
 - `Ctrl + Shift + P` - Open command palette
 - `Ctrl + P` - Open quick Open
-In quick open, you can type `>` to open the command palette, `@` to open the symbol search, `#` to open the go to file search, and `:` to open the Go to line search.
-`#` also provides fuzzy search
+    - In quick open, you can type `>` to open the command palette, `@` to open the symbol search, `#` to open the go to file search, and `:` to open the Go to line search.`#` also provides fuzzy search
 - `Ctrl + Shift + N` - New window/instance
 - `Ctrl + Shift + W` - Close window/instance
 - `Ctrl + ,` - Open user settings
 - `Ctrl + K Ctrl + S` - Open keyboard shortcuts
 - `Ctrl + K Ctrl + O` - Open workspace settings
-- `Ctrl + K M` - Open markdown preview
-- `Ctrl + K V` - Open markdown preview to the side
 - `Ctrl + K R` - Reveal active file in explorer
 
 ### Editor
 
-- `Ctrl + X` - Cut line (empty selection)
+- `Ctrl + X` - Cut line
 - `Ctrl + Shift + K` - Delete line
 - `Ctrl + L` - Select line
 - `Alt + Up/Down` - Move line up/Down
@@ -40,7 +37,10 @@ In quick open, you can type `>` to open the command palette, `@` to open the sym
 - `Alt + Z` - Toggle word wrap
 - `Ctrl + F2` - Select all occurrences of Find matching
 - `alt + click` - Insert cursor
-Snnipets
+
+### Snippets
+
+Vscode provides snippets.
 
 ### search
 
@@ -57,9 +57,7 @@ Snnipets
 
 ### Terminal 
 
-- `Ctrl + \` ` ` - Toggle terminal
-- `Ctrl + Shift + \` ` ` - Create new Terminal
+- `Ctrl + ` ` - Toggle terminal
+- `Ctrl + Shift + ` ` - Create new Terminal
 - `Ctrl + Shift + 5` - Split Terminal
 - `Ctrl + Shift + 6` - Focus terminal
-- `Ctrl + k` - Clear Terminal
-VS Code task maybe useful.
