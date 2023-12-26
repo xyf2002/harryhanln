@@ -1,17 +1,66 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
-	<head> <!-- Header session contains meta data -->
-		<meta charset="UTF-8">
-		<meta name="author" content="Harry Han">
-		<meta name="description" content="I am learning HTML!">
-		<title>My First Page</title>
-		<link rel="icon" href="html5.png" type="image/x-icon">
-		<link rel="stylesheet" href="main.css" type="text/css">
-	</head>
+  <head>
+    <!-- Header session contains meta data -->
+    <meta charset="UTF-8" />
+    <meta name="author" content="Harry Han" />
+    <meta name="description" content="I am learning HTML!" />
+    <title>My First Page</title>
+    <link rel="icon" href="html5.png" type="image/x-icon" />
+    <link rel="stylesheet" href="main.css" type="text/css" />
+  <script src="main.js"></script>
+  </head>
 
-	<body>
-		<h1>Hello, World!</h1>
-		<p>This is my first paragraph</p>
-	</body>
+  <body>
+    <h1>Study Plan</h1>
+    <hr />
+    <!-- Horizantal Rule-->
+    <h2>2023 Winter Break Plan</h2>
+    <p><br /></p>
+    <ol>
+      <li>
+        a
+        <abbr title="JavaScript"
+          ><a href="https://www.javascript.com/">JS</a></abbr
+        >
+      </li>
+    </ol>
+    &lt;&lt;&lt;&lt; &copy; Harry Han &gt;&gt;&gt;&gt;
+    <!-- &lt; is <, &gt; is > They are HTML entities-->
 
+    <button onclick="toggleColor()">Toggle</button>
+    <div class="red centered">
+      <!-- class defined in main.css -->
+      <h2>London</h2>
+      <p>London is the capital city of England.</p>
+      <p>London has over 13 million inhabitants.</p>
+    </div>
+
+    <div>
+      <h2>Oslo</h2>
+      <p>Oslo is the capital city of Norway.</p>
+      <p>Oslo has over 600.000 inhabitants.</p>
+    </div>
+
+    <div>
+      <h2>Rome</h2>
+      <p>Rome is the capital city of Italy.</p>
+      <p>Rome has almost 3 million inhabitants.</p>
+    </div>
+
+    <script>
+      function toggleColor() {
+        var x = document.getElementsByClassName("red");
+        for (var i = 0; i < x.length; i++) {
+          if (x[i].style.backgroundColor == "blue")
+            x[i].style.backgroundColor = "red";
+          else x[i].style.backgroundColor = "blue";
+        }
+      }
+    </script>
+
+    <script>
+      hello();
+    </script>
+  </body>
 </html>

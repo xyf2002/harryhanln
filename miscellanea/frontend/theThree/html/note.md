@@ -1,4 +1,4 @@
-# HTML Note
+# HTML
 
 Validate HTML file
 
@@ -11,6 +11,8 @@ npm install -g html-validator-cli
 html-validator --file index.html
 ```
 
+To render html: `python3 -m http.server`. Or you can use live server extension in VSCode.
+
 ## Resources
 
-- https://www.youtube.com/watch?v=mJgBOIoGihA&list=PL0Zuz27SZ-6M1Uopt6_VL3gf3cpMnwavm
+- [Youtube](https://www.youtube.com/watch?v=mJgBOIoGihA&list=PL0Zuz27SZ-6M1Uopt6_VL3gf3cpMnwavm)

@@ -1,0 +1,817 @@
+desc: (none)
+cmd: ./a.out
+time_unit: i
+#-----------
+snapshot=0
+#-----------
+time=0
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=1
+#-----------
+time=28857942
+mem_heap_B=1639424
+mem_heap_extra_B=24
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=2
+#-----------
+time=67790434
+mem_heap_B=2458624
+mem_heap_extra_B=24
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=3
+#-----------
+time=93400411
+mem_heap_B=2868224
+mem_heap_extra_B=24
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=4
+#-----------
+time=123106625
+mem_heap_B=3277824
+mem_heap_extra_B=24
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=5
+#-----------
+time=156908846
+mem_heap_B=3687424
+mem_heap_extra_B=24
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=6
+#-----------
+time=194806786
+mem_heap_B=4097024
+mem_heap_extra_B=24
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=7
+#-----------
+time=237426526
+mem_heap_B=5940224
+mem_heap_extra_B=24
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=8
+#-----------
+time=266770395
+mem_heap_B=3789824
+mem_heap_extra_B=16
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=9
+#-----------
+time=303318966
+mem_heap_B=4609024
+mem_heap_extra_B=4048
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=10
+#-----------
+time=347072213
+mem_heap_B=5428224
+mem_heap_extra_B=4048
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=11
+#-----------
+time=398033453
+mem_heap_B=6247424
+mem_heap_extra_B=4048
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=12
+#-----------
+time=426217326
+mem_heap_B=6657024
+mem_heap_extra_B=4048
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=13
+#-----------
+time=456202375
+mem_heap_B=7066624
+mem_heap_extra_B=4048
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=14
+#-----------
+time=487985441
+mem_heap_B=14746624
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 14746624 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 7372800 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 7372800 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 7372800 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 7372800 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=15
+#-----------
+time=521579882
+mem_heap_B=7885824
+mem_heap_extra_B=4048
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=16
+#-----------
+time=556971238
+mem_heap_B=8295424
+mem_heap_extra_B=4048
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=17
+#-----------
+time=594164899
+mem_heap_B=8705024
+mem_heap_extra_B=4048
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=18
+#-----------
+time=633161205
+mem_heap_B=9114624
+mem_heap_extra_B=4048
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=19
+#-----------
+time=673959435
+mem_heap_B=9524224
+mem_heap_extra_B=4048
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=20
+#-----------
+time=716559736
+mem_heap_B=9933824
+mem_heap_extra_B=4048
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=21
+#-----------
+time=760962280
+mem_heap_B=10343424
+mem_heap_extra_B=4048
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=22
+#-----------
+time=807166785
+mem_heap_B=10753024
+mem_heap_extra_B=4048
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=23
+#-----------
+time=855173063
+mem_heap_B=11162624
+mem_heap_extra_B=4048
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=24
+#-----------
+time=904976473
+mem_heap_B=22938624
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 22938624 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 11468800 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 11468800 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 11468800 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 11468800 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=25
+#-----------
+time=930556601
+mem_heap_B=23348224
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 23348224 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 11673600 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 11673600 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 11673600 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 11673600 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=26
+#-----------
+time=956586950
+mem_heap_B=23757824
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 23757824 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 11878400 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 11878400 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 11878400 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 11878400 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=27
+#-----------
+time=983067534
+mem_heap_B=24167424
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 24167424 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 12083200 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 12083200 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 12083200 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 12083200 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=28
+#-----------
+time=1009999066
+mem_heap_B=24577024
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 24577024 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 12288000 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 12288000 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 12288000 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 12288000 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=29
+#-----------
+time=1037381165
+mem_heap_B=24986624
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 24986624 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 12492800 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 12492800 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 12492800 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 12492800 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=30
+#-----------
+time=1065213475
+mem_heap_B=25396224
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 25396224 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 12697600 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 12697600 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 12697600 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 12697600 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=31
+#-----------
+time=1093496537
+mem_heap_B=25805824
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 25805824 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 12902400 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 12902400 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 12902400 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 12902400 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=32
+#-----------
+time=1122230115
+mem_heap_B=26215424
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 26215424 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 13107200 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 13107200 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 13107200 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 13107200 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=33
+#-----------
+time=1151414189
+mem_heap_B=26625024
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 26625024 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 13312000 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 13312000 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 13312000 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 13312000 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=34
+#-----------
+time=1181048773
+mem_heap_B=27034624
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 27034624 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 13516800 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 13516800 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 13516800 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 13516800 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=35
+#-----------
+time=1211133636
+mem_heap_B=27444224
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 27444224 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 13721600 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 13721600 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 13721600 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 13721600 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=36
+#-----------
+time=1241668975
+mem_heap_B=27853824
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 27853824 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 13926400 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 13926400 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 13926400 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 13926400 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=37
+#-----------
+time=1272655049
+mem_heap_B=28263424
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 28263424 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 14131200 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 14131200 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 14131200 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 14131200 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=38
+#-----------
+time=1304091371
+mem_heap_B=28673024
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 28673024 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 14336000 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 14336000 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 14336000 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 14336000 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=39
+#-----------
+time=1335978188
+mem_heap_B=29082624
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 29082624 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 14540800 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 14540800 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 14540800 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 14540800 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=40
+#-----------
+time=1368315243
+mem_heap_B=29492224
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 29492224 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 14745600 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 14745600 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 14745600 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 14745600 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=41
+#-----------
+time=1401103052
+mem_heap_B=29901824
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 29901824 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 14950400 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 14950400 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 14950400 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 14950400 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=42
+#-----------
+time=1434341630
+mem_heap_B=30311424
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 30311424 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 15155200 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 15155200 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 15155200 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 15155200 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=43
+#-----------
+time=1468030716
+mem_heap_B=30721024
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 30721024 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 15360000 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 15360000 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 15360000 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 15360000 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=44
+#-----------
+time=1502170237
+mem_heap_B=31130624
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 31130624 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 15564800 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 15564800 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 15564800 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 15564800 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=45
+#-----------
+time=1536760315
+mem_heap_B=31540224
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 31540224 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 15769600 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 15769600 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 15769600 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 15769600 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=46
+#-----------
+time=1571800918
+mem_heap_B=31949824
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 31949824 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 15974400 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 15974400 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 15974400 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 15974400 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=47
+#-----------
+time=1607292015
+mem_heap_B=32359424
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 32359424 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 16179200 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 16179200 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 16179200 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 16179200 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=48
+#-----------
+time=1643233354
+mem_heap_B=32769024
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 32769024 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 16384000 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 16384000 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 16384000 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 16384000 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=49
+#-----------
+time=1679625151
+mem_heap_B=33178624
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 33178624 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 16588800 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 16588800 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 16588800 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 16588800 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=50
+#-----------
+time=1716467814
+mem_heap_B=33588224
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 33588224 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 16793600 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 16793600 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 16793600 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 16793600 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=51
+#-----------
+time=1753760401
+mem_heap_B=33997824
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 33997824 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 16998400 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 16998400 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 16998400 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 16998400 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=52
+#-----------
+time=1791503613
+mem_heap_B=34407424
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 34407424 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 17203200 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 17203200 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 17203200 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 17203200 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=53
+#-----------
+time=1829697409
+mem_heap_B=34817024
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 34817024 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 17408000 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 17408000 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 17408000 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 17408000 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=54
+#-----------
+time=1868341962
+mem_heap_B=35226624
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 35226624 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 17612800 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 17612800 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 17612800 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 17612800 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=55
+#-----------
+time=1907436770
+mem_heap_B=35636224
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 35636224 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 17817600 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 17817600 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 17817600 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 17817600 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=56
+#-----------
+time=1946982319
+mem_heap_B=36045824
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 36045824 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 18022400 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 18022400 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 18022400 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 18022400 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=57
+#-----------
+time=1986978375
+mem_heap_B=36455424
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 36455424 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 18227200 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 18227200 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 18227200 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 18227200 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=58
+#-----------
+time=2027424873
+mem_heap_B=36865024
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 36865024 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 18432000 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 18432000 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 18432000 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 18432000 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=59
+#-----------
+time=2068321938
+mem_heap_B=37274624
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 37274624 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 18636800 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 18636800 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 18636800 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 18636800 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=60
+#-----------
+time=2109669495
+mem_heap_B=37684224
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 37684224 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 18841600 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 18841600 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 18841600 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 18841600 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=61
+#-----------
+time=2151467042
+mem_heap_B=38093824
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 38093824 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 19046400 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 19046400 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 19046400 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 19046400 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=62
+#-----------
+time=2193715213
+mem_heap_B=38503424
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 38503424 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 19251200 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 19251200 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 19251200 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 19251200 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=63
+#-----------
+time=2236414309
+mem_heap_B=38913024
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 38913024 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 19456000 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 19456000 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 19456000 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 19456000 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=64
+#-----------
+time=2279563864
+mem_heap_B=39322624
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 39322624 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 19660800 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 19660800 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 19660800 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 19660800 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=65
+#-----------
+time=2323163961
+mem_heap_B=39732224
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 39732224 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 19865600 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 19865600 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 19865600 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 19865600 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=66
+#-----------
+time=2367214547
+mem_heap_B=40141824
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=detailed
+n3: 40141824 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 20070400 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 20070400 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 20070400 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 20070400 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=67
+#-----------
+time=2411715578
+mem_heap_B=40551424
+mem_heap_extra_B=8088
+mem_stacks_B=0
+heap_tree=peak
+n3: 40551424 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 20275200 0x4011D6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 20275200 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n1: 20275200 0x4011E6: copy_mem (in /home/hhyh/study/ln/OS/memory/a.out)
+  n0: 20275200 0x401285: main (in /home/hhyh/study/ln/OS/memory/a.out)
+ n0: 1024 in 1 place, below massif's threshold (1.00%)
