@@ -1,0 +1,9 @@
+[submodule "web/movie/frontEnd/movieFrontEnd"]
+	path = web/movie/frontEnd/movieFrontEnd
+	url = git@github.com:harryhanYuhao/movieFrontEnd.git
+[submodule "web/movie/movieFrontEnd"]
+	path = web/movie/movieFrontEnd
+	url = git@github.com:harryhanYuhao/movieFrontEnd.git
+[submodule "web/movie/movieBackEnd"]
+	path = web/movie/movieBackEnd
+	url = git@github.com:harryhanYuhao/movieBackEnd.git
