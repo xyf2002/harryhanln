@@ -249,3 +249,73 @@ Struct can have method, whose first param is an object of itself, and associated
 
 Call method with `rect.area()`. Call other associated function with `Rect::square(2)`.
 
+## Package Management and Build System
+
+Rust package is organised into:
+
+-    Packages: A Cargo feature that lets you build, test, and share crates
+-    Crates: A tree of modules that produces a library or executable
+-    Modules and use: Let you control the organization, scope, and privacy of paths
+-    Paths: A way of naming an item, such as a struct, function, or module
+
+When using cargo to compile rust code, cargo look for `src/main.rs` and `src/lib.rs`.  These two can coexist.
+
+Rust's exportable code are organised into module. To use a module, the name of the module needs to be declared.
+
+There can also be submodule. Submodule, `yes`, of module `hello` must be placed in the directory `src/hello`.
+```
+// file: src/main.rs
+mod hello; // declare mod hello
+
+use hello::yes; // bring yes into scope
+fn main() {
+    hello::hi_from_hello_mod();
+    yes::yes(); // or hello::yes::yes();
+}
+```
+
+```
+// file: src/hello.rs
+// The name of the file shall fit name of the module
+
+pub mod yes //declare yes module as public
+pub fn hi_from_hello_mod() {
+    println!("Hi!");
+}
+```
+
+```
+//file src/hello/yes.rs
+pub fn yes() {
+    println!("yes!");
+}
+```
+
+## Error Handling
+
+Rust's error handling relies on the enum
+```
+fn panic_fun() {
+    // let mut res = read_username_from_file().unwrap().expect("yes");
+    match read_username_from_file() {
+        Ok(content) => {println!("{}", content);}
+        Err(e) => {println!("{:?}", e);}
+    }
+}
+
+fn read_username_from_file() -> Result<String, io::Error> {
+    let username_file_result = File::open("hello.txt");
+
+    let mut username_file = match username_file_result {
+        Ok(file) => file,
+        Err(e) => return Err(e),
+    };
+
+    let mut username = String::new();
+
+    match username_file.read_to_string(&mut username) {
+        Ok(_) => Ok(username),
+        Err(e) => Err(e),
+    }
+}
+```
